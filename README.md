@@ -18,7 +18,12 @@ npm i nextjs-gravity-forms
 
 ## How To Use
 
-Import the component and use it with a GraphQL query. Select the required form using its `databaseId`.
+Add the env variable to your project: `NEXT_PUBLIC_WORDPRESS_API_URL`. Add your domain to it. i.e.
+`NEXT_PUBLIC_WORDPRESS_API_URL=https://www.YOURWPSITE.com/graphql`.
+
+This variable is called internally by the `getGravityForm` function.
+
+Import the component and use it with the API function. Select the required form using its `databaseId`.
 
 ```js
 import GravityFormForm, { getGravityForm } from "next-gravity-forms";
