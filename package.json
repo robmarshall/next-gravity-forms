@@ -1,6 +1,6 @@
 {
   "name": "next-gravity-forms",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A component to take GraphQl Gravity Forms query data from WordPress and return a usable form.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -32,7 +32,8 @@
     "prop-types": "^15.8.1",
     "react-google-recaptcha": "^2.1.0",
     "react-hook-form": "^7.33.0",
-    "rollup-plugin-json": "^4.0.0"
+    "rollup-plugin-json": "^4.0.0",
+    "unfetch": "^5.0.0"
   },
   "peerDependencies": {
     "isomorphic-unfetch": "4.0.2",
