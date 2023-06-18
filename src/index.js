@@ -13,6 +13,7 @@ import { valueToLowerCase } from "./utils/helpers";
 import { submitGravityForm } from "./api";
 
 export * from "./api";
+export * from "./query";
 
 /**
  * Component to take Gravity Form graphQL data and turn into

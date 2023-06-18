@@ -1,4 +1,4 @@
-import fetch from "cross-fetch";
+import fetch from "isomorphic-fetch";
 import { gravityFormQuery, submitMutationQuery } from "../query";
 
 /**
