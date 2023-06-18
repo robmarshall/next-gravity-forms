@@ -1,6 +1,6 @@
 {
   "name": "next-gravity-forms",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A component to take GraphQl Gravity Forms query data from WordPress and return a usable form.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -25,7 +25,6 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.3.1",
-    "https": "^1.0.0",
     "isomorphic-fetch": "^3.0.0",
     "nanoid": "^4.0.0",
     "prop-types": "^15.8.1",
