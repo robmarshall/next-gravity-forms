@@ -1,6 +1,6 @@
 {
   "name": "next-gravity-forms",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A component to take GraphQl Gravity Forms query data from WordPress and return a usable form.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -44,7 +44,6 @@
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-terser": "^0.4.0",
-    "@storybook/react": "^6.5.16",
     "eslint": "^8.18.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.26.0",
