@@ -4,7 +4,7 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import InputWrapper from "../../components/InputWrapper";
 import { valueToLowerCase } from "../../utils/helpers";
-import { conditionalLogicFragment } from "../../fragments";
+
 
 const Select = ({ fieldData, name, ...wrapProps }) => {
   const { choices, cssClass, isRequired, size } = fieldData;
@@ -66,36 +66,3 @@ Select.propTypes = {
   register: PropTypes.func,
   wrapProps: PropTypes.object,
 };
-
-export const selectFieldFragment = /* GraphQL */ `
-  ... on SelectField {
-    adminLabel
-    autocompleteAttribute
-    canPrepopulate
-    choices {
-      ... on SelectFieldChoice {
-        isSelected
-        text
-        value
-      }
-    }
-    conditionalLogic {
-      ${conditionalLogicFragment}
-    }
-    cssClass
-    defaultValue
-    description
-    descriptionPlacement
-    errorMessage
-    hasAutocomplete
-    hasChoiceValue
-    hasEnhancedUI
-    inputName
-    isRequired
-    label
-    placeholder
-    shouldAllowDuplicates
-    size
-    value
-  }
-`;

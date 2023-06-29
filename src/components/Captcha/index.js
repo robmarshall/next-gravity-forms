@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { useFormContext } from "react-hook-form";
 import ReCAPTCHA from "react-google-recaptcha";
-import { conditionalLogicFragment } from "../../fragments";
+
 
 import InputWrapper from "../InputWrapper";
 
@@ -100,21 +100,3 @@ Captcha.propTypes = {
 
 export default Captcha;
 
-export const captchaFieldFragment = /* GraphQL */ `
-  ... on CaptchaField {
-    captchaLanguage
-    captchaTheme
-    captchaType
-    conditionalLogic {
-      ${conditionalLogicFragment}
-    }
-    cssClass
-    description
-    descriptionPlacement
-    errorMessage
-    label
-    simpleCaptchaBackgroundColor
-    simpleCaptchaFontColor
-    simpleCaptchaSize
-  }
-`;

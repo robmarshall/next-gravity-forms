@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import InputWrapper from "../../components/InputWrapper";
 import { valueToLowerCase } from "../../utils/helpers";
-import { conditionalLogicFragment } from "../../fragments";
 
 const Html = ({ fieldData, name, wrapClassName, ...wrapProps }) => {
   const { content, cssClass, type } = fieldData;
@@ -39,15 +38,3 @@ Html.propTypes = {
   wrapClassName: PropTypes.string,
   wrapProps: PropTypes.object,
 };
-
-export const htmlFieldFragment = /* GraphQL */ `
-  ... on HtmlField {
-    conditionalLogic {
-      ${conditionalLogicFragment}
-    }
-    content
-    cssClass
-    hasMargins
-    label
-  }
-`;

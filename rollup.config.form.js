@@ -3,13 +3,15 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
 import json from "rollup-plugin-json";
+import generatePackageJson from "@lomray/rollup-plugin-generate-package-json-v2";
+import copy from "rollup-plugin-copy";
 import pkg from "./package.json";
 
 export default {
   input: "src/index.js",
   output: [
-    { file: pkg.main, format: "cjs" },
-    { file: pkg.module, format: "esm" },
+    { file: pkg.main, format: "cjs", exports: "default" },
+    { file: pkg.module, format: "esm", exports: "default" },
   ],
   plugins: [
     babel({
@@ -21,6 +23,18 @@ export default {
     resolve({ preferBuiltins: false }),
     commonjs({ preferBuiltins: false }),
     terser(),
+    copy({
+      targets: [{ src: "README.md", dest: "dist" }],
+    }),
+    generatePackageJson({
+      baseContents: (pkg) => ({
+        ...pkg,
+        name: pkg.name,
+        main: "index.cjs.js",
+        module: "index.esm.js",
+      }),
+      outputFolder: "dist",
+    }),
   ],
   external: Object.keys(pkg.peerDependencies),
 };

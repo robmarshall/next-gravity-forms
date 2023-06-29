@@ -1,4 +1,4 @@
-import { captchaFieldFragment } from "./components/Captcha";
+import { captchaFieldFragment } from "./components/Captcha/query";
 import {
   dateFieldFragment,
   textFieldFragment,
@@ -6,15 +6,15 @@ import {
   hiddenFieldFragment,
   numberFieldFragment,
   phoneFieldFragment,
-} from "./components/Input";
-import { htmlFieldFragment } from "./components/Html";
-import { multiSelectFieldFragment } from "./components/Multiselect";
-import { selectFieldFragment } from "./components/Select";
+} from "./components/Input/query";
+import { htmlFieldFragment } from "./components/Html/query";
+import { multiSelectFieldFragment } from "./components/Multiselect/query";
+import { selectFieldFragment } from "./components/Select/query";
 import {
   radioFieldFragment,
   checkboxFieldFragment,
-} from "./components/SelectorList";
-import { textareaFieldFragment } from "./components/Textarea";
+} from "./components/SelectorList/query";
+import { textareaFieldFragment } from "./components/Textarea/query";
 import { formConfirmationFragment, submitButtonFragment } from "./fragments";
 
 export const submitMutationQuery = /* GraphQL */ `

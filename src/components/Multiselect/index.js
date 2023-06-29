@@ -4,7 +4,6 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import InputWrapper from "../../components/InputWrapper";
 import { valueToLowerCase } from "../../utils/helpers";
-import { conditionalLogicFragment } from "../../fragments";
 
 const Multiselect = ({ fieldData, name, ...wrapProps }) => {
   const { choices, cssClass, id, isRequired, size } = fieldData;
@@ -66,31 +65,3 @@ Multiselect.propTypes = {
   name: PropTypes.string,
   wrapProps: PropTypes.object,
 };
-
-export const multiSelectFieldFragment = /* GraphQL */ `
-  ... on MultiSelectField {
-    adminLabel
-    canPrepopulate
-    choices {
-      ... on MultiSelectFieldChoice {
-        isSelected
-        text
-        value
-      }
-    }
-    conditionalLogic {
-      ${conditionalLogicFragment}
-    }
-    cssClass
-    description
-    descriptionPlacement
-    hasChoiceValue
-    hasEnhancedUI
-    errorMessage
-    inputName
-    isRequired
-    label
-    size
-    values
-  }
-`;

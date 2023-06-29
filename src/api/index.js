@@ -1,5 +1,6 @@
 import fetch from "isomorphic-fetch";
 import { gravityFormQuery, submitMutationQuery } from "../query";
+export * from "../query";
 
 /**
  * Wrapper for the fetchAPI function that gets GraphQL data from Wordpress.
