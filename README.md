@@ -31,7 +31,39 @@ import GravityFormForm, { getGravityForm } from "next-gravity-forms";
 const data = await getGravityForm(1);
 
 return <GravityFormForm data={data} />;
+
+### Redirecting
+
+This package can be used with any React project. We just named it Next, because we use it with Next projects.
+
+To allow it to be flexible, we have added a number of arguments to the main component.
+
 ```
+
+const GravityFormForm = ({
+data,
+presetValues = () => {},
+successCallback = () => {},
+errorCallback = {},
+navigate,
+})
+
+````
+
+- date: The form data needed to create the form. Got via `getGravityForm` query.
+- presetValues: Any preset values needed to pass in - see below.
+- successCallback: Function that is called when form is successul.
+- errorCallback: Function that is called when the form errors.
+- navigate: Function that is called with URL for redirecting the user.
+
+
+### Caching
+
+If you are wanting to use a provider like Stellate to cache your form queries, pass the Stellate URL to `NEXT_PUBLIC_WORDPRESS_API_URL`.
+
+You will then need to pass in a clean URL for the form to submit. This can be passed in with `NEXT_PUBLIC_WORDPRESS_FORM_SUBMIT_URL`.
+
+Note: If `NEXT_PUBLIC_WORDPRESS_FORM_SUBMIT_URL` is not passed in, it will fall back to `NEXT_PUBLIC_WORDPRESS_API_URL`.
 
 ### Passing in Preset Values
 
@@ -41,7 +73,7 @@ This is handled by the `presetValues` prop.
 
 ```js
 <GravityFormForm data={form} presetValues={{ input_2: "My preset value" }} />
-```
+````
 
 In the above example `input_2` corresponds to the 2nd field added in the WordPress Gravity Forms edit page. This value can be found by clicking on the field and looking at the top right just under Field Settings.
 
