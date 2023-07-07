@@ -7,7 +7,7 @@ import generatePackageJson from "@lomray/rollup-plugin-generate-package-json-v2"
 import pkg from "./package.json";
 
 export default {
-  input: ["src/api/backend.js", "src/query.js"],
+  input: ["src/server/index.js", "src/query.js"],
   output: [
     { dir: "dist/server", format: "cjs", sourcemap: true },
     { dir: "dist/server", format: "esm", sourcemap: true },

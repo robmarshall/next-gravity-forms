@@ -1,4 +1,4 @@
-import { submitMutationQuery } from "../query";
+import { submitMutationQuery } from "./query";
 
 /**
  * Wrapper for the fetchAPI function that gets GraphQL data from Wordpress.

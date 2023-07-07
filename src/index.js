@@ -10,7 +10,7 @@ import { handleGravityFormsValidationErrors } from "./utils/manageErrors";
 import { submissionHasOneFieldEntry } from "./utils/manageFormData";
 import formatPayload from "./utils/formatPayload";
 import { valueToLowerCase } from "./utils/helpers";
-import { submitGravityForm } from "./api/frontend";
+import { submitGravityForm } from "./fetch";
 
 /**
  * Component to take Gravity Form graphQL data and turn into

@@ -1,4 +1,4 @@
-import fetch from "isomorphic-fetch";
+import fetch from "node-fetch";
 import { gravityFormQuery } from "../query";
 export * from "../query";
 
