@@ -7,10 +7,10 @@ import generatePackageJson from "@lomray/rollup-plugin-generate-package-json-v2"
 import pkg from "./package.json";
 
 export default {
-  input: ["src/api/index.js", "src/query.js"],
+  input: ["src/api/backend.js", "src/query.js"],
   output: [
-    { dir: "dist/server", format: "cjs" },
-    { dir: "dist/server", format: "esm" },
+    { dir: "dist/server", format: "cjs", sourcemap: true },
+    { dir: "dist/server", format: "esm", sourcemap: true },
   ],
   plugins: [
     babel({
@@ -27,7 +27,7 @@ export default {
         version: pkg.version,
         main: "index.cjs.js",
         module: "index.esm.js",
-        dependencies: { "isomorphic-fetch": "^3.0.0" },
+        dependencies: { "node-fetch": "^3.3.1" },
       }),
       outputFolder: "dist/server",
     }),

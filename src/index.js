@@ -10,7 +10,7 @@ import { handleGravityFormsValidationErrors } from "./utils/manageErrors";
 import { submissionHasOneFieldEntry } from "./utils/manageFormData";
 import formatPayload from "./utils/formatPayload";
 import { valueToLowerCase } from "./utils/helpers";
-import { submitGravityForm } from "./api";
+import { submitGravityForm } from "./api/frontend";
 
 /**
  * Component to take Gravity Form graphQL data and turn into
@@ -19,9 +19,9 @@ import { submitGravityForm } from "./api";
  */
 const GravityFormForm = ({
   data,
-  presetValues = () => {},
+  presetValues = null,
   successCallback = () => {},
-  errorCallback = {},
+  errorCallback = () => {},
   navigate,
 }) => {
   const preOnSubmit = useRef();
@@ -71,6 +71,7 @@ const GravityFormForm = ({
       // Clean error
       await preOnSubmit?.current?.recaptcha();
       const values = getValues();
+
       // Check that at least one field has been filled in
       if (submissionHasOneFieldEntry(values)) {
         setGeneralError("");
@@ -102,6 +103,7 @@ const GravityFormForm = ({
             });
           }
         } catch (error) {
+          console.log(error);
           setGeneralError("unknownError");
           setLoading(false);
           errorCallback({ data: formRes, error, reset });
