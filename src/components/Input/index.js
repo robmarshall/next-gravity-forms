@@ -59,12 +59,12 @@ const Input = ({ defaultValue, fieldData, name, ...wrapProps }) => {
         placeholder={placeholder}
         {...register(name, {
           required: isRequired && strings.errors.required,
-          maxlength: {
-            value: maxLength > 0 && maxLength,
-            message:
-              maxLength > 0 &&
-              `${strings.errors.maxChar.front}  ${maxLength} ${strings.errors.maxChar.back}`,
-          },
+          maxLength: !fieldMaxLength
+            ? undefined
+            : {
+                value: fieldMaxLength,
+                message: `${strings.errors.maxChar.front}  ${fieldMaxLength} ${strings.errors.maxChar.back}`,
+              },
           pattern: {
             value: regex,
             message: regex && strings.errors.pattern,
