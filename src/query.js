@@ -2,11 +2,11 @@ import { captchaFieldFragment } from "./components/Captcha/query";
 import {
   dateFieldFragment,
   textFieldFragment,
-  emailFieldFragment,
   hiddenFieldFragment,
   numberFieldFragment,
   phoneFieldFragment,
 } from "./components/Input/query";
+import { emailFieldFragment } from "./components/Email/query";
 import { htmlFieldFragment } from "./components/Html/query";
 import { multiSelectFieldFragment } from "./components/Multiselect/query";
 import { selectFieldFragment } from "./components/Select/query";

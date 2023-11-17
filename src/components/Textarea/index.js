@@ -59,7 +59,8 @@ const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
           },
           pattern: {
             value: regex,
-            message: regex && strings.errors.pattern,
+            message:
+              regex && (strings.errors.pattern[type] || strings.errors.pattern.default),
           },
         })}
         type={type}

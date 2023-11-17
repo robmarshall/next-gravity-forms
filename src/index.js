@@ -86,7 +86,7 @@ const GravityFormForm = ({
             fieldValues: formRes,
           });
 
-          if (!Boolean(submitRes?.submitGfForm?.errors?.length)) {
+          if (!submitRes?.submitGfForm?.errors?.length) {
             setSuccess(true);
             setLoading(false);
             successCallback({
@@ -169,10 +169,11 @@ const GravityFormForm = ({
             id={`gform_${databaseId}`}
             key={`gform_-${databaseId}`}
             onSubmit={handleSubmit(onSubmitCallback)}
+            noValidate
           >
             {generalError && <FormGeneralError errorCode={generalError} />}
             <div className="gform_body">
-              <ul
+              <div
                 className={classnames(
                   "gform_fields",
                   {
@@ -189,11 +190,12 @@ const GravityFormForm = ({
                   formLoading={loading}
                   formFields={formFields.nodes}
                   labelPlacement={labelPlacement}
+                  subLabelPlacement={subLabelPlacement}
                   preOnSubmit={preOnSubmit}
                   presetValues={presetValues}
                   settings={settings}
                 />
-              </ul>
+              </div>
             </div>
 
             <div className={`gform_footer ${valueToLowerCase(labelPlacement)}`}>
@@ -204,9 +206,7 @@ const GravityFormForm = ({
                 type="submit"
               >
                 {loading ? (
-                  <span className="gravityform__button__loading_span">
-                    Loading
-                  </span>
+                  <span className="gravityform__button__loading_span">Loading</span>
                 ) : (
                   submitButton?.text
                 )}
