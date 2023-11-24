@@ -39,7 +39,7 @@ const InputWrapper = ({
     >
       <Label
         className="gravityform__label gfield_label"
-        dangerouslySetInnerHTML={{ __html: joinedLabel }}
+        dangerouslySetInnerHTML={{ __html: label ? joinedLabel : "" }}
         htmlFor={labelFor}
       />
       {outputDescription(description, descriptionPlacement, "above", errors)}
