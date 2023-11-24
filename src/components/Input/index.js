@@ -1,10 +1,10 @@
-import classnames from "classnames";
 import PropTypes from "prop-types";
-import React from "react";
 import { useFormContext } from "react-hook-form";
-import strings from "../../utils/strings";
 import { valueToLowerCase } from "../../utils/helpers";
 import InputWrapper from "../InputWrapper";
+import { Input } from "../General";
+import strings from "../../utils/strings";
+import getFieldError from "../../utils/getFieldError";
 
 const standardType = (type) => {
   switch (type) {
@@ -17,24 +17,21 @@ const standardType = (type) => {
   }
 };
 
-const Input = ({ defaultValue, fieldData, name, ...wrapProps }) => {
-  const {
-    cssClass,
-    inputMaskValue,
-    isRequired,
-    maxLength,
-    placeholder,
-    size,
-    type,
-  } = fieldData;
+const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
+  const { type: typeUpper } = fieldData;
 
-  const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
-  let inputType = standardType(type);
+  const type = valueToLowerCase(typeUpper);
+
+  const inputType = standardType(type);
+
+  const { inputMaskValue, isRequired, maxLength } = fieldData;
 
   const {
     register,
     formState: { errors },
   } = useFormContext();
+
+  const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
 
   return (
     <InputWrapper
@@ -43,20 +40,11 @@ const Input = ({ defaultValue, fieldData, name, ...wrapProps }) => {
       labelFor={name}
       {...wrapProps}
     >
-      <input
-        aria-invalid={Boolean(errors?.[name])}
-        aria-required={isRequired}
-        className={classnames(
-          "gravityform__field__input",
-          `gravityform__field__input__${valueToLowerCase(type)}`,
-          cssClass,
-          valueToLowerCase(size)
-        )}
+      <Input
         defaultValue={defaultValue}
-        id={name}
-        maxLength={maxLength || 524288} // 524288 = 512kb, avoids invalid prop type error if maxLength is undefined.
+        fieldData={{ ...fieldData, type: valueToLowerCase(inputType) }}
+        errors={errors}
         name={name}
-        placeholder={placeholder}
         {...register(name, {
           required: isRequired && strings.errors.required,
           maxlength: {
@@ -67,18 +55,17 @@ const Input = ({ defaultValue, fieldData, name, ...wrapProps }) => {
           },
           pattern: {
             value: regex,
-            message: regex && strings.errors.pattern,
+            message: regex && getFieldError(fieldData),
           },
         })}
-        type={valueToLowerCase(inputType)}
       />
     </InputWrapper>
   );
 };
 
-export default Input;
+export default InputField;
 
-Input.propTypes = {
+InputField.propTypes = {
   defaultValue: PropTypes.string,
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,

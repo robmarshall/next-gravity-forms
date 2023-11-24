@@ -1,6 +1,5 @@
 import classnames from "classnames";
 import PropTypes from "prop-types";
-import React from "react";
 import { valueToLowerCase } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
 
@@ -15,17 +14,22 @@ const InputWrapper = ({
     label,
     maxLength,
     type,
+    inputs,
   },
   labelFor,
   wrapClassName,
   wrapId,
 }) => {
   const joinedLabel = `${label}${
+    // eslint-disable-next-line quotes
     isRequired ? '<span class="gfield_required">*</span>' : ""
   }`;
 
+  const Label = inputs?.length > 0 ? "legend" : "label"; // if field has inputs, we render label as legend
+  const Wrapper = inputs?.length > 0 ? "fieldset" : "div"; // if field has inputs, we render wrapper as fieldset
+
   return (
-    <li
+    <Wrapper
       className={classnames(
         wrapClassName,
         errors?.type && "gravityform__field--error",
@@ -33,17 +37,13 @@ const InputWrapper = ({
       )}
       id={wrapId}
     >
-      <label
+      <Label
         className="gravityform__label gfield_label"
-        htmlFor={labelFor}
         dangerouslySetInnerHTML={{ __html: joinedLabel }}
+        htmlFor={labelFor}
       />
       {outputDescription(description, descriptionPlacement, "above", errors)}
-      <div
-        className={`ginput_container ginput_container_${valueToLowerCase(
-          type
-        )}`}
-      >
+      <div className={`ginput_container ginput_container_${valueToLowerCase(type)}`}>
         {children}
         {maxLength > 0 && (
           <div className="charleft ginput_counter warningTextareaInfo">
@@ -66,12 +66,12 @@ const InputWrapper = ({
           {errors.message}
         </div>
       )}
-    </li>
+    </Wrapper>
   );
 };
 
 const maxLengthSentence = (length, type) => {
-  let word = type === "number" ? "numbers" : "characters";
+  const word = type === "number" ? "numbers" : "characters";
   return length && ` (maxiumum ${length} ${word})`;
 };
 
@@ -88,6 +88,7 @@ InputWrapper.propTypes = {
     maxLength: PropTypes.number,
     type: PropTypes.string,
     cssClass: PropTypes.string,
+    inputs: PropTypes.oneOfType([PropTypes.array]),
   }),
   labelFor: PropTypes.string,
   wrapClassName: PropTypes.string,

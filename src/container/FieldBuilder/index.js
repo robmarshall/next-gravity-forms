@@ -1,9 +1,9 @@
 import classnames from "classnames";
-import React from "react";
 
 import Captcha from "../../components/Captcha";
 import Html from "../../components/Html";
 import Input from "../../components/Input";
+import Email from "../../components/Email";
 import Multiselect from "../../components/Multiselect";
 import Select from "../../components/Select";
 import SelectorList from "../../components/SelectorList";
@@ -14,10 +14,12 @@ import { islabelHidden } from "../../utils/inputSettings";
 const FieldBuilder = ({
   databaseId,
   formFields,
-  formLoading,
+  // formLoading,
   preOnSubmit,
   presetValues,
   settings,
+  subLabelPlacement: formSubLabelPlacement,
+  labelPlacement: formLabelPlacement,
 }) => {
   // Loop through fields and create
   return formFields.map((field) => {
@@ -27,14 +29,27 @@ const FieldBuilder = ({
       captchaTheme,
       descriptionPlacement,
       isRequired,
-      subLabelPlacement,
-      labelPlacement,
+      subLabelPlacement: fieldSubLabelPlacement,
+      labelPlacement: fieldLabelPlacement,
       type,
       size,
       visibility,
     } = field;
 
-    const isHiddenField = type === "HIDDEN";
+    // take into account general settings as fallback
+    const labelPlacement =
+      fieldLabelPlacement && fieldLabelPlacement !== "INHERIT"
+        ? fieldLabelPlacement
+        : formLabelPlacement;
+
+    const subLabelPlacement =
+      fieldSubLabelPlacement && fieldSubLabelPlacement !== "INHERIT"
+        ? fieldSubLabelPlacement
+        : formSubLabelPlacement;
+
+    const fieldData = { ...field, labelPlacement, subLabelPlacement };
+
+    // const isHiddenField = type === "HIDDEN";
 
     let inputWrapperClass = classnames(
       "gfield",
@@ -46,18 +61,14 @@ const FieldBuilder = ({
       { "hidden-label": islabelHidden(labelPlacement) },
       { gfield_contains_required: isRequired },
       {
-        [`field_sublabel_${valueToLowerCase(
-          subLabelPlacement
-        )}`]: valueToLowerCase(subLabelPlacement),
+        [`field_sublabel_${valueToLowerCase(subLabelPlacement)}`]:
+          valueToLowerCase(subLabelPlacement),
       },
       {
-        [`field_description_${valueToLowerCase(
-          descriptionPlacement
-        )}`]: descriptionPlacement,
+        [`field_description_${valueToLowerCase(descriptionPlacement)}`]:
+          descriptionPlacement,
       },
-      `gfield_visibility_${
-        valueToLowerCase ? "hidden" : valueToLowerCase(visibility)
-      }`
+      `gfield_visibility_${valueToLowerCase ? "hidden" : valueToLowerCase(visibility)}`
     );
 
     const wrapId = `field_${databaseId}_${id}`;
@@ -73,7 +84,7 @@ const FieldBuilder = ({
         return (
           <Captcha
             captchaTheme={captchaTheme}
-            fieldData={field}
+            fieldData={fieldData}
             gfId={id}
             key={id}
             name={inputName}
@@ -85,7 +96,7 @@ const FieldBuilder = ({
       case "HTML":
         return (
           <Html
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={inputName}
@@ -96,13 +107,24 @@ const FieldBuilder = ({
       // Start with the standard fields
       case "TEXT":
       case "NUMBER":
-      case "EMAIL":
       case "HIDDEN":
       case "DATE":
       case "PHONE":
         return (
           <Input
-            fieldData={field}
+            fieldData={fieldData}
+            key={id}
+            gfId={id}
+            name={inputName}
+            defaultValue={defaultValue}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "EMAIL":
+        return (
+          <Email
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={inputName}
@@ -114,7 +136,7 @@ const FieldBuilder = ({
       case "TEXTAREA":
         return (
           <Textarea
-            fieldData={field}
+            fieldData={fieldData}
             defaultValue={defaultValue}
             key={id}
             gfId={id}
@@ -126,7 +148,7 @@ const FieldBuilder = ({
       case "SELECT":
         return (
           <Select
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={inputName}
@@ -137,7 +159,7 @@ const FieldBuilder = ({
       case "MULTISELECT":
         return (
           <Multiselect
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={inputName}
@@ -149,7 +171,7 @@ const FieldBuilder = ({
       case "CHECKBOX":
         return (
           <SelectorList
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={inputName}
