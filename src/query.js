@@ -14,6 +14,7 @@ import {
   radioFieldFragment,
   checkboxFieldFragment,
 } from "./components/SelectorList/query";
+import { SectionFieldFragment } from "./components/Section/query";
 import { textareaFieldFragment } from "./components/Textarea/query";
 import { formConfirmationFragment, submitButtonFragment } from "./fragments";
 
@@ -66,6 +67,7 @@ export const gravityFormQuery = /* GraphQL */ `
           ${selectFieldFragment}
           ${textareaFieldFragment}
           ${textFieldFragment}
+          ${SectionFieldFragment}
         }
       }
     }
