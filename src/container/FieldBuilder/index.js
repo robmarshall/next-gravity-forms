@@ -46,14 +46,12 @@ const FieldBuilder = ({
       { "hidden-label": islabelHidden(labelPlacement) },
       { gfield_contains_required: isRequired },
       {
-        [`field_sublabel_${valueToLowerCase(
-          subLabelPlacement
-        )}`]: valueToLowerCase(subLabelPlacement),
+        [`field_sublabel_${valueToLowerCase(subLabelPlacement)}`]:
+          valueToLowerCase(subLabelPlacement),
       },
       {
-        [`field_description_${valueToLowerCase(
-          descriptionPlacement
-        )}`]: descriptionPlacement,
+        [`field_description_${valueToLowerCase(descriptionPlacement)}`]:
+          descriptionPlacement,
       },
       `gfield_visibility_${
         valueToLowerCase ? "hidden" : valueToLowerCase(visibility)

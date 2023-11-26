@@ -5,7 +5,6 @@ import { useFormContext } from "react-hook-form";
 import InputWrapper from "../../components/InputWrapper";
 import { valueToLowerCase } from "../../utils/helpers";
 
-
 const Select = ({ fieldData, name, ...wrapProps }) => {
   const { choices, cssClass, isRequired, size } = fieldData;
 
