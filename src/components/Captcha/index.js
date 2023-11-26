@@ -9,7 +9,6 @@ import React, {
 import { useFormContext } from "react-hook-form";
 import ReCAPTCHA from "react-google-recaptcha";
 
-
 import InputWrapper from "../InputWrapper";
 
 const Captcha = forwardRef(
@@ -99,4 +98,3 @@ Captcha.propTypes = {
 };
 
 export default Captcha;
-

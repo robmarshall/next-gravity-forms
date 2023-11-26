@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * This file manages all of the Gravity Forms input settings.
  * Things such as: Input Mask, Required, Visibility
