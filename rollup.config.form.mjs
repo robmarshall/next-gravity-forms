@@ -2,10 +2,10 @@ import babel from "@rollup/plugin-babel";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
-import json from "rollup-plugin-json";
+import json from "@rollup/plugin-json";
 import generatePackageJson from "@lomray/rollup-plugin-generate-package-json-v2";
 import copy from "rollup-plugin-copy";
-import pkg from "./package.json";
+import pkg from "./package.json" assert { type: "json" };
 
 export default {
   input: "src/index.js",

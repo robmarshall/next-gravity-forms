@@ -16,6 +16,7 @@ const strings = {
       front: "Need more than",
       back: "characters.",
     },
+
   },
 };
 
