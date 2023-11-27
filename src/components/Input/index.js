@@ -59,7 +59,7 @@ const Input = ({ defaultValue, fieldData, name, ...wrapProps }) => {
         placeholder={placeholder}
         {...register(name, {
           required: isRequired && strings.errors.required,
-          maxlength: {
+          maxLength: {
             value: maxLength > 0 && maxLength,
             message:
               maxLength > 0 &&

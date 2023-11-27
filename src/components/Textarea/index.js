@@ -51,7 +51,7 @@ const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
         placeholder={placeholder}
         {...register(name, {
           required: isRequired && strings.errors.required,
-          maxlength: {
+          maxLength: {
             value: maxLength > 0 && maxLength,
             message:
               maxLength > 0 &&
