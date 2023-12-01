@@ -5,6 +5,7 @@ import { useFormContext } from "react-hook-form";
 import InputWrapper from "../../components/InputWrapper";
 import strings from "../../utils/strings";
 import { valueToLowerCase } from "../../utils/helpers";
+import getFieldError from "../../utils/getFieldError";
 
 const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
   const {
@@ -59,7 +60,7 @@ const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
           },
           pattern: {
             value: regex,
-            message: regex && strings.errors.pattern,
+            message: regex && getFieldError(fieldData),
           },
         })}
         type={type}
