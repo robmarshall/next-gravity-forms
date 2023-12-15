@@ -169,6 +169,7 @@ const GravityFormForm = ({
             id={`gform_${databaseId}`}
             key={`gform_-${databaseId}`}
             onSubmit={handleSubmit(onSubmitCallback)}
+            noValidate // needed to skip the built in form validation, as we use custom one
           >
             {generalError && <FormGeneralError errorCode={generalError} />}
             <div className="gform_body">
