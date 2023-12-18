@@ -1,5 +1,6 @@
 // SettingsProvider component for managing global settings
 import React, { createContext, useContext } from "react";
+import PropTypes from "prop-types";
 import strings from "../utils/strings";
 import mergeDeep from "../utils/mergeDeep";
 

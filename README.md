@@ -81,7 +81,25 @@ In the above example `input_2` corresponds to the 2nd field added in the WordPre
 
 ### Translation
 
-Since package uses some hardcoded strings, we implemented the way how to translate them to your preferable text, or even support multilanguage there. 
+Since package uses some hardcoded strings, we implemented the way how to translate them to your preferable text.
+`helperText` prop should be used to override it. You can find all possible strings [here](https://github.com/robmarshall/next-gravity-forms/blob/main/src/utils/strings.js). You can handle your own translations by passing in different strings depending on what is needed, and they will be merged with the existing ones. Alternatively, you can pass an entire object with translations for all strings. See the example below:
+
+```js
+<GravityFormForm
+  data={form}
+  helperText={{
+    errors: {
+      general: "There was a problem with your submission. Check errors",
+      leastOneField: "At least one field must be filled out.",
+      required: "Field is required.",
+      pattern: {
+        email: "The email address is invalid",
+        phone: "This is an invalid phone",
+      },
+    },
+  }}
+/>
+```
 
 ## WordPress Backend Not Allowing Submission
 
