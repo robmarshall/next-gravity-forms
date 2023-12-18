@@ -15,6 +15,7 @@ const InputWrapper = ({
     label,
     maxLength,
     type,
+    inputs,
   },
   labelFor,
   wrapClassName,
@@ -24,8 +25,12 @@ const InputWrapper = ({
     isRequired ? '<span class="gfield_required">*</span>' : ""
   }`;
 
+  const Label = inputs?.length > 0 ? "legend" : "label"; // if field has inputs, we render label as <legend>
+  // @TODO replace li with div to match new GF markup
+  const Wrapper = inputs?.length > 0 ? "fieldset" : "li"; // if field has inputs, we render wrapper as <fieldset>
+
   return (
-    <li
+    <Wrapper
       className={classnames(
         wrapClassName,
         errors?.type && "gravityform__field--error",
@@ -33,7 +38,7 @@ const InputWrapper = ({
       )}
       id={wrapId}
     >
-      <label
+      <Label
         className="gravityform__label gfield_label"
         htmlFor={labelFor}
         dangerouslySetInnerHTML={{ __html: joinedLabel }}
@@ -66,7 +71,7 @@ const InputWrapper = ({
           {errors.message}
         </div>
       )}
-    </li>
+    </Wrapper>
   );
 };
 

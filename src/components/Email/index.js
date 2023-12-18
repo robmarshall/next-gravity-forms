@@ -28,11 +28,11 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
         condition={!!confirmEmailField}
         wrapper={(children) => (
           <SubLabelWrapper
-            name={name}
             subLabelPlacement={subLabelPlacement}
             id={1}
             className="ginput_left"
             {...emailField}
+            name={name}
           >
             {children}
           </SubLabelWrapper>
@@ -60,11 +60,11 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
 
       {confirmEmailField && (
         <SubLabelWrapper
-          name={`${name}_2`}
           subLabelPlacement={subLabelPlacement}
           id={2}
           className="ginput_right"
           {...confirmEmailField}
+          name={`${name}_2`}
         >
           <Input
             name={`${name}_2`}
