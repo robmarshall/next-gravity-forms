@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import InputWrapper from "../../components/InputWrapper";
-import strings from "../../utils/strings";
 import { valueToLowerCase } from "../../utils/helpers";
 import getFieldError from "../../utils/getFieldError";
+import { useSettings } from "../../providers/SettingsContext";
 
 const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
+  const { strings } = useSettings();
   const {
     cssClass,
     inputMaskValue,
@@ -60,7 +61,7 @@ const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
           },
           pattern: {
             value: regex,
-            message: regex && getFieldError(fieldData),
+            message: regex && getFieldError(fieldData, strings),
           },
         })}
         type={type}

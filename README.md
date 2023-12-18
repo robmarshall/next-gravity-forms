@@ -46,6 +46,7 @@ presetValues = () => {},
 successCallback = () => {},
 errorCallback = {},
 navigate,
+helperText = {}
 })
 
 ````
@@ -55,6 +56,7 @@ navigate,
 - successCallback: Function that is called when form is successul.
 - errorCallback: Function that is called when the form errors.
 - navigate: Function that is called with URL for redirecting the user.
+- helperText: Object with values to override strings - see Translation section
 
 
 ### Caching
@@ -76,6 +78,10 @@ This is handled by the `presetValues` prop.
 ````
 
 In the above example `input_2` corresponds to the 2nd field added in the WordPress Gravity Forms edit page. This value can be found by clicking on the field and looking at the top right just under Field Settings.
+
+### Translation
+
+Since package uses some hardcoded strings, we implemented the way how to translate them to your preferable text, or even support multilanguage there. 
 
 ## WordPress Backend Not Allowing Submission
 
