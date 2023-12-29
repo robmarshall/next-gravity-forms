@@ -62,40 +62,6 @@ export const dateFieldFragment = /* GraphQL */ `
   }
 `;
 
-export const emailFieldFragment = /* GraphQL */ `
-  ... on EmailField {
-    adminLabel
-    canPrepopulate
-    conditionalLogic {
-      ${conditionalLogicFragment}
-    }
-    cssClass
-    description
-    descriptionPlacement
-    errorMessage
-    hasAutocomplete
-    hasEmailConfirmation
-    inputs {
-      ... on EmailInputProperty {
-        id
-        name
-        autocompleteAttribute
-        customLabel
-        defaultValue
-        label
-        placeholder
-      }
-    }
-    isRequired
-    label
-    placeholder
-    shouldAllowDuplicates
-    size
-    subLabelPlacement
-    value
-  }
-`;
-
 export const hiddenFieldFragment = /* GraphQL */ `
   ... on HiddenField {
     canPrepopulate
