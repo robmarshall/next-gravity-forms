@@ -2,7 +2,6 @@ import { captchaFieldFragment } from "./components/Captcha/query";
 import {
   dateFieldFragment,
   textFieldFragment,
-  emailFieldFragment,
   hiddenFieldFragment,
   numberFieldFragment,
   phoneFieldFragment,
@@ -17,6 +16,7 @@ import {
 import { SectionFieldFragment } from "./components/Section/query";
 import { textareaFieldFragment } from "./components/Textarea/query";
 import { formConfirmationFragment, submitButtonFragment } from "./fragments";
+import { emailFieldFragment } from "./components/Email/query";
 
 export const submitMutationQuery = /* GraphQL */ `
   mutation submitForm($id: ID!, $fieldValues: [FormFieldValuesInput]!) {

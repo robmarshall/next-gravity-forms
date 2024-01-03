@@ -7,7 +7,8 @@ import { valueToLowerCase } from "../../utils/helpers";
 
 const Multiselect = ({ fieldData, name, ...wrapProps }) => {
   const { choices, cssClass, id, isRequired, size } = fieldData;
-  const options = JSON.parse(choices);
+
+  const options = choices;
 
   const {
     register,
@@ -58,7 +59,13 @@ Multiselect.propTypes = {
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     id: PropTypes.number,
-    choices: PropTypes.string,
+    choices: PropTypes.arrayOf(
+      PropTypes.shape({
+        isSelected: PropTypes.bool,
+        text: PropTypes.string,
+        value: PropTypes.string,
+      })
+    ),
     size: PropTypes.string,
     isRequired: PropTypes.bool,
   }),

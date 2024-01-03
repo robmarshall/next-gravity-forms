@@ -4,6 +4,7 @@ import React from "react";
 import Captcha from "../../components/Captcha";
 import Html from "../../components/Html";
 import Input from "../../components/Input";
+import Email from "../../components/Email";
 import Multiselect from "../../components/Multiselect";
 import Select from "../../components/Select";
 import SelectorList from "../../components/SelectorList";
@@ -95,12 +96,23 @@ const FieldBuilder = ({
       // Start with the standard fields
       case "TEXT":
       case "NUMBER":
-      case "EMAIL":
       case "HIDDEN":
       case "DATE":
       case "PHONE":
         return (
           <Input
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={inputName}
+            defaultValue={defaultValue}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "EMAIL":
+        return (
+          <Email
             fieldData={field}
             key={id}
             gfId={id}

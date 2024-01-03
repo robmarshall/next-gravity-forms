@@ -31,6 +31,7 @@ import GravityFormForm, { getGravityForm } from "next-gravity-forms";
 const data = await getGravityForm(1);
 
 return <GravityFormForm data={data} />;
+```
 
 ### Redirecting
 
@@ -38,24 +39,23 @@ This package can be used with any React project. We just named it Next, because 
 
 To allow it to be flexible, we have added a number of arguments to the main component.
 
-```
+```js
 
 const GravityFormForm = ({
-data,
-presetValues = () => {},
-successCallback = () => {},
-errorCallback = {},
-navigate,
+	data,
+	presetValues = () => {},
+	successCallback = () => {},
+	errorCallback = {},
+	navigate,
 })
 
-````
+```
 
 - date: The form data needed to create the form. Got via `getGravityForm` query.
 - presetValues: Any preset values needed to pass in - see below.
 - successCallback: Function that is called when form is successul.
 - errorCallback: Function that is called when the form errors.
 - navigate: Function that is called with URL for redirecting the user.
-
 
 ### Caching
 
@@ -73,7 +73,7 @@ This is handled by the `presetValues` prop.
 
 ```js
 <GravityFormForm data={form} presetValues={{ input_2: "My preset value" }} />
-````
+```
 
 In the above example `input_2` corresponds to the 2nd field added in the WordPress Gravity Forms edit page. This value can be found by clicking on the field and looking at the top right just under Field Settings.
 
@@ -103,6 +103,24 @@ On your WordPress backend within the Gravity Forms settings set up reCaptcha. Fo
 
 Firstly, yes please! Any help would be great.
 
+### How to get started
+
+There are a few steps to get a dev enviroment set up.
+
+- Clone repo
+- Clone https://github.com/robmarshall/next-gravity-forms-example to a different location
+- Remove the next-gravity-forms package from the above example repo package.json
+- Install packages on example repo
+- Navigate into your local "next-gravity-forms" root.
+- Install packages
+- Build it using "yarn build"
+- Navigate into the /dist folder and run yarn link
+- Navigate back to the example repo root and run yarn link "next-gravity-forms"
+
+You should now be able to run the example repo and see the dev form package running.
+
+Currently whenever you make a change you will need to re-run `yarn build`. A hot-reload is yet to be added.
+
 ## To Do
 
 ### Field Components
@@ -111,7 +129,7 @@ Firstly, yes please! Any help would be great.
   - [ ] Email - Confirmation Email
 - [x] Textarea
 - [ ] Select (half done, need to add default values)
-- [ ] Multiselect
+- [ ] Multiselect (currently breaks form)
 - [x] Number
 - [ ] Checkbox (half done, need to add default values)
 - [ ] Radio (half done, need to add default values and correct error placement)
