@@ -63,7 +63,7 @@ const FieldBuilder = ({
     const wrapId = `field_${databaseId}_${id}`;
 
     //TODO: Should this match GF version "input_form.id_input.id"
-    const inputName = `input_${field.id}`;
+    let inputName = `input_${field.id}`;
 
     const defaultValue = presetValues?.[inputName] || field?.defaultValue || "";
 
@@ -169,6 +169,7 @@ const FieldBuilder = ({
           />
         );
       case "SECTION":
+        inputName = `${databaseId}_${id}`;
         return (
           <Section
             fieldData={field}

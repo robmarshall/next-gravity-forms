@@ -1,3 +1,5 @@
+import { conditionalLogicFragment } from "../../fragments";
+
 export const SectionFieldFragment = /* GraphQL */ `
 ... on SectionField {
   id
@@ -11,13 +13,7 @@ export const SectionFieldFragment = /* GraphQL */ `
   layoutGridColumnSpan
   layoutSpacerGridColumnSpan
   conditionalLogic {
-    actionType
-    logicType
-    rules {
-      fieldId
-      operator
-      value
-    }
+    ${conditionalLogicFragment}
   }
 }
 `;
