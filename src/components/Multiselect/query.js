@@ -4,10 +4,10 @@ export const multiSelectFieldFragment = /* GraphQL */ `
   ... on MultiSelectField {
     adminLabel
     canPrepopulate
-    choices {
+    options: choices {
       ... on MultiSelectFieldChoice {
-        isSelected
-        text
+        isFixed: isSelected
+        label: text
         value
       }
     }

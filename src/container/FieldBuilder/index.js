@@ -35,6 +35,7 @@ const FieldBuilder = ({
       visibility,
     } = field;
 
+    // @TODO: following line still needed?
     const isHiddenField = type === "HIDDEN";
 
     let inputWrapperClass = classnames(
@@ -62,7 +63,7 @@ const FieldBuilder = ({
     const wrapId = `field_${databaseId}_${id}`;
 
     //TODO: Should this match GF version "input_form.id_input.id"
-    const inputName = `input_${field.id}`;
+    let inputName = `input_${field.id}`;
 
     const defaultValue = presetValues?.[inputName] || field?.defaultValue || "";
 
@@ -145,6 +146,8 @@ const FieldBuilder = ({
           />
         );
       case "MULTISELECT":
+        // @TODO: I'm overwriting this, because the one line 66 is incomplete for at least this field
+        inputName = `input_${databaseId}_${id}`;
         return (
           <Multiselect
             fieldData={field}

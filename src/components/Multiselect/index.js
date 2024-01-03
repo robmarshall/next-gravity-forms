@@ -3,12 +3,11 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import InputWrapper from "../../components/InputWrapper";
+import MultiSelectEnhancedUI from "./MultiSelectEnhancedUI";
 import { valueToLowerCase } from "../../utils/helpers";
 
 const Multiselect = ({ fieldData, name, ...wrapProps }) => {
-  const { choices, cssClass, id, isRequired, size } = fieldData;
-
-  const options = choices;
+  const { options, cssClass, id, isRequired, size, hasEnhancedUI } = fieldData;
 
   const {
     register,
@@ -22,33 +21,45 @@ const Multiselect = ({ fieldData, name, ...wrapProps }) => {
       labelFor={name}
       {...wrapProps}
     >
-      <select
-        //TODO: GF uses select2 library and classes, need to figure out how to handle here if we're mimicing their functionality
-        className={classnames(
-          "gravityform__field__input__select",
-          "gfield_select",
-          cssClass,
-          valueToLowerCase(size)
-        )}
-        id={name}
-        multiple={true}
-        name={name}
-        {...register(name, {
-          required: isRequired,
-        })}
-      >
-        {options.map(({ isSelected, text, value }, index) => {
-          return (
-            <option
-              defaultValue={isSelected}
-              key={`${id}_${index}`}
-              value={value}
-            >
-              {text}
-            </option>
-          );
-        })}
-      </select>
+      {/* //TODO: GF uses select2 library and classes when hasEnhancedUI is true. Working on implementing react-select for this */}
+      {hasEnhancedUI ? (
+        <MultiSelectEnhancedUI
+          register={register}
+          name={name}
+          options={options}
+          cssClass={cssClass}
+          id={name}
+          isRequired={isRequired}
+          sizeLowerCase={valueToLowerCase(size)}
+        />
+      ) : (
+        <select
+          className={classnames(
+            "gravityform__field__input__select",
+            "gfield_select",
+            cssClass,
+            valueToLowerCase(size)
+          )}
+          id={name}
+          multiple={true}
+          name={name}
+          {...register(name, {
+            required: isRequired,
+          })}
+        >
+          {options.map(({ isSelected, text, value }, index) => {
+            return (
+              <option
+                defaultValue={isSelected}
+                key={`${id}_${index}`}
+                value={value}
+              >
+                {text}
+              </option>
+            );
+          })}
+        </select>
+      )}
     </InputWrapper>
   );
 };
@@ -61,8 +72,8 @@ Multiselect.propTypes = {
     id: PropTypes.number,
     choices: PropTypes.arrayOf(
       PropTypes.shape({
-        isSelected: PropTypes.bool,
-        text: PropTypes.string,
+        isFixed: PropTypes.bool,
+        label: PropTypes.string,
         value: PropTypes.string,
       })
     ),
