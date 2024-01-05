@@ -150,7 +150,6 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 ### Field Components
 
 - [x] Input
-  - [ ] Email - Confirmation Email
 - [x] Textarea
 - [ ] Select (half done, need to add default values)
 - [ ] Multiselect (currently breaks form)
@@ -161,14 +160,14 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] HTML
 - [x] Captcha
 - [x] Add masking to inputs
-- [ ] Section
+- [x] Section
 - [ ] Page
 - [ ] Date
 - [ ] File upload
 - [ ] Post Fields
 - [ ] Pricing Fields
 - [ ] Phone
-- [ ] Email
+- [x] Email
 - [ ] Configure error message (currently just 'An Unknown Error Occurred')
 - [ ] Integrate Success/Failure Handler from previous plugin
 
