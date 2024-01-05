@@ -10,6 +10,7 @@ const InputWrapper = ({
   inputData: {
     cssClass,
     description,
+    errorMessage,
     descriptionPlacement,
     isRequired,
     label,
@@ -56,11 +57,11 @@ const InputWrapper = ({
           </div>
         )}
         {/* TODO: Implement number min/max, these currently aren't fetch by the source plugin
-                    https://docs.gravityforms.com/field-object/#number
-                    <div class="instruction ">
-                      Please enter a number from <strong>1</strong> to <strong>15</strong>.
-                    </div>
-                */}
+            https://docs.gravityforms.com/field-object/#number
+            <div class="instruction ">
+              Please enter a number from <strong>1</strong> to <strong>15</strong>.
+            </div>
+        */}
       </div>
       {outputDescription(description, descriptionPlacement, "below", errors)}
       {errors && (
@@ -68,7 +69,8 @@ const InputWrapper = ({
           aria-live="polite"
           className="gravityform__error_message gfield_description validation_message"
         >
-          {errors.message}
+          {/* @OTODO: i changed this so it checks for custom errorMessages first, is it enough? */}
+          {errorMessage ? errorMessage : errors.message}
         </div>
       )}
     </Wrapper>
@@ -85,6 +87,7 @@ export default InputWrapper;
 InputWrapper.propTypes = {
   children: PropTypes.node,
   errors: PropTypes.object,
+  errorMessage: PropTypes.string,
   inputData: PropTypes.shape({
     description: PropTypes.string,
     descriptionPlacement: PropTypes.string,
