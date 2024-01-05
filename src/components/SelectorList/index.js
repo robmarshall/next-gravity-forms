@@ -2,12 +2,13 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import strings from "../../utils/strings";
 import InputWrapper from "../InputWrapper";
 import { valueToLowerCase } from "../../utils/helpers";
+import { useSettings } from "../../providers/SettingsContext";
 
 // TODO: Enable Select All Choice
 const SelectorList = ({ fieldData, name, ...wrapProps }) => {
+  const { strings } = useSettings();
   const {
     id,
     choices,
