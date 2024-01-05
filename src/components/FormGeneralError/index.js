@@ -1,7 +1,8 @@
 import React from "react";
-import strings from "../../utils/strings";
+import { useSettings } from "../../providers/SettingsContext";
 
 const FormGeneralError = (props) => {
+  const { strings } = useSettings();
   let errorMessage = "";
 
   if (props.errorCode === "formHasError") {

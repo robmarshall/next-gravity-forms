@@ -11,6 +11,7 @@ import { submissionHasOneFieldEntry } from "./utils/manageFormData";
 import formatPayload from "./utils/formatPayload";
 import { valueToLowerCase } from "./utils/helpers";
 import { submitGravityForm } from "./fetch";
+import { SettingsProvider } from "./providers/SettingsContext";
 
 /**
  * Component to take Gravity Form graphQL data and turn into
@@ -23,6 +24,7 @@ const GravityFormForm = ({
   successCallback = () => {},
   errorCallback = () => {},
   navigate,
+  helperText = {},
 }) => {
   const preOnSubmit = useRef();
 
@@ -159,62 +161,66 @@ const GravityFormForm = ({
       <div className="gform_anchor" id={`gf_${databaseId}`} />
 
       {formFields && (
-        <FormProvider {...methods}>
-          <form
-            className={
-              loading
-                ? `gravityform gravityform--loading gravityform--id-${databaseId}`
-                : `gravityform gravityform--id-${databaseId}`
-            }
-            id={`gform_${databaseId}`}
-            key={`gform_-${databaseId}`}
-            onSubmit={handleSubmit(onSubmitCallback)}
-            noValidate // needed to skip the built in form validation, as we use custom one
-          >
-            {generalError && <FormGeneralError errorCode={generalError} />}
-            <div className="gform_body">
-              <ul
-                className={classnames(
-                  "gform_fields",
-                  {
-                    [`form_sublabel_${valueToLowerCase(subLabelPlacement)}`]:
-                      valueToLowerCase(subLabelPlacement),
-                  },
-                  `description_${valueToLowerCase(descriptionPlacement)}`,
-                  `${valueToLowerCase(labelPlacement)}`
-                )}
-                id={`gform_fields_${databaseId}`}
-              >
-                <FieldBuilder
-                  databaseId={databaseId}
-                  formLoading={loading}
-                  formFields={formFields.nodes}
-                  labelPlacement={labelPlacement}
-                  preOnSubmit={preOnSubmit}
-                  presetValues={presetValues}
-                  settings={settings}
-                />
-              </ul>
-            </div>
+        <SettingsProvider helperText={helperText}>
+          <FormProvider {...methods}>
+            <form
+              className={
+                loading
+                  ? `gravityform gravityform--loading gravityform--id-${databaseId}`
+                  : `gravityform gravityform--id-${databaseId}`
+              }
+              id={`gform_${databaseId}`}
+              key={`gform_-${databaseId}`}
+              onSubmit={handleSubmit(onSubmitCallback)}
+              noValidate // needed to skip the built in form validation, as we use custom one
+            >
+              {generalError && <FormGeneralError errorCode={generalError} />}
+              <div className="gform_body">
+                <ul
+                  className={classnames(
+                    "gform_fields",
+                    {
+                      [`form_sublabel_${valueToLowerCase(subLabelPlacement)}`]:
+                        valueToLowerCase(subLabelPlacement),
+                    },
+                    `description_${valueToLowerCase(descriptionPlacement)}`,
+                    `${valueToLowerCase(labelPlacement)}`
+                  )}
+                  id={`gform_fields_${databaseId}`}
+                >
+                  <FieldBuilder
+                    databaseId={databaseId}
+                    formLoading={loading}
+                    formFields={formFields.nodes}
+                    labelPlacement={labelPlacement}
+                    preOnSubmit={preOnSubmit}
+                    presetValues={presetValues}
+                    settings={settings}
+                  />
+                </ul>
+              </div>
 
-            <div className={`gform_footer ${valueToLowerCase(labelPlacement)}`}>
-              <button
-                className="gravityform__button gform_button button"
-                disabled={loading}
-                id={`gform_submit_button_${databaseId}`}
-                type="submit"
+              <div
+                className={`gform_footer ${valueToLowerCase(labelPlacement)}`}
               >
-                {loading ? (
-                  <span className="gravityform__button__loading_span">
-                    Loading
-                  </span>
-                ) : (
-                  submitButton?.text
-                )}
-              </button>
-            </div>
-          </form>
-        </FormProvider>
+                <button
+                  className="gravityform__button gform_button button"
+                  disabled={loading}
+                  id={`gform_submit_button_${databaseId}`}
+                  type="submit"
+                >
+                  {loading ? (
+                    <span className="gravityform__button__loading_span">
+                      Loading
+                    </span>
+                  ) : (
+                    submitButton?.text
+                  )}
+                </button>
+              </div>
+            </form>
+          </FormProvider>
+        </SettingsProvider>
       )}
     </div>
   );
@@ -225,6 +231,7 @@ GravityFormForm.propTypes = {
   data: PropTypes.object.isRequired,
   successCallback: PropTypes.func,
   presetValues: PropTypes.shape({}),
+  helperText: PropTypes.shape({}),
 };
 
 export default GravityFormForm;

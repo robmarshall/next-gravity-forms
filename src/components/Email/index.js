@@ -1,15 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import strings from "../../utils/strings";
 import getFieldError from "../../utils/getFieldError";
 import InputWrapper from "../InputWrapper";
 import { Input, ConditionalWrapper, SubLabelWrapper } from "../General";
+import { useSettings } from "../../providers/SettingsContext";
 
 const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
   const { isRequired, maxLength, placeholder, inputs, subLabelPlacement } =
     fieldData;
   const [emailField, confirmEmailField] = inputs || [];
+  const { strings } = useSettings();
 
   const {
     register,
@@ -51,7 +52,10 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
             },
             pattern: {
               value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-              message: getFieldError({ ...fieldData, inputMaskValue: true }),
+              message: getFieldError(
+                { ...fieldData, inputMaskValue: true },
+                strings
+              ),
             },
           })}
           placeholder={emailField?.placeholder || placeholder}

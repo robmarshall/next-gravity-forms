@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import strings from "../../utils/strings";
 import { valueToLowerCase } from "../../utils/helpers";
 import getFieldError from "../../utils/getFieldError";
 import InputWrapper from "../InputWrapper";
 import { Input } from "../General";
+import { useSettings } from "../../providers/SettingsContext";
 
 const standardType = (type) => {
   switch (type) {
@@ -19,6 +19,7 @@ const standardType = (type) => {
 };
 
 const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
+  const { strings } = useSettings();
   const { inputMaskValue, isRequired, maxLength, type } = fieldData;
 
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
@@ -49,7 +50,7 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
           },
           pattern: {
             value: regex,
-            message: regex && getFieldError(fieldData),
+            message: regex && getFieldError(fieldData, strings),
           },
         })}
       />
