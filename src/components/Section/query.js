@@ -1,6 +1,6 @@
 import { conditionalLogicFragment } from "../../fragments";
 
-export const SectionFieldFragment = /* GraphQL */ `
+export const sectionFieldFragment = /* GraphQL */ `
 ... on SectionField {
   id
   cssClass
