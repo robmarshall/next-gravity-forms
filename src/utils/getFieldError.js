@@ -1,10 +1,9 @@
 /**
  * Return corresponding error to the field
  */
-import strings from "./strings";
 import { valueToLowerCase } from "./helpers";
 
-function getFieldError(props) {
+function getFieldError(props, strings) {
   const type = valueToLowerCase(props.type || props.typeUpper);
 
   if (props.errorMessage) {
