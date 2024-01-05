@@ -5,6 +5,7 @@ const strings = {
     leastOneField: "At least one field must be filled out.",
     unknownError: "An unknown error occured.",
     required: "This field is required.",
+    emailsDontmatch: "Your emails do not match.",
     pattern: {
       email:
         "The email address entered is invalid, please check the formatting (e.g. email@domain.com).",
