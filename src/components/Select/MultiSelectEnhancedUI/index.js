@@ -3,7 +3,7 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { Controller } from "react-hook-form";
-import strings from "../../../utils/strings";
+import { useSettings } from "../../../providers/SettingsContext";
 
 const MultiSelectEnhancedUI = ({
   control,
@@ -17,6 +17,8 @@ const MultiSelectEnhancedUI = ({
   isMulti,
   ...props
 }) => {
+  const { strings } = useSettings();
+
   // make options react-select like
   const choices = options.map((i) => ({
     ...i,

@@ -4,10 +4,12 @@ import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import InputWrapper from "../../components/InputWrapper";
 import MultiSelectEnhancedUI from "./MultiSelectEnhancedUI";
-import strings from "../../utils/strings";
 import { valueToLowerCase } from "../../utils/helpers";
+import { useSettings } from "../../providers/SettingsContext";
 
 const Select = ({ fieldData, name, ...wrapProps }) => {
+  const { strings } = useSettings();
+
   const {
     choices,
     cssClass,
