@@ -5,7 +5,6 @@ import Captcha from "../../components/Captcha";
 import Html from "../../components/Html";
 import Input from "../../components/Input";
 import Email from "../../components/Email";
-import Multiselect from "../../components/Multiselect";
 import Select from "../../components/Select";
 import SelectorList from "../../components/SelectorList";
 import Textarea from "../../components/Textarea";
@@ -63,7 +62,7 @@ const FieldBuilder = ({
     const wrapId = `field_${databaseId}_${id}`;
 
     //TODO: Should this match GF version "input_form.id_input.id"
-    let inputName = `input_${field.id}`;
+    const inputName = `input_${field.id}`;
 
     const defaultValue = presetValues?.[inputName] || field?.defaultValue || "";
 
@@ -135,21 +134,9 @@ const FieldBuilder = ({
           />
         );
       case "SELECT":
+      case "MULTISELECT":
         return (
           <Select
-            fieldData={field}
-            key={id}
-            gfId={id}
-            name={inputName}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
-      case "MULTISELECT":
-        // @TODO: I'm overwriting this, because the one line 66 is incomplete for at least this field
-        inputName = `input_${databaseId}_${id}`;
-        return (
-          <Multiselect
             fieldData={field}
             key={id}
             gfId={id}

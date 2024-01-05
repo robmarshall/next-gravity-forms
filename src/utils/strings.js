@@ -17,6 +17,9 @@ const strings = {
       back: "characters.",
     },
   },
+  multiselect: {
+    placeholder: "Click to select...",
+  },
 };
 
 export default strings;
