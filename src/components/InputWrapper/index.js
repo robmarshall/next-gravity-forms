@@ -38,11 +38,13 @@ const InputWrapper = ({
       )}
       id={wrapId}
     >
-      <Label
-        className="gravityform__label gfield_label"
-        htmlFor={labelFor}
-        dangerouslySetInnerHTML={{ __html: joinedLabel }}
-      />
+      {labelFor && (
+        <label
+          className="gravityform__label gfield_label"
+          htmlFor={labelFor}
+          dangerouslySetInnerHTML={{ __html: joinedLabel }}
+        />
+      )}
       {outputDescription(description, descriptionPlacement, "above", errors)}
       <div
         className={`ginput_container ginput_container_${valueToLowerCase(
@@ -56,11 +58,11 @@ const InputWrapper = ({
           </div>
         )}
         {/* TODO: Implement number min/max, these currently aren't fetch by the source plugin
-                    https://docs.gravityforms.com/field-object/#number
-                    <div class="instruction ">
-                      Please enter a number from <strong>1</strong> to <strong>15</strong>.
-                    </div>
-                */}
+            https://docs.gravityforms.com/field-object/#number
+            <div class="instruction ">
+              Please enter a number from <strong>1</strong> to <strong>15</strong>.
+            </div>
+        */}
       </div>
       {outputDescription(description, descriptionPlacement, "below", errors)}
       {errors && (

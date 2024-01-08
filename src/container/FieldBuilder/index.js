@@ -8,6 +8,7 @@ import Email from "../../components/Email";
 import Select from "../../components/Select";
 import SelectorList from "../../components/SelectorList";
 import Textarea from "../../components/Textarea";
+import Section from "../../components/Section";
 import { valueToLowerCase } from "../../utils/helpers";
 import { islabelHidden } from "../../utils/inputSettings";
 
@@ -37,7 +38,7 @@ const FieldBuilder = ({
     // @TODO: following line still needed?
     const isHiddenField = type === "HIDDEN";
 
-    let inputWrapperClass = classnames(
+    const inputWrapperClass = classnames(
       "gfield",
       "gravityform__field",
       "gravityform__field__" + valueToLowerCase(type),
@@ -149,6 +150,17 @@ const FieldBuilder = ({
       case "CHECKBOX":
         return (
           <SelectorList
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={inputName}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "SECTION":
+        return (
+          <Section
             fieldData={field}
             key={id}
             gfId={id}

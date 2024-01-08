@@ -15,6 +15,7 @@ import {
   radioFieldFragment,
   checkboxFieldFragment,
 } from "./components/SelectorList/query";
+import { sectionFieldFragment } from "./components/Section/query";
 import { textareaFieldFragment } from "./components/Textarea/query";
 import { formConfirmationFragment, submitButtonFragment } from "./fragments";
 import { emailFieldFragment } from "./components/Email/query";
@@ -68,6 +69,7 @@ export const gravityFormQuery = /* GraphQL */ `
           ${multiSelectFieldFragment}
           ${textareaFieldFragment}
           ${textFieldFragment}
+          ${sectionFieldFragment}
         }
       }
     }
