@@ -11,6 +11,7 @@ import SelectorList from "../../components/SelectorList";
 import Textarea from "../../components/Textarea";
 import { valueToLowerCase } from "../../utils/helpers";
 import { islabelHidden } from "../../utils/inputSettings";
+import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
 
 const FieldBuilder = ({
   databaseId,
@@ -19,6 +20,7 @@ const FieldBuilder = ({
   preOnSubmit,
   presetValues,
   settings,
+  formLayoutProps,
 }) => {
   // Loop through fields and create
   return formFields.map((field) => {
@@ -26,10 +28,12 @@ const FieldBuilder = ({
     const {
       id,
       captchaTheme,
+      description,
       descriptionPlacement,
       isRequired,
       subLabelPlacement,
       labelPlacement,
+      layoutGridColumnSpan,
       type,
       size,
       visibility,
@@ -39,9 +43,7 @@ const FieldBuilder = ({
 
     let inputWrapperClass = classnames(
       "gfield",
-      "gravityform__field",
-      "gravityform__field__" + valueToLowerCase(type),
-      { [`gravityform__field--${valueToLowerCase(size)}`]: size },
+      "gfield--type-" + valueToLowerCase(type),
       field.cssClass,
       { "field-required": isRequired },
       { "hidden-label": islabelHidden(labelPlacement) },
@@ -51,11 +53,23 @@ const FieldBuilder = ({
           valueToLowerCase(subLabelPlacement),
       },
       {
-        [`field_description_${valueToLowerCase(descriptionPlacement)}`]:
-          descriptionPlacement,
+        [`gfield--width-${getFieldWidthClass(layoutGridColumnSpan)}`]:
+          layoutGridColumnSpan,
       },
+      `field_description_${
+        descriptionPlacement &&
+        valueToLowerCase(descriptionPlacement) !== "inherit"
+          ? valueToLowerCase(descriptionPlacement)
+          : valueToLowerCase(formLayoutProps?.descriptionPlacement)
+      }`,
+      `field_sublabel_${
+        subLabelPlacement
+          ? valueToLowerCase(subLabelPlacement)
+          : valueToLowerCase(formLayoutProps?.subLabelPlacement)
+      }`,
+      `gfield--${description ? "has-description" : "no-description"}`,
       `gfield_visibility_${
-        valueToLowerCase ? "hidden" : valueToLowerCase(visibility)
+        visibility ? valueToLowerCase(visibility) : "hidden"
       }`
     );
 

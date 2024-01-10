@@ -23,5 +23,5 @@ export function outputDescription(
 }
 
 export function islabelHidden(label) {
-  return label === "hidden_label" ? true : false;
+  return label === "HIDDEN" ? true : false;
 }
