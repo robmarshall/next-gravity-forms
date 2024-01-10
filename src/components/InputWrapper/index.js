@@ -27,7 +27,7 @@ const InputWrapper = ({
 
   const Label = inputs?.length > 0 ? "legend" : "label"; // if field has inputs, we render label as <legend>
   // @TODO replace li with div to match new GF markup
-  const Wrapper = inputs?.length > 0 ? "fieldset" : "li"; // if field has inputs, we render wrapper as <fieldset>
+  const Wrapper = inputs?.length > 0 ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
 
   return (
     <Wrapper
@@ -39,7 +39,7 @@ const InputWrapper = ({
       id={wrapId}
     >
       <Label
-        className="gravityform__label gfield_label"
+        className="gfield_label gform-field-label"
         htmlFor={labelFor}
         dangerouslySetInnerHTML={{ __html: joinedLabel }}
       />
