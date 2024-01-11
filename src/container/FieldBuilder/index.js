@@ -47,10 +47,6 @@ const FieldBuilder = ({
       { gform_hidden: type === "HIDDEN" },
       { "hidden-label": islabelHidden(labelPlacement) },
       {
-        [`field_sublabel_${valueToLowerCase(subLabelPlacement)}`]:
-          valueToLowerCase(subLabelPlacement),
-      },
-      {
         [`gfield--width-${getFieldWidthClass(layoutGridColumnSpan)}`]:
           layoutGridColumnSpan,
       },
@@ -61,7 +57,7 @@ const FieldBuilder = ({
           : valueToLowerCase(formLayoutProps?.descriptionPlacement)
       }`,
       `field_sublabel_${
-        subLabelPlacement
+        subLabelPlacement && valueToLowerCase(subLabelPlacement) !== "inherit"
           ? valueToLowerCase(subLabelPlacement)
           : valueToLowerCase(formLayoutProps?.subLabelPlacement)
       }`,
