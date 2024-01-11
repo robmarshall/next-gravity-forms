@@ -5,7 +5,6 @@ import Captcha from "../../components/Captcha";
 import Html from "../../components/Html";
 import Input from "../../components/Input";
 import Email from "../../components/Email";
-import Multiselect from "../../components/Multiselect";
 import Select from "../../components/Select";
 import SelectorList from "../../components/SelectorList";
 import Textarea from "../../components/Textarea";
@@ -142,19 +141,9 @@ const FieldBuilder = ({
           />
         );
       case "SELECT":
-        return (
-          <Select
-            fieldData={field}
-            key={id}
-            gfId={id}
-            name={inputName}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
       case "MULTISELECT":
         return (
-          <Multiselect
+          <Select
             fieldData={field}
             key={id}
             gfId={id}

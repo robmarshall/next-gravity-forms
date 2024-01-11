@@ -10,6 +10,7 @@ const InputWrapper = ({
   inputData: {
     cssClass,
     description,
+    errorMessage,
     descriptionPlacement,
     isRequired,
     label,
@@ -70,7 +71,8 @@ const InputWrapper = ({
           aria-live="polite"
           className="gravityform__error_message gfield_description validation_message"
         >
-          {errors.message}
+          {/* @OTODO: i changed this so it checks for custom errorMessages first, is it enough? */}
+          {errorMessage ? errorMessage : errors.message}
         </div>
       )}
     </Wrapper>
@@ -87,6 +89,7 @@ export default InputWrapper;
 InputWrapper.propTypes = {
   children: PropTypes.node,
   errors: PropTypes.object,
+  errorMessage: PropTypes.string,
   inputData: PropTypes.shape({
     description: PropTypes.string,
     descriptionPlacement: PropTypes.string,
