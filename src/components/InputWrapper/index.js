@@ -8,7 +8,6 @@ const InputWrapper = ({
   children,
   errors,
   inputData: {
-    cssClass,
     description,
     errorMessage,
     descriptionPlacement,
@@ -34,8 +33,7 @@ const InputWrapper = ({
     <Wrapper
       className={classnames(
         wrapClassName,
-        errors?.type && "gravityform__field--error",
-        cssClass
+        errors?.type && "gravityform__field--error"
       )}
       id={wrapId}
     >
@@ -97,7 +95,6 @@ InputWrapper.propTypes = {
     isRequired: PropTypes.bool,
     maxLength: PropTypes.number,
     type: PropTypes.string,
-    cssClass: PropTypes.string,
   }),
   labelFor: PropTypes.string,
   wrapClassName: PropTypes.string,
