@@ -17,6 +17,37 @@ const strings = {
       back: "characters.",
     },
   },
+  datepicker: {
+    days: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+    months: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    firstDay: {
+      value: 1,
+      default: 1,
+    },
+    iconText: "Select date",
+    screenReaderText: {
+      mdy: "MM slash DD slash YYYY",
+      dmy: "DD slash MM slash YYYY",
+      dmy_dash: "DD dash MM dash YYYY",
+      dmy_dot: "DD dot MM dot YYYY",
+      ymd_slash: "YYYY slash MM slash DD",
+      ymd_dash: "YYYY dash MM dash DD",
+      ymd_dot: "YYYY dot MM dot DD",
+    },
+  },
 };
 
 export default strings;

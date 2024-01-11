@@ -10,8 +10,11 @@
  * Useful info on Gravity Forms graphQL:
  * https://github.com/harness-software/wp-graphql-gravity-forms/blob/develop/docs/submitting-forms.md
  */
+import formatDate from "./formatDate";
 
-const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
+const formatter = ({ id, fieldResponse, field, clientData }) => {
+  const { type, inputs } = field;
+
   switch (type) {
     case "ADDRESS":
       return {
@@ -56,7 +59,6 @@ const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
         },
       };
     case "CONSENT":
-    case "DATE":
     case "HIDDEN":
     case "NUMBER":
     case "PHONE":
@@ -71,6 +73,11 @@ const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
     case "WEBSITE":
       return {
         value: fieldResponse,
+      };
+    case "DATE":
+      const { dateFormat } = field;
+      return {
+        value: formatDate(fieldResponse, dateFormat),
       };
     case "MULTISELECT":
       return {
@@ -94,8 +101,10 @@ const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
 };
 
 export default ({ serverData, clientData }) => {
+  console.log({ serverData, clientData });
+
   const formattedData = serverData
-    .map(({ type, inputs, id }) => {
+    .map(({ id, ...rest }) => {
       // Does this particular field have a response?
       const fieldResponse = clientData[`input_${id}`];
 
@@ -103,7 +112,7 @@ export default ({ serverData, clientData }) => {
       if (fieldResponse) {
         return {
           id,
-          ...formatter({ id, fieldResponse, type, inputs, clientData }),
+          ...formatter({ id, fieldResponse, field: rest, clientData }),
         };
       }
     })
