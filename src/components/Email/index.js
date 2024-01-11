@@ -52,7 +52,7 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
           errors={errors}
           defaultValue={emailField?.defaultValue || defaultValue}
           fieldData={{ ...fieldData, type: "email" }}
-          className={classnames(valueToLowerCase(size))}
+          className={valueToLowerCase(size)}
           {...register(name, {
             required: isRequired && strings.errors.required,
             maxLength: maxLength > 0 && {
