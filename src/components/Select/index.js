@@ -70,8 +70,6 @@ const Select = ({ fieldData, name, ...wrapProps }) => {
           aria-invalid={!!errors?.[name]}
           aria-required={isRequired}
           className={classnames(
-            "gravityform__field__input",
-            "gravityform__field__input__select",
             "gfield_select",
             cssClass,
             valueToLowerCase(size)
