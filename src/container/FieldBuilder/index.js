@@ -35,19 +35,16 @@ const FieldBuilder = ({
       labelPlacement,
       layoutGridColumnSpan,
       type,
-      size,
       visibility,
     } = field;
-
-    const isHiddenField = type === "HIDDEN";
 
     let inputWrapperClass = classnames(
       "gfield",
       "gfield--type-" + valueToLowerCase(type),
       field.cssClass,
-      { "field-required": isRequired },
-      { "hidden-label": islabelHidden(labelPlacement) },
       { gfield_contains_required: isRequired },
+      { gform_hidden: type === "HIDDEN" },
+      { "hidden-label": islabelHidden(labelPlacement) },
       {
         [`field_sublabel_${valueToLowerCase(subLabelPlacement)}`]:
           valueToLowerCase(subLabelPlacement),

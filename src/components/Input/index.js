@@ -26,8 +26,6 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
   const inputType = standardType(type);
 
-  const isHiddenField = type === "HIDDEN";
-
   const {
     register,
     formState: { errors },
@@ -44,7 +42,7 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
         defaultValue={defaultValue}
         fieldData={{ ...fieldData, type: valueToLowerCase(inputType) }}
         className={classnames(valueToLowerCase(size), {
-          [`gform_hidden`]: isHiddenField,
+          gform_hidden: type === "HIDDEN",
         })}
         errors={errors}
         name={name}
