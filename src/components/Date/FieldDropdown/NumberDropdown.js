@@ -10,7 +10,9 @@ const NumberDropdown = ({
   placeholder,
   startNumber,
   endNumber,
-  ariaAttributes,
+  onChange,
+  isRequired,
+  fieldName,
 }) => {
   const increment = startNumber < endNumber ? 1 : -1;
 
@@ -25,26 +27,28 @@ const NumberDropdown = ({
 
   for (let i = startNumber; i !== endNumber + increment; i += increment) {
     options.push(
-      <option
-        value={i}
-        key={i}
-        selected={parseInt(i, 10) === parseInt(selectedValue, 10)}
-      >
+      <option value={i} key={i}>
         {i}
       </option>
     );
   }
 
   return (
-    <select
-      name={name}
-      id={id}
-      tabIndex={tabIndex}
-      disabled={disabled}
-      {...ariaAttributes}
+    <div
+      className={`gfield_date_dropdown_${fieldName} ginput_container ginput_container_date gform-grid-col`}
     >
-      {options}
-    </select>
+      <select
+        name={name}
+        id={id}
+        tabIndex={tabIndex}
+        disabled={disabled}
+        onChange={onChange}
+        defaultValue={selectedValue && parseInt(selectedValue, 10)}
+        aria-required={isRequired}
+      >
+        {options}
+      </select>
+    </div>
   );
 };
 
@@ -57,7 +61,8 @@ NumberDropdown.propTypes = {
   placeholder: PropTypes.string,
   startNumber: PropTypes.number.isRequired,
   endNumber: PropTypes.number.isRequired,
-  ariaAttributes: PropTypes.object,
+  isRequired: PropTypes.bool,
+  fieldName: PropTypes.string.isRequired,
 };
 
 export default NumberDropdown;

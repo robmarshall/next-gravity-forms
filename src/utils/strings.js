@@ -16,6 +16,13 @@ const strings = {
       front: "Need more than",
       back: "characters.",
     },
+    date: {
+      required: "Please complete the following fields: %s.",
+      invalid: "Please enter a valid date.",
+      picker: {
+        invalid: "Please enter a valid date in the format (%s).",
+      },
+    },
   },
   datepicker: {
     days: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
@@ -33,10 +40,6 @@ const strings = {
       "November",
       "December",
     ],
-    firstDay: {
-      value: 1,
-      default: 1,
-    },
     iconText: "Select date",
     screenReaderText: {
       mdy: "MM slash DD slash YYYY",

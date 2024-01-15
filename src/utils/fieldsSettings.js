@@ -3,6 +3,7 @@ const fieldsSettings = {
   date: {
     dateMinYear: 1920,
     dateMaxYear: new Date().getFullYear() + 1,
+    firstDay: 1, // Monday
   },
 };
 

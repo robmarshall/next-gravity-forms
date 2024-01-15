@@ -1,8 +1,19 @@
 // This function formats Date object to specific format
-const formatDate = (date, format) => {
+const getDatePickerValue = (date) => {
   const day = date.getDate().toString().padStart(2, "0");
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const year = date.getFullYear();
+
+  return { day, month, year };
+};
+
+const getDropdownValue = (date) => {
+  return date;
+};
+
+const formatDate = (date, type, format) => {
+  const { day, month, year } =
+    type === "PICKER" ? getDatePickerValue(date) : getDropdownValue(date);
 
   switch (format) {
     case "MDY":

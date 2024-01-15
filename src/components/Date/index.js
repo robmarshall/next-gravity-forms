@@ -2,19 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import InputWrapper from "../InputWrapper";
-import { useSettings } from "../../providers/SettingsContext";
 import { valueToLowerCase } from "../../utils/helpers";
 import Picker from "./Picker";
-import Dropdown from "./Dropdown";
+import FieldDropdown from "./FieldDropdown";
 
 const DateField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
-  const { strings } = useSettings();
-  const { isRequired, calendarIconType, dateType: dateTypeUpper } = fieldData;
+  const { dateType: dateTypeUpper } = fieldData;
 
   const dateType = valueToLowerCase(dateTypeUpper);
 
   const {
-    register,
     control,
     formState: { errors },
   } = useFormContext();
@@ -23,15 +20,18 @@ const DateField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={dateType === "picker" && name} // label is needed only for date picker type
+      labelFor={name}
       {...wrapProps}
     >
       {dateType === "picker" ? (
         <Picker fieldData={fieldData} name={name} control={control} />
-      ) : dateType == "dropdown" ? (
-        <Dropdown fieldData={fieldData} name={name} control={control} />
       ) : (
-        "field"
+        <FieldDropdown
+          fieldData={fieldData}
+          name={name}
+          control={control}
+          type={dateType}
+        />
       )}
     </InputWrapper>
   );

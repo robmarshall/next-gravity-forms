@@ -6,6 +6,8 @@ import { Controller } from "react-hook-form";
 import { useSettings } from "../../../providers/SettingsContext";
 import { valueToLowerCase } from "../../../utils/helpers";
 import CalendarIconComponent from "./CalendarIconComponent";
+import { isValidDate } from "./helpers";
+import "react-datepicker/dist/react-datepicker.css";
 
 const dateFormats = {
   mdy: "MM/dd/yyyy",
@@ -25,10 +27,16 @@ const Picker = ({ fieldData, name, control }) => {
     placeholder,
     calendarIconType,
     calendarIconUrl,
+    errorMessage,
   } = fieldData;
-  const { strings: { datepicker } = {} } = useSettings();
+  const {
+    strings = {},
+    fieldsSettings: { date: dateSettings },
+  } = useSettings();
   const calendarIconTypeLower = valueToLowerCase(calendarIconType);
   const dateFormat = valueToLowerCase(dateFormatUpper);
+
+  const { datepicker } = strings;
 
   const locale = {
     localize: {
@@ -60,9 +68,7 @@ const Picker = ({ fieldData, name, control }) => {
             placeholderText={
               placeholder || valueToLowerCase(dateFormats[dateFormat])
             }
-            calendarStartDay={
-              datepicker.firstDay.value || datepicker.firstDay.default
-            }
+            calendarStartDay={dateSettings.firstDay}
             showDisabledMonthNavigation
             locale={locale}
             className={classnames(
@@ -85,7 +91,16 @@ const Picker = ({ fieldData, name, control }) => {
           )}
         </>
       )}
-      rules={{ required: isRequired && strings.errors.required }}
+      rules={{
+        required: isRequired && (errorMessage || strings.errors.required),
+        validate: (value) =>
+          !value || isValidDate(value)
+            ? true
+            : strings.errors.date.picker.invalid.replace(
+                "%s",
+                valueToLowerCase(dateFormats[dateFormat])
+              ),
+      }}
     />
   );
 };

@@ -10,6 +10,7 @@ const SubLabelWrapper = ({
   customLabel,
   name,
   className,
+  as = "span",
 }) => {
   const sub_label_class =
     subLabelPlacement == "hidden_label"
@@ -20,29 +21,30 @@ const SubLabelWrapper = ({
   const labelPlacement =
     subLabelPlacement === "INHERIT" ? "ABOVE" : subLabelPlacement;
 
+  // we might render wrapper as span or div
+  const Wrapper = as;
+
   return (
-    <>
-      <span
-        className={classnames(className, "gform-grid-col")}
-        id={`${name}_container`}
-      >
-        {labelPlacement === "ABOVE" && (
-          <Label
-            name={name}
-            label={customLabel || label}
-            sub_label_class={sub_label_class}
-          />
-        )}
-        {children}
-        {labelPlacement === "BELOW" && (
-          <Label
-            name={name}
-            label={customLabel || label}
-            sub_label_class={sub_label_class}
-          />
-        )}
-      </span>
-    </>
+    <Wrapper
+      className={classnames(className, "gform-grid-col")}
+      id={`${name}_container`}
+    >
+      {labelPlacement === "ABOVE" && (
+        <Label
+          name={name}
+          label={customLabel || label}
+          sub_label_class={sub_label_class}
+        />
+      )}
+      {children}
+      {labelPlacement === "BELOW" && (
+        <Label
+          name={name}
+          label={customLabel || label}
+          sub_label_class={sub_label_class}
+        />
+      )}
+    </Wrapper>
   );
 };
 
@@ -55,4 +57,5 @@ SubLabelWrapper.propTypes = {
   customLabel: PropTypes.string,
   name: PropTypes.string,
   className: PropTypes.string,
+  as: PropTypes.string,
 };

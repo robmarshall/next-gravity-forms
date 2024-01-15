@@ -21,3 +21,21 @@ export const filteredKeys = (obj, filter) => {
 
 export const valueToLowerCase = (string) =>
   string ? string.toLowerCase() : "";
+
+export const isEmptyArray = (val) => {
+  if (!Array.isArray(val)) {
+    val = [val];
+  }
+
+  for (const item of val) {
+    if (item !== null && item !== undefined && item !== "") {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+export const isEmptyObject = (obj) => {
+  return Object.keys(obj).length === 0 && obj.constructor === Object;
+};

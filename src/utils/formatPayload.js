@@ -75,9 +75,9 @@ const formatter = ({ id, fieldResponse, field, clientData }) => {
         value: fieldResponse,
       };
     case "DATE":
-      const { dateFormat } = field;
+      const { dateFormat, dateType } = field;
       return {
-        value: formatDate(fieldResponse, dateFormat),
+        value: formatDate(fieldResponse, dateType, dateFormat),
       };
     case "MULTISELECT":
       return {
