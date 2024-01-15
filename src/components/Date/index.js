@@ -5,6 +5,7 @@ import InputWrapper from "../InputWrapper";
 import { useSettings } from "../../providers/SettingsContext";
 import { valueToLowerCase } from "../../utils/helpers";
 import Picker from "./Picker";
+import Dropdown from "./Dropdown";
 
 const DateField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
   const { strings } = useSettings();
@@ -28,7 +29,7 @@ const DateField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
       {dateType === "picker" ? (
         <Picker fieldData={fieldData} name={name} control={control} />
       ) : dateType == "dropdown" ? (
-        "dropdown"
+        <Dropdown fieldData={fieldData} name={name} control={control} />
       ) : (
         "field"
       )}

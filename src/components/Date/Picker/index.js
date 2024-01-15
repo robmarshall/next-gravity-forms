@@ -1,11 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classnames from "classnames";
 import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import { useSettings } from "../../../providers/SettingsContext";
 import { valueToLowerCase } from "../../../utils/helpers";
-import classnames from "classnames";
-import CalendarIcon from "../../../assets/img/datepicker";
+import CalendarIconComponent from "./CalendarIconComponent";
+
+const dateFormats = {
+  mdy: "MM/dd/yyyy",
+  dmy: "dd/MM/yyyy",
+  dmy_dash: "dd-MM-yyyy",
+  dmy_dot: "dd.MM.yyyy",
+  ymd_slash: "yyyy/MM/dd",
+  ymd_dash: "yyyy-MM-dd",
+  ymd_dot: "yyyy.MM.dd",
+};
 
 const Picker = ({ fieldData, name, control }) => {
   const {
@@ -19,16 +29,6 @@ const Picker = ({ fieldData, name, control }) => {
   const { strings: { datepicker } = {} } = useSettings();
   const calendarIconTypeLower = valueToLowerCase(calendarIconType);
   const dateFormat = valueToLowerCase(dateFormatUpper);
-
-  const dateFormats = {
-    mdy: "MM/dd/yyyy",
-    dmy: "dd/MM/yyyy",
-    dmy_dash: "dd-MM-yyyy",
-    dmy_dot: "dd.MM.yyyy",
-    ymd_slash: "yyyy/MM/dd",
-    ymd_dash: "yyyy-MM-dd",
-    ymd_dot: "yyyy.MM.dd",
-  };
 
   const locale = {
     localize: {
@@ -73,17 +73,11 @@ const Picker = ({ fieldData, name, control }) => {
                 : "datepicker_with_icon gdatepicker_with_icon"
             )}
           />
-          {calendarIconTypeLower === "calendar" && (
-            <CalendarIcon className="ui-datepicker-trigger" />
-          )}
-          {calendarIconTypeLower === "custom" && calendarIconUrl && (
-            <img
-              className="ui-datepicker-trigger"
-              src={calendarIconUrl}
-              alt={datepicker.iconText}
-              title={datepicker.iconText}
-            ></img>
-          )}
+          <CalendarIconComponent
+            calendarIconTypeLower={calendarIconTypeLower}
+            calendarIconUrl={calendarIconUrl}
+            datepicker={datepicker}
+          />
           {datepicker.screenReaderText[dateFormat] && (
             <span id={`${name}_date_format`} className="screen-reader-text">
               {datepicker.screenReaderText[dateFormat]}

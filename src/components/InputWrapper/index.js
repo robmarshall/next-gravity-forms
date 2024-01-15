@@ -96,7 +96,7 @@ InputWrapper.propTypes = {
     type: PropTypes.string,
     cssClass: PropTypes.string,
   }),
-  labelFor: PropTypes.string,
+  labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   wrapClassName: PropTypes.string,
   wrapId: PropTypes.string,
 };

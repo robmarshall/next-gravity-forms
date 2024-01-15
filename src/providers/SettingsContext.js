@@ -2,6 +2,7 @@
 import React, { createContext, useContext } from "react";
 import PropTypes from "prop-types";
 import strings from "../utils/strings";
+import fieldsSettings from "../utils/fieldsSettings";
 import mergeDeep from "../utils/mergeDeep";
 
 const SettingsContext = createContext();
@@ -11,7 +12,9 @@ export const SettingsProvider = ({ helperText, children }) => {
   const mergedStrings = mergeDeep(strings, helperText);
 
   return (
-    <SettingsContext.Provider value={{ strings: mergedStrings }}>
+    <SettingsContext.Provider
+      value={{ strings: mergedStrings, fieldsSettings }}
+    >
       {children}
     </SettingsContext.Provider>
   );
