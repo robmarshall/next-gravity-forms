@@ -5,8 +5,7 @@ export function sortByFormat(components, format) {
     y: "year",
   };
 
-  return format
-    .split("")
+  return [...new Set(format.split(""))]
     .filter((i) => ["y", "m", "d"].includes(i))
     .map((f) => formatMap[f])
     .map((name) => components.find((component) => component.name === name));
