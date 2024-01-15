@@ -38,7 +38,7 @@ const InputWrapper = ({
       id={wrapId}
     >
       {labelFor && (
-        <label
+        <Label
           className="gfield_label gform-field-label"
           htmlFor={labelFor}
           dangerouslySetInnerHTML={{ __html: joinedLabel }}
