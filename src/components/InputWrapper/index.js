@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
-import { valueToLowerCase } from "../../utils/helpers";
+import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
 
 const InputWrapper = ({
@@ -64,7 +64,7 @@ const InputWrapper = ({
         */}
       </div>
       {outputDescription(description, descriptionPlacement, "below", errors)}
-      {errors && (
+      {isNonEmptyObject(errors) && (
         <div
           aria-live="polite"
           className="gravityform__error_message gfield_description validation_message"
