@@ -53,12 +53,12 @@ const FieldBuilder = ({
         descriptionPlacement &&
         valueToLowerCase(descriptionPlacement) !== "inherit"
           ? valueToLowerCase(descriptionPlacement)
-          : valueToLowerCase(formLayoutProps?.descriptionPlacement)
+          : valueToLowerCase(formLayoutProps?.descriptionPlacement) || "below"
       }`,
       `field_sublabel_${
         subLabelPlacement && valueToLowerCase(subLabelPlacement) !== "inherit"
           ? valueToLowerCase(subLabelPlacement)
-          : valueToLowerCase(formLayoutProps?.subLabelPlacement)
+          : valueToLowerCase(formLayoutProps?.subLabelPlacement) || "below"
       }`,
       `gfield--${description ? "has-description" : "no-description"}`,
       `gfield_visibility_${
