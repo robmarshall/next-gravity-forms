@@ -66,9 +66,9 @@ const MultiSelectEnhancedUI = ({
 export default MultiSelectEnhancedUI;
 
 MultiSelectEnhancedUI.propTypes = {
-  control: PropTypes.func,
+  control: PropTypes.object,
   cssClass: PropTypes.string,
-  id: PropTypes.number,
+  id: PropTypes.string,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       isSelected: PropTypes.bool,
