@@ -13,6 +13,7 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
     id,
     choices,
     cssClass,
+    errorMessage,
     isRequired,
     size,
     type: typeUpper,
@@ -59,7 +60,8 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
                 {...register(
                   `${name}${type === "checkbox" ? `.${choiceID}` : ""}`,
                   {
-                    required: isRequired && strings.errors.required,
+                    required:
+                      isRequired && (errorMessage || strings.errors.required),
                   }
                 )}
                 type={type}

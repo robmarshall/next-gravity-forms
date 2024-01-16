@@ -7,8 +7,14 @@ import { Input, ConditionalWrapper, SubLabelWrapper } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
 
 const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
-  const { isRequired, maxLength, placeholder, inputs, subLabelPlacement } =
-    fieldData;
+  const {
+    isRequired,
+    maxLength,
+    placeholder,
+    inputs,
+    subLabelPlacement,
+    errorMessage,
+  } = fieldData;
   const [emailField, confirmEmailField] = inputs || [];
   const { strings } = useSettings();
 
@@ -45,7 +51,7 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
           defaultValue={emailField?.defaultValue || defaultValue}
           fieldData={{ ...fieldData, type: "email" }}
           {...register(name, {
-            required: isRequired && strings.errors.required,
+            required: isRequired && (errorMessage || strings.errors.required),
             maxLength: maxLength > 0 && {
               value: maxLength,
               message: `${strings.errors.maxChar.front}  ${maxLength} ${strings.errors.maxChar.back}`,

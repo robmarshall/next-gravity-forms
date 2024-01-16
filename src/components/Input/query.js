@@ -14,6 +14,7 @@ export const textFieldFragment = /* GraphQL */ `
     descriptionPlacement
     errorMessage
     hasAutocomplete
+    inputMaskValue
     inputName
     isPasswordInput
     isRequired

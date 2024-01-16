@@ -4,9 +4,12 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import InputWrapper from "../../components/InputWrapper";
 import { valueToLowerCase } from "../../utils/helpers";
+import { useSettings } from "../../providers/SettingsContext";
 
 const Select = ({ fieldData, name, ...wrapProps }) => {
-  const { choices, cssClass, isRequired, size } = fieldData;
+  const { strings } = useSettings();
+
+  const { choices, cssClass, isRequired, size, errorMessage } = fieldData;
 
   const {
     register,
@@ -34,7 +37,7 @@ const Select = ({ fieldData, name, ...wrapProps }) => {
         id={name}
         name={name}
         {...register(name, {
-          required: isRequired && "This field is required",
+          required: true && (errorMessage || strings.errors.required),
         })}
       >
         {choices.map(({ isSelected, text, value }, index) => {

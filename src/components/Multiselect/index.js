@@ -4,9 +4,12 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import InputWrapper from "../../components/InputWrapper";
 import { valueToLowerCase } from "../../utils/helpers";
+import { useSettings } from "../../providers/SettingsContext";
 
 const Multiselect = ({ fieldData, name, ...wrapProps }) => {
-  const { choices, cssClass, id, isRequired, size } = fieldData;
+  const { strings } = useSettings();
+
+  const { choices, cssClass, id, isRequired, size, errorMessage } = fieldData;
 
   const options = choices;
 
@@ -34,7 +37,7 @@ const Multiselect = ({ fieldData, name, ...wrapProps }) => {
         multiple={true}
         name={name}
         {...register(name, {
-          required: isRequired,
+          required: isRequired && (errorMessage || strings.errors.required),
         })}
       >
         {options.map(({ isSelected, text, value }, index) => {

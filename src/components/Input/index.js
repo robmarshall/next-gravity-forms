@@ -20,7 +20,8 @@ const standardType = (type) => {
 
 const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
   const { strings } = useSettings();
-  const { inputMaskValue, isRequired, maxLength, type } = fieldData;
+  const { inputMaskValue, isRequired, maxLength, type, errorMessage } =
+    fieldData;
 
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
   const inputType = standardType(type);
@@ -43,7 +44,7 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
         errors={errors}
         name={name}
         {...register(name, {
-          required: isRequired && strings.errors.required,
+          required: isRequired && (errorMessage || strings.errors.required),
           maxLength: maxLength > 0 && {
             value: maxLength,
             message: `${strings.errors.maxChar.front}  ${maxLength} ${strings.errors.maxChar.back}`,
