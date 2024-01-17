@@ -6,6 +6,7 @@ import getFieldError from "../../utils/getFieldError";
 import InputWrapper from "../InputWrapper";
 import { Input } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
+import { getMinMaxRangeErrors } from "./helpers";
 
 const standardType = (type) => {
   switch (type) {
@@ -20,7 +21,15 @@ const standardType = (type) => {
 
 const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
   const { strings } = useSettings();
-  const { inputMaskValue, isRequired, maxLength, type } = fieldData;
+  const {
+    inputMaskValue,
+    isRequired,
+    maxLength,
+    type,
+    rangeMax,
+    rangeMin,
+    errorMessage,
+  } = fieldData;
 
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
   const inputType = standardType(type);
@@ -29,6 +38,8 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
     register,
     formState: { errors },
   } = useFormContext();
+
+  console.log(getMinMaxRangeErrors(rangeMin, rangeMax, strings, errorMessage));
 
   return (
     <InputWrapper
@@ -52,6 +63,7 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
             value: regex,
             message: regex && getFieldError(fieldData, strings),
           },
+          ...getMinMaxRangeErrors(rangeMin, rangeMax, strings, errorMessage),
         })}
       />
     </InputWrapper>
