@@ -69,6 +69,7 @@ const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
     case "TEXTAREA":
     case "TEXT":
     case "WEBSITE":
+    case "HONEYPOT":
       return {
         value: fieldResponse,
       };

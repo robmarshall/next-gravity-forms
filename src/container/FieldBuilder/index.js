@@ -10,6 +10,7 @@ import Select from "../../components/Select";
 import SelectorList from "../../components/SelectorList";
 import Textarea from "../../components/Textarea";
 import Section from "../../components/Section";
+import Honeypot from "../../components/Honeypot";
 import { valueToLowerCase } from "../../utils/helpers";
 import { islabelHidden } from "../../utils/inputSettings";
 
@@ -171,6 +172,17 @@ const FieldBuilder = ({
       case "SECTION":
         return (
           <Section
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={inputName}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "HONEYPOT":
+        return (
+          <Honeypot
             fieldData={field}
             key={id}
             gfId={id}
