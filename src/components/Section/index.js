@@ -10,9 +10,11 @@ const Section = ({ fieldData, wrapClassName, wrapId, name }) => {
     <li className={classnames(wrapClassName, cssClass)} id={wrapId}>
       {label && <h3 className="gsection_title">{label}</h3>}
       {description && (
-        <div class="gsection_description" id={`gfield_description_${name}`}>
-          {description}
-        </div>
+        <div
+          className="gsection_description"
+          id={`gfield_description_${name}`}
+          dangerouslySetInnerHTML={{ __html: description }}
+        />
       )}
     </li>
   );

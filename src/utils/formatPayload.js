@@ -55,6 +55,10 @@ const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
           value: fieldResponse,
         },
       };
+    case "FILEUPLOAD":
+      return {
+        fileUploadValues: fieldResponse,
+      };
     case "CONSENT":
     case "DATE":
     case "HIDDEN":

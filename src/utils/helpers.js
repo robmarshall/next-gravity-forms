@@ -21,3 +21,9 @@ export const filteredKeys = (obj, filter) => {
 
 export const valueToLowerCase = (string) =>
   string ? string.toLowerCase() : "";
+
+export const interpolateString = (template, values) => {
+  return template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => {
+    return values[key] || placeholder;
+  });
+};

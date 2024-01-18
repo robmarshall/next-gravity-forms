@@ -16,6 +16,20 @@ const strings = {
       front: "Need more than",
       back: "characters.",
     },
+    fileupload: {
+      exceedsSizeLimit: "File exceeds size limit. Maximum file size: {{max}}MB",
+      typeNotAllowed:
+        "The uploaded file type is not allowed. Must be one of the following: {{types}}",
+    },
+  },
+  multiselect: {
+    placeholder: "Click to select...",
+  },
+  fileupload: {
+    acceptedFiles: "Accepted file types: {{types}}",
+    maxFileSize: "Max. file size: {{max}}",
+    maxFiles: "Max. files: {{max}}",
+    deleteFile: "Delete this file: {{name}}",
   },
 };
 

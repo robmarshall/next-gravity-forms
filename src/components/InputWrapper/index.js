@@ -22,7 +22,7 @@ const InputWrapper = ({
   wrapId,
 }) => {
   const joinedLabel = `${label}${
-    isRequired ? '<span class="gfield_required">*</span>' : ""
+    isRequired ? '<span className="gfield_required">*</span>' : ""
   }`;
 
   const Label = inputs?.length > 0 ? "legend" : "label"; // if field has inputs, we render label as <legend>

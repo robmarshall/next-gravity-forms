@@ -97,7 +97,10 @@ const GravityFormForm = ({
             });
           } else {
             setLoading(false);
-            handleGravityFormsValidationErrors(errors, setError);
+            handleGravityFormsValidationErrors(
+              submitRes.submitGfForm.errors,
+              setError
+            );
             errorCallback({
               data: formRes,
               error: errors,
@@ -161,7 +164,7 @@ const GravityFormForm = ({
       <div className="gform_anchor" id={`gf_${databaseId}`} />
 
       {formFields && (
-        <SettingsProvider helperText={helperText}>
+        <SettingsProvider helperText={helperText} databaseId={databaseId}>
           <FormProvider {...methods}>
             <form
               className={
