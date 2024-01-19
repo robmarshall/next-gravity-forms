@@ -13,7 +13,7 @@ const Section = ({ fieldData, wrapClassName, wrapId, name }) => {
     >
       {label && <h3 className="gsection_title">{label}</h3>}
       {description && (
-        <div class="gsection_description" id={`gfield_description_${name}`}>
+        <div className="gsection_description" id={`gfield_description_${name}`}>
           {description}
         </div>
       )}
