@@ -1,14 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classnames from "classnames";
 import { useFormContext } from "react-hook-form";
 import getFieldError from "../../utils/getFieldError";
+import { valueToLowerCase } from "../../utils/helpers";
 import InputWrapper from "../InputWrapper";
 import { Input, ConditionalWrapper, SubLabelWrapper } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
 
 const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
-  const { isRequired, maxLength, placeholder, inputs, subLabelPlacement } =
-    fieldData;
+  const {
+    isRequired,
+    maxLength,
+    placeholder,
+    inputs,
+    subLabelPlacement,
+    size,
+  } = fieldData;
   const [emailField, confirmEmailField] = inputs || [];
   const { strings } = useSettings();
 
@@ -44,6 +52,7 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
           errors={errors}
           defaultValue={emailField?.defaultValue || defaultValue}
           fieldData={{ ...fieldData, type: "email" }}
+          className={valueToLowerCase(size)}
           {...register(name, {
             required: isRequired && strings.errors.required,
             maxLength: maxLength > 0 && {

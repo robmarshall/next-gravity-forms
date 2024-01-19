@@ -18,6 +18,8 @@ export const textFieldFragment = /* GraphQL */ `
     isPasswordInput
     isRequired
     label
+    labelPlacement
+    layoutGridColumnSpan
     maxLength
     placeholder
     shouldAllowDuplicates

@@ -175,8 +175,8 @@ const GravityFormForm = ({
               noValidate // needed to skip the built in form validation, as we use custom one
             >
               {generalError && <FormGeneralError errorCode={generalError} />}
-              <div className="gform_body">
-                <ul
+              <div className="gform-body gform_body">
+                <div
                   className={classnames(
                     "gform_fields",
                     {
@@ -184,7 +184,7 @@ const GravityFormForm = ({
                         valueToLowerCase(subLabelPlacement),
                     },
                     `description_${valueToLowerCase(descriptionPlacement)}`,
-                    `${valueToLowerCase(labelPlacement)}`
+                    `${valueToLowerCase(labelPlacement)}_label`
                   )}
                   id={`gform_fields_${databaseId}`}
                 >
@@ -196,8 +196,9 @@ const GravityFormForm = ({
                     preOnSubmit={preOnSubmit}
                     presetValues={presetValues}
                     settings={settings}
+                    formLayoutProps={form}
                   />
-                </ul>
+                </div>
               </div>
 
               <div
