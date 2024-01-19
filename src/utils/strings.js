@@ -19,6 +19,9 @@ const strings = {
   },
   honeypot:
     "This field is for validation purposes and should be left unchanged.",
+  multiselect: {
+    placeholder: "Click to select...",
+  },
 };
 
 export default strings;
