@@ -21,6 +21,7 @@ const DateField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
       errors={errors?.[name] || {}}
       inputData={fieldData}
       labelFor={name}
+      ginputClassName={dateType != "picker" && "ginput_complex gform-grid-row"}
       {...wrapProps}
     >
       {dateType === "picker" ? (
