@@ -7,7 +7,7 @@ import { useSettings } from "../../../providers/SettingsContext";
 import { valueToLowerCase } from "../../../utils/helpers";
 import CalendarIconComponent from "./CalendarIconComponent";
 import { isValidDate } from "./helpers";
-// import "react-datepicker/dist/react-datepicker.css"; add to examples probably?
+// import "react-datepicker/dist/react-datepicker.css";
 
 const dateFormats = {
   mdy: "MM/dd/yyyy",
@@ -33,6 +33,7 @@ const Picker = ({ fieldData, name, control }) => {
     strings = {},
     fieldsSettings: { date: dateSettings },
   } = useSettings();
+
   const calendarIconTypeLower = valueToLowerCase(calendarIconType);
   const dateFormat = valueToLowerCase(dateFormatUpper);
 
