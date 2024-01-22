@@ -1,15 +1,15 @@
 import classnames from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
-import { valueToLowerCase } from "../../utils/helpers";
+import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
 
 const InputWrapper = ({
   children,
   errors,
   inputData: {
-    cssClass,
     description,
+    errorMessage,
     descriptionPlacement,
     isRequired,
     label,
@@ -27,20 +27,19 @@ const InputWrapper = ({
 
   const Label = inputs?.length > 0 ? "legend" : "label"; // if field has inputs, we render label as <legend>
   // @TODO replace li with div to match new GF markup
-  const Wrapper = inputs?.length > 0 ? "fieldset" : "li"; // if field has inputs, we render wrapper as <fieldset>
+  const Wrapper = inputs?.length > 0 ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
 
   return (
     <Wrapper
       className={classnames(
         wrapClassName,
-        errors?.type && "gravityform__field--error",
-        cssClass
+        errors?.type && "gravityform__field--error"
       )}
       id={wrapId}
     >
       {labelFor && (
-        <label
-          className="gravityform__label gfield_label"
+        <Label
+          className="gfield_label gform-field-label"
           htmlFor={labelFor}
           dangerouslySetInnerHTML={{ __html: joinedLabel }}
         />
@@ -65,12 +64,13 @@ const InputWrapper = ({
         */}
       </div>
       {outputDescription(description, descriptionPlacement, "below", errors)}
-      {errors && (
+      {isNonEmptyObject(errors) && (
         <div
           aria-live="polite"
           className="gravityform__error_message gfield_description validation_message"
         >
-          {errors.message}
+          {/* @OTODO: i changed this so it checks for custom errorMessages first, is it enough? */}
+          {errorMessage ? errorMessage : errors.message}
         </div>
       )}
     </Wrapper>
@@ -87,6 +87,7 @@ export default InputWrapper;
 InputWrapper.propTypes = {
   children: PropTypes.node,
   errors: PropTypes.object,
+  errorMessage: PropTypes.string,
   inputData: PropTypes.shape({
     description: PropTypes.string,
     descriptionPlacement: PropTypes.string,
@@ -94,7 +95,6 @@ InputWrapper.propTypes = {
     isRequired: PropTypes.bool,
     maxLength: PropTypes.number,
     type: PropTypes.string,
-    cssClass: PropTypes.string,
   }),
   labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   wrapClassName: PropTypes.string,

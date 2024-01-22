@@ -39,3 +39,7 @@ export const isEmptyArray = (val) => {
 export const isEmptyObject = (obj) => {
   return Object.keys(obj).length === 0 && obj.constructor === Object;
 };
+
+export const isNonEmptyObject = (obj) => {
+  return obj !== null && typeof obj === "object" && Object.keys(obj).length > 0;
+};
