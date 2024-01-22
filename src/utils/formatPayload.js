@@ -75,7 +75,7 @@ const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
       };
     case "MULTISELECT":
       return {
-        values: fieldResponse?.map((i) => i.value),
+        values: fieldResponse,
       };
     case "POSTCATEGORY":
       return {
