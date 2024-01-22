@@ -43,3 +43,9 @@ export const isEmptyObject = (obj) => {
 export const isNonEmptyObject = (obj) => {
   return obj !== null && typeof obj === "object" && Object.keys(obj).length > 0;
 };
+
+export const interpolateString = (template, values) => {
+  return template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => {
+    return values[key] || placeholder;
+  });
+};

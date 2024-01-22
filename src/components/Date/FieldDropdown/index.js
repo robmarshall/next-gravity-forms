@@ -4,8 +4,11 @@ import { Controller } from "react-hook-form";
 import { useSettings } from "../../../providers/SettingsContext";
 import NumberDropdown from "./NumberDropdown";
 import NumberInput from "./NumberInput";
-
-import { isEmptyObject, valueToLowerCase } from "../../../utils/helpers";
+import {
+  isEmptyObject,
+  valueToLowerCase,
+  interpolateString,
+} from "../../../utils/helpers";
 import { sortByFormat, isValidDate, getDefaultValue } from "./helpers";
 
 const FieldDropdown = ({ fieldData, name, control, type }) => {
@@ -51,7 +54,7 @@ const FieldDropdown = ({ fieldData, name, control, type }) => {
     <Controller
       name={name}
       control={control}
-      defaultValue={defaultValue || null}
+      defaultValue={isValidDate(defaultValue) ? defaultValue : null}
       render={({ field: { onChange, value } }) => {
         const [dateValue, setDateValue] = useState(value);
 
@@ -101,9 +104,10 @@ const FieldDropdown = ({ fieldData, name, control, type }) => {
       rules={{
         required:
           isRequired &&
-          `${
-            errorMessage || strings.errors.required
-          } ${strings.errors.date.required.replace("%s", errorRequired)}`,
+          `${errorMessage || strings.errors.required} ${interpolateString(
+            strings.errors.date.required,
+            { fields: errorRequired }
+          )}`,
 
         validate: (value) =>
           !value || isValidDate(value) ? true : strings.errors.date.invalid,

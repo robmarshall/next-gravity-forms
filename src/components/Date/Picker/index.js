@@ -4,10 +4,10 @@ import classnames from "classnames";
 import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import { useSettings } from "../../../providers/SettingsContext";
-import { valueToLowerCase } from "../../../utils/helpers";
+import { valueToLowerCase, interpolateString } from "../../../utils/helpers";
 import CalendarIconComponent from "./CalendarIconComponent";
 import { isValidDate } from "./helpers";
-// import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 const dateFormats = {
   mdy: "MM/dd/yyyy",
@@ -53,7 +53,11 @@ const Picker = ({ fieldData, name, control }) => {
     <Controller
       name={name}
       control={control}
-      defaultValue={defaultValue ? new Date(defaultValue) : null}
+      defaultValue={
+        defaultValue && isValidDate(new Date(defaultValue))
+          ? new Date(defaultValue)
+          : null
+      }
       render={({ field: { onChange, value } }) => (
         <>
           <DatePicker
@@ -97,10 +101,9 @@ const Picker = ({ fieldData, name, control }) => {
         validate: (value) =>
           !value || isValidDate(value)
             ? true
-            : strings.errors.date.picker.invalid.replace(
-                "%s",
-                valueToLowerCase(dateFormats[dateFormat])
-              ),
+            : interpolateString(strings.errors.date.picker.invalid, {
+                format: valueToLowerCase(dateFormats[dateFormat]),
+              }),
       }}
     />
   );

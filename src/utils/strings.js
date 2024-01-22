@@ -17,10 +17,10 @@ const strings = {
       back: "characters.",
     },
     date: {
-      required: "Please complete the following fields: %s.",
+      required: "Please complete the following fields: {{fields}}",
       invalid: "Please enter a valid date.",
       picker: {
-        invalid: "Please enter a valid date in the format (%s).",
+        invalid: "Please enter a valid date in the format ({{format}}).",
       },
     },
   },
