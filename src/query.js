@@ -46,6 +46,7 @@ export const gravityFormQuery = /* GraphQL */ `
       confirmations {
         ${formConfirmationFragment}
       }
+      hasHoneypot
       formFields {
         nodes {
           displayOnly

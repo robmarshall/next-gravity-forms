@@ -42,6 +42,7 @@ const GravityFormForm = ({
     formFields,
     labelPlacement,
     subLabelPlacement,
+    hasHoneypot,
   } = form;
 
   const redirect = navigate
@@ -65,6 +66,17 @@ const GravityFormForm = ({
   const [generalError, setGeneralError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  // add honeypot fake field if enabled to list of fields
+  const formFieldNodes = formFields?.nodes?.length > 0 && [
+    ...formFields.nodes,
+    hasHoneypot && {
+      id: formFields.nodes[formFields.nodes.length - 1].id + 1,
+      type: "HONEYPOT",
+      descriptionPlacement,
+      labelPlacement,
+      subLabelPlacement,
+    },
+  ];
 
   const onSubmitCallback = async () => {
     // Make sure we are not already waiting for a response
@@ -78,7 +90,7 @@ const GravityFormForm = ({
       if (submissionHasOneFieldEntry(values)) {
         setGeneralError("");
         const formRes = formatPayload({
-          serverData: formFields?.nodes,
+          serverData: formFieldNodes,
           clientData: values,
         });
 
@@ -161,7 +173,7 @@ const GravityFormForm = ({
       <div className="gform_anchor" id={`gf_${databaseId}`} />
 
       {formFields && (
-        <SettingsProvider helperText={helperText}>
+        <SettingsProvider helperText={helperText} databaseId={databaseId}>
           <FormProvider {...methods}>
             <form
               className={
@@ -191,7 +203,7 @@ const GravityFormForm = ({
                   <FieldBuilder
                     databaseId={databaseId}
                     formLoading={loading}
-                    formFields={formFields.nodes}
+                    formFields={formFieldNodes}
                     labelPlacement={labelPlacement}
                     preOnSubmit={preOnSubmit}
                     presetValues={presetValues}
