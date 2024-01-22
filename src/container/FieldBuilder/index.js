@@ -11,6 +11,7 @@ import Textarea from "../../components/Textarea";
 import Section from "../../components/Section";
 import { valueToLowerCase } from "../../utils/helpers";
 import { islabelHidden } from "../../utils/inputSettings";
+import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
 
 const FieldBuilder = ({
   databaseId,
@@ -19,6 +20,7 @@ const FieldBuilder = ({
   preOnSubmit,
   presetValues,
   settings,
+  formLayoutProps,
 }) => {
   // Loop through fields and create
   return formFields.map((field) => {
@@ -26,37 +28,41 @@ const FieldBuilder = ({
     const {
       id,
       captchaTheme,
+      description,
       descriptionPlacement,
       isRequired,
       subLabelPlacement,
       labelPlacement,
+      layoutGridColumnSpan,
       type,
-      size,
       visibility,
     } = field;
 
-    // @TODO: following line still needed?
-    const isHiddenField = type === "HIDDEN";
-
-    const inputWrapperClass = classnames(
+    let inputWrapperClass = classnames(
       "gfield",
-      "gravityform__field",
-      "gravityform__field__" + valueToLowerCase(type),
-      { [`gravityform__field--${valueToLowerCase(size)}`]: size },
+      "gfield--type-" + valueToLowerCase(type),
       field.cssClass,
-      { "field-required": isRequired },
-      { "hidden-label": islabelHidden(labelPlacement) },
       { gfield_contains_required: isRequired },
+      { gform_hidden: type === "HIDDEN" },
+      { "hidden-label": islabelHidden(labelPlacement) },
       {
-        [`field_sublabel_${valueToLowerCase(subLabelPlacement)}`]:
-          valueToLowerCase(subLabelPlacement),
+        [`gfield--width-${getFieldWidthClass(layoutGridColumnSpan)}`]:
+          layoutGridColumnSpan,
       },
-      {
-        [`field_description_${valueToLowerCase(descriptionPlacement)}`]:
-          descriptionPlacement,
-      },
+      `field_description_${
+        descriptionPlacement &&
+        valueToLowerCase(descriptionPlacement) !== "inherit"
+          ? valueToLowerCase(descriptionPlacement)
+          : valueToLowerCase(formLayoutProps?.descriptionPlacement) || "below"
+      }`,
+      `field_sublabel_${
+        subLabelPlacement && valueToLowerCase(subLabelPlacement) !== "inherit"
+          ? valueToLowerCase(subLabelPlacement)
+          : valueToLowerCase(formLayoutProps?.subLabelPlacement) || "below"
+      }`,
+      `gfield--${description ? "has-description" : "no-description"}`,
       `gfield_visibility_${
-        valueToLowerCase ? "hidden" : valueToLowerCase(visibility)
+        visibility ? valueToLowerCase(visibility) : "hidden"
       }`
     );
 

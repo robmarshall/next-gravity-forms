@@ -7,14 +7,17 @@ const Section = ({ fieldData, wrapClassName, wrapId, name }) => {
   // @TODO: replace li with div, just like needed in InputWrapper.
   // I skipped the InputWrapper here because we don't need any logic from it
   return (
-    <li className={classnames(wrapClassName, cssClass)} id={wrapId}>
+    <div
+      className={classnames(wrapClassName, cssClass, "gsection")}
+      id={wrapId}
+    >
       {label && <h3 className="gsection_title">{label}</h3>}
       {description && (
         <div className="gsection_description" id={`gfield_description_${name}`}>
           {description}
         </div>
       )}
-    </li>
+    </div>
   );
 };
 
