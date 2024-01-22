@@ -7,6 +7,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import FormGeneralError from "./components/FormGeneralError";
 import FieldBuilder from "./container/FieldBuilder";
 import { handleGravityFormsValidationErrors } from "./utils/manageErrors";
+import getDefaultValues from "./utils/getDefaultVlaues";
 import { submissionHasOneFieldEntry } from "./utils/manageFormData";
 import formatPayload from "./utils/formatPayload";
 import { valueToLowerCase } from "./utils/helpers";
@@ -53,7 +54,13 @@ const GravityFormForm = ({
       };
 
   // Pull in form functions
-  const methods = useForm();
+  const methods = useForm({
+    // Predefine default values (needed for conditional fields to ensure they render correctly on the initial load).
+    // This is needed because `react-hook-form` doesn't automatically detect `defaultValue` attributes in fields,
+    // and the form state starts empty. By setting these defaults upfront, we enable `react-hook-form` to
+    // immediately recognize and apply them, ensuring conditional fields behave as expected from the start.
+    // defaultValues: getDefaultValues(formFields?.nodes),
+  });
   const {
     handleSubmit,
     setError,

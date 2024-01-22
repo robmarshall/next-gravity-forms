@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
+import { useFormContext } from "react-hook-form";
+import { ConditionalWrapper } from "../General";
+import { checkConditionalRendering } from "./helpers";
 
 const InputWrapper = ({
   children,
@@ -16,6 +19,8 @@ const InputWrapper = ({
     maxLength,
     type,
     inputs,
+    conditionalLogic,
+    name,
   },
   labelFor,
   wrapClassName,
@@ -25,9 +30,13 @@ const InputWrapper = ({
     isRequired ? '<span class="gfield_required">*</span>' : ""
   }`;
 
+  const { watch } = useFormContext();
+
   const Label = inputs?.length > 0 ? "legend" : "label"; // if field has inputs, we render label as <legend>
   // @TODO replace li with div to match new GF markup
   const Wrapper = inputs?.length > 0 ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
+
+  const isHidden = checkConditionalRendering(conditionalLogic, watch);
 
   return (
     <Wrapper
@@ -36,6 +45,7 @@ const InputWrapper = ({
         errors?.type && "gravityform__field--error"
       )}
       id={wrapId}
+      style={isHidden ? { display: "none" } : undefined}
     >
       {labelFor && (
         <Label
@@ -45,10 +55,17 @@ const InputWrapper = ({
         />
       )}
       {outputDescription(description, descriptionPlacement, "above", errors)}
-      <div
-        className={`ginput_container ginput_container_${valueToLowerCase(
-          type
-        )}`}
+      <ConditionalWrapper // render only when there is name field added
+        condition={!!name}
+        wrapper={(children) => (
+          <div
+            className={`ginput_container ginput_container_${valueToLowerCase(
+              type
+            )}`}
+          >
+            {children}
+          </div>
+        )}
       >
         {children}
         {maxLength > 0 && (
@@ -62,7 +79,8 @@ const InputWrapper = ({
               Please enter a number from <strong>1</strong> to <strong>15</strong>.
             </div>
         */}
-      </div>
+      </ConditionalWrapper>
+
       {outputDescription(description, descriptionPlacement, "below", errors)}
       {isNonEmptyObject(errors) && (
         <div

@@ -48,6 +48,7 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
         name={name}
         {...register(name, {
           required: isRequired && strings.errors.required,
+          value: "handon",
           maxLength: maxLength > 0 && {
             value: maxLength,
             message: `${strings.errors.maxChar.front}  ${maxLength} ${strings.errors.maxChar.back}`,

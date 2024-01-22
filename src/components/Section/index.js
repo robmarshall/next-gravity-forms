@@ -1,15 +1,15 @@
 import React from "react";
 import classnames from "classnames";
 import PropTypes from "prop-types";
+import InputWrapper from "../InputWrapper";
 
-const Section = ({ fieldData, wrapClassName, wrapId, name }) => {
+const Section = ({ fieldData, wrapClassName, name, ...props }) => {
   const { label, description, cssClass } = fieldData;
-  // @TODO: replace li with div, just like needed in InputWrapper.
-  // I skipped the InputWrapper here because we don't need any logic from it
   return (
-    <div
-      className={classnames(wrapClassName, cssClass, "gsection")}
-      id={wrapId}
+    <InputWrapper
+      wrapClassName={classnames(wrapClassName, cssClass, "gsection")}
+      inputData={fieldData}
+      {...props}
     >
       {label && <h3 className="gsection_title">{label}</h3>}
       {description && (
@@ -17,7 +17,7 @@ const Section = ({ fieldData, wrapClassName, wrapId, name }) => {
           {description}
         </div>
       )}
-    </div>
+    </InputWrapper>
   );
 };
 
