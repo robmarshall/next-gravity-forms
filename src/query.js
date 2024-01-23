@@ -7,8 +7,10 @@ import {
   phoneFieldFragment,
 } from "./components/Input/query";
 import { htmlFieldFragment } from "./components/Html/query";
-import { multiSelectFieldFragment } from "./components/Multiselect/query";
-import { selectFieldFragment } from "./components/Select/query";
+import {
+  selectFieldFragment,
+  multiSelectFieldFragment,
+} from "./components/Select/query";
 import {
   radioFieldFragment,
   checkboxFieldFragment,
@@ -44,6 +46,7 @@ export const gravityFormQuery = /* GraphQL */ `
       confirmations {
         ${formConfirmationFragment}
       }
+      hasHoneypot
       formFields {
         nodes {
           displayOnly
@@ -60,11 +63,11 @@ export const gravityFormQuery = /* GraphQL */ `
           ${emailFieldFragment}
           ${hiddenFieldFragment}
           ${htmlFieldFragment}
-          ${multiSelectFieldFragment}
           ${numberFieldFragment}
           ${phoneFieldFragment}
           ${radioFieldFragment}
           ${selectFieldFragment}
+          ${multiSelectFieldFragment}
           ${textareaFieldFragment}
           ${textFieldFragment}
           ${sectionFieldFragment}

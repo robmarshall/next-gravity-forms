@@ -44,11 +44,11 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
       labelFor={name}
       {...wrapProps}
     >
-      <ul className={`gfield_${type}`} id={name}>
+      <div className={`gfield_${type}`} id={name}>
         {choices.map(({ isSelected, text, value }, index) => {
           const choiceID = index + 1;
           return (
-            <li key={`${name}-${index + 1}`}>
+            <div key={`${name}-${index + 1}`}>
               <input
                 className={classnames(
                   `gravityform__field__input__${type}`,
@@ -73,7 +73,7 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
                 htmlFor={`${name}_${choiceID}`}
                 dangerouslySetInnerHTML={{ __html: text }}
               />
-            </li>
+            </div>
           );
         })}
         {hasSelectAll && (
@@ -84,7 +84,7 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
             setValue={setValue}
           />
         )}
-      </ul>
+      </div>
     </InputWrapper>
   );
 };

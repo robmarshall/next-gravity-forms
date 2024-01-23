@@ -69,12 +69,13 @@ const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
     case "TEXTAREA":
     case "TEXT":
     case "WEBSITE":
+    case "HONEYPOT":
       return {
         value: fieldResponse,
       };
     case "MULTISELECT":
       return {
-        values: fieldResponse,
+        values: fieldResponse?.map((i) => i.value),
       };
     case "POSTCATEGORY":
       return {

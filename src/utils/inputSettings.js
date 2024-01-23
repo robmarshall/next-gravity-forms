@@ -2,6 +2,7 @@
  * This file manages all of the Gravity Forms input settings.
  * Things such as: Input Mask, Required, Visibility
  */
+import { valueToLowerCase } from "./helpers";
 
 export function outputDescription(
   description,
@@ -9,12 +10,12 @@ export function outputDescription(
   currentPosition,
   errors
 ) {
-  if (description && currentPosition === placement) {
+  if (description && currentPosition === valueToLowerCase(placement)) {
     return (
       <div
-        className={`gravityforms__description gravityforms__description--${placement} gfield_description${
-          errors ? " validation_error" : ""
-        }`}
+        className={`gravityforms__description gravityforms__description--${valueToLowerCase(
+          placement
+        )} gfield_description${errors ? " validation_error" : ""}`}
         dangerouslySetInnerHTML={{ __html: description }}
       />
     );
@@ -23,5 +24,5 @@ export function outputDescription(
 }
 
 export function islabelHidden(label) {
-  return label === "hidden_label" ? true : false;
+  return label === "HIDDEN" ? true : false;
 }

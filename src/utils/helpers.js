@@ -21,3 +21,7 @@ export const filteredKeys = (obj, filter) => {
 
 export const valueToLowerCase = (string) =>
   string ? string.toLowerCase() : "";
+
+export const isNonEmptyObject = (obj) => {
+  return obj !== null && typeof obj === "object" && Object.keys(obj).length > 0;
+};
