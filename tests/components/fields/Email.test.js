@@ -34,6 +34,10 @@ describe("Email field", () => {
     subLabelPlacement: "INHERIT",
   };
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   const fieldId = `field_${mockFormData.gfForm.databaseId}_${field.id}`;
 
   it("renders correctly", async () => {
@@ -44,6 +48,37 @@ describe("Email field", () => {
 
     // email field rendered
     expect(element).toBeInTheDocument();
+  });
+
+  it("submits form when value is correct", async () => {
+    const { container } = renderGravityForm({
+      gfForm: { formFields: { nodes: [field] } },
+    });
+
+    fireEvent.input(screen.getByLabelText(/Email/i), {
+      target: {
+        value: "test@test.com",
+      },
+    });
+    await act(async () => {
+      fireEvent.submit(screen.getByRole("button"));
+    });
+
+    expect(submitGravityForm).toBeCalledWith({
+      id: mockFormData.gfForm.databaseId,
+      fieldValues: [
+        {
+          emailValues: {
+            value: "test@test.com",
+          },
+          id: field.id,
+        },
+      ],
+    });
+
+    expect(
+      container.querySelector(`.gravityform__error_message`)
+    ).not.toBeInTheDocument();
   });
 
   describe("render errors", () => {
@@ -206,6 +241,13 @@ describe("Email field", () => {
           },
         ],
       });
+
+      expect(
+        container.querySelector(`.gravityform__error_message`)
+      ).not.toBeInTheDocument();
+
+      const formElement = container.querySelector("form");
+      expect(formElement).not.toBeInTheDocument();
     });
   });
 });
