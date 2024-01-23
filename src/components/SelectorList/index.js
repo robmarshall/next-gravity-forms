@@ -5,6 +5,7 @@ import { useFormContext } from "react-hook-form";
 import InputWrapper from "../InputWrapper";
 import { valueToLowerCase } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
+import SelectDeselectButton from "./SelectDeselectButton";
 
 // TODO: Enable Select All Choice
 const SelectorList = ({ fieldData, name, ...wrapProps }) => {
@@ -13,6 +14,7 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
     id,
     choices,
     cssClass,
+    hasSelectAll,
     isRequired,
     size,
     type: typeUpper,
@@ -23,6 +25,7 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
   const {
     register,
     formState: { errors },
+    setValue,
   } = useFormContext();
 
   // Due to checkboxes and radios are seen in GraphQL each choice is given an
@@ -73,6 +76,14 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
             </li>
           );
         })}
+        {hasSelectAll && (
+          <SelectDeselectButton
+            id={id}
+            name={name}
+            choices={choices}
+            setValue={setValue}
+          />
+        )}
       </ul>
     </InputWrapper>
   );

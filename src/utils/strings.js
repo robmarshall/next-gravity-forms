@@ -17,6 +17,10 @@ const strings = {
       back: "characters.",
     },
   },
+  checkboxes: {
+    selectAll: "Select All",
+    deselectAll: "Deselect All",
+  },
 };
 
 export default strings;
