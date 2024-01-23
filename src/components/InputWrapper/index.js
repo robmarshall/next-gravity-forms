@@ -66,6 +66,7 @@ const InputWrapper = ({
       {outputDescription(description, descriptionPlacement, "below", errors)}
       {isNonEmptyObject(errors) && (
         <div
+          role="alert"
           aria-live="polite"
           className="gravityform__error_message gfield_description validation_message"
         >

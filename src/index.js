@@ -34,6 +34,8 @@ const GravityFormForm = ({
   // Deconstruct global settings (if provided).
   const settings = data?.gfSettings || {};
 
+  // console.log(3, { data });
+
   const {
     submitButton,
     confirmations,
@@ -79,6 +81,7 @@ const GravityFormForm = ({
   ];
 
   const onSubmitCallback = async () => {
+    console.log("submit111");
     // Make sure we are not already waiting for a response
     if (!loading) {
       setLoading(true);
