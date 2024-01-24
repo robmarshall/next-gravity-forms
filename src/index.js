@@ -81,7 +81,6 @@ const GravityFormForm = ({
   ];
 
   const onSubmitCallback = async () => {
-    console.log("submit111");
     // Make sure we are not already waiting for a response
     if (!loading) {
       setLoading(true);

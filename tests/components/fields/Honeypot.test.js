@@ -2,13 +2,24 @@ import renderGravityForm from "../render";
 import mockFormData from "../../mocks/formData";
 
 describe("Honeypot field", () => {
-  const gfId =
-    mockFormData.gfForm.formFields.nodes[
-      mockFormData.gfForm.formFields.nodes.length - 1
-    ].id + 1;
+  const fields = [
+    {
+      id: 1,
+      type: "TEXT",
+      descriptionPlacement: "INHERIT",
+      label: "Single Line text",
+      labelPlacement: "INHERIT",
+      size: "LARGE",
+    },
+  ];
+
+  const gfId = fields[fields.length - 1].id + 1;
 
   it("doesn't render field if hasHoneypot is false", () => {
-    const { container } = renderGravityForm();
+    const { container } = renderGravityForm({
+      gfForm: { formFields: { nodes: fields } },
+    });
+
     const element = container.querySelector(
       `#input_${mockFormData.gfForm.databaseId}_${gfId}`
     );
@@ -20,6 +31,7 @@ describe("Honeypot field", () => {
     const { container } = renderGravityForm({
       gfForm: {
         hasHoneypot: true,
+        formFields: { nodes: fields },
       },
     });
 

@@ -1,13 +1,29 @@
 import renderGravityForm from "../render";
 import mockFormData from "../../mocks/formData";
-import getMockFieldByType from "../../utils/getMockFieldByType";
 
 describe("Section field", () => {
-  const field = getMockFieldByType("SECTION");
+  const field = {
+    displayOnly: true,
+    id: 9,
+    inputType: null,
+    layoutGridColumnSpan: null,
+    layoutSpacerGridColumnSpan: null,
+    pageNumber: 1,
+    type: "SECTION",
+    visibility: "VISIBLE",
+    cssClass: null,
+    databaseId: 9,
+    label: "Section Break",
+    description: "section description",
+    conditionalLogic: null,
+  };
+
   const fieldId = `field_${mockFormData.gfForm.databaseId}_${field.id}`;
 
   it("renders correctly", async () => {
-    const { container } = renderGravityForm();
+    const { container } = renderGravityForm({
+      gfForm: { formFields: { nodes: [field] } },
+    });
     const sectionElement = container.querySelector(`div#${fieldId}`);
 
     // section rendered
