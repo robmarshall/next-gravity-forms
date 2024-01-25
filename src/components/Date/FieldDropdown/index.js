@@ -56,23 +56,6 @@ const FieldDropdown = ({ fieldData, name, control, type }) => {
       control={control}
       defaultValue={isValidDate(defaultValue) ? defaultValue : null}
       render={({ field: { onChange, value } }) => {
-        const [dateValue, setDateValue] = useState(value);
-
-        const handleDropdownChange = (name, selectedValue) => {
-          const updatedValue = {
-            ...dateValue,
-            [name]: selectedValue,
-          };
-
-          if (!selectedValue) delete updatedValue[name];
-
-          const selected = isEmptyObject(updatedValue) ? null : updatedValue;
-
-          setDateValue(selected);
-
-          onChange(selected);
-        };
-
         return elements.map(
           ({
             id,
@@ -88,11 +71,10 @@ const FieldDropdown = ({ fieldData, name, control, type }) => {
                 {...rest}
                 name={`${name}[]`}
                 id={`${name}_${index + 1}`}
-                selectedValue={dateValue && dateValue[fieldName]}
                 placeholder={placeholder || defaultPlaceholder}
                 subLabelPlacement={subLabelPlacement}
                 onChange={(e) =>
-                  handleDropdownChange(fieldName, e.target.value)
+                  onChange({ ...value, [fieldName]: e.target.value })
                 }
                 fieldName={fieldName}
                 isRequired={isRequired}
