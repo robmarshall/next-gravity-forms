@@ -50,6 +50,7 @@ const MultiSelectEnhancedUI = ({
       }
       render={({ field: { onChange, value, ref } }) => (
         <Select
+          instanceId={id}
           defaultValue={
             dropdownDefaultValue && isMulti
               ? choices.filter((i) => i.value === dropdownDefaultValue)
