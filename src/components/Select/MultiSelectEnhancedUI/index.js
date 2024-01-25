@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import classnames from "classnames";
 import PropTypes from "prop-types";
 import Select from "react-select";
@@ -20,26 +20,45 @@ const MultiSelectEnhancedUI = ({
   const { strings } = useSettings();
 
   // make options react-select like
-  const choices = options.map((i) => ({
-    ...i,
-    label: i.text,
-    isFixed: i.isSelected,
-  }));
+  const choices = useMemo(
+    () =>
+      options.map((option) => ({
+        ...option,
+        label: option.text,
+        isFixed: option.isSelected,
+      })),
+    [options]
+  );
+
+  const dropdownDefaultValue = useMemo(() => {
+    const selectedOption = choices.find(
+      (option) => option.value === defaultValue
+    );
+    if (selectedOption) return selectedOption.value;
+
+    if (!isMulti) return choices[0]?.value;
+  }, [choices, defaultValue, isMulti]);
 
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={
-        choices.find((i) => i.value === defaultValue)?.value ||
-        (!isMulti && choices[0].value) // first option is selected for a normal select by default
+        dropdownDefaultValue && isMulti
+          ? [dropdownDefaultValue]
+          : dropdownDefaultValue
       }
       render={({ field: { onChange, value, ref } }) => (
         <Select
+          defaultValue={
+            dropdownDefaultValue && isMulti
+              ? choices.filter((i) => i.value === dropdownDefaultValue)
+              : dropdownDefaultValue
+          }
           inputRef={ref}
           unstyled
           isMulti={isMulti}
-          placeholder={isMulti && strings.multiselect.placeholder}
+          placeholder={isMulti ? strings.multiselect.placeholder : ""}
           name={name}
           inputId={id}
           options={choices}
@@ -51,10 +70,9 @@ const MultiSelectEnhancedUI = ({
           )}
           classNamePrefix="react-select"
           value={choices.find((c) => c.value === value)}
-          onChange={(val) => {
-            if (isMulti) return onChange(val);
-            return onChange(val.value);
-          }}
+          onChange={(val) =>
+            onChange(isMulti ? val.map((v) => v.value) : val.value)
+          }
           {...props}
         />
       )}
@@ -66,19 +84,19 @@ const MultiSelectEnhancedUI = ({
 export default MultiSelectEnhancedUI;
 
 MultiSelectEnhancedUI.propTypes = {
-  control: PropTypes.object,
+  control: PropTypes.object.isRequired,
   cssClass: PropTypes.string,
   id: PropTypes.string,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       isSelected: PropTypes.bool,
-      text: PropTypes.string,
-      value: PropTypes.string,
+      text: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
     })
-  ),
+  ).isRequired,
   size: PropTypes.string,
   isRequired: PropTypes.bool,
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
   isMulti: PropTypes.bool,
   defaultValue: PropTypes.string,
 };
