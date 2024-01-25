@@ -16,6 +16,7 @@ const strings = {
       front: "Need more than",
       back: "characters.",
     },
+    name: "Please complete the following fields: {{fields}}",
   },
   honeypot:
     "This field is for validation purposes and should be left unchanged.",

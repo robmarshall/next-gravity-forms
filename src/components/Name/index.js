@@ -5,6 +5,7 @@ import InputWrapper from "../InputWrapper";
 import { Input, SubLabelWrapper } from "../General";
 import strings from "../../utils/strings";
 import { getDefaultValue } from "./helpers";
+import { interpolateString } from "../../utils/helpers";
 
 const Name = ({ fieldData, name, ...wrapProps }) => {
   const { inputs, subLabelPlacement, errorMessage, isRequired } = fieldData;
@@ -84,7 +85,21 @@ const Name = ({ fieldData, name, ...wrapProps }) => {
             }
           );
         }}
-        // @TODO add rules
+        rules={{
+          validate: (value) => {
+            if (!isRequired) return true;
+            const emptyFields = fieldInputs
+              .filter((i) => !value[i.key])
+              .map((i) => i.label);
+
+            if (emptyFields.length === 0) return true;
+            return `${
+              errorMessage || strings.errors.required
+            } ${interpolateString(strings.errors.name, {
+              fields: emptyFields.join(", "),
+            })}`;
+          },
+        }}
       />
     </InputWrapper>
   );
