@@ -1,9 +1,10 @@
 {
   "name": "next-gravity-forms",
-  "version": "0.1.40",
+  "version": "2.0.0",
   "description": "A component to take GraphQl Gravity Forms query data from WordPress and return a usable form.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
+  "packageManager": "yarn@1.22.11",
   "scripts": {
     "test": "jest --watch --verbose",
     "build": "rollup -c rollup.config.form.mjs && rollup -c rollup.config.server.mjs",

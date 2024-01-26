@@ -79,7 +79,7 @@ const Select = ({ fieldData, name, ...wrapProps }) => {
           {...register(name, {
             required: isRequired && strings.errors.required,
           })}
-          defaultValue={defaultValue}
+          defaultValue={isMultiselectField ? [defaultValue] : defaultValue}
         >
           {options.map(({ text, value, className }, index) => {
             return (
