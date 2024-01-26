@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Label from "./Label";
 
 const SubLabelWrapper = ({
-  subLabelPlacement,
+  subLabelPlacement = "INHERIT",
   children,
   label,
   customLabel,
