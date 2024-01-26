@@ -36,7 +36,7 @@ const SelectDeselectButton = ({ id, name, choices, setValue }) => {
       onClick={handleSelectDeselectAll}
       id={`button_${id}_select_all`}
       className="gfield_choice_all_toggle gform-theme-button--size-sm"
-      data-checked={areAllPreselected() ? 1 : 0}
+      data-checked={+!shouldAllBeSelected}
       data-label-select={strings.checkboxes.selectAll}
       data-label-deselect={strings.checkboxes.deselectAll}
     >
