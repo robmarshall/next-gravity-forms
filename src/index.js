@@ -34,8 +34,6 @@ const GravityFormForm = ({
   // Deconstruct global settings (if provided).
   const settings = data?.gfSettings || {};
 
-  // console.log(3, { data });
-
   const {
     submitButton,
     confirmations,
