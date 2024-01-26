@@ -10,6 +10,7 @@
  * Useful info on Gravity Forms graphQL:
  * https://github.com/harness-software/wp-graphql-gravity-forms/blob/develop/docs/submitting-forms.md
  */
+import formatDate from "./formatDate";
 
 const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
   const { type, inputs, choices } = serverDataItem;
@@ -53,7 +54,6 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
         },
       };
     case "CONSENT":
-    case "DATE":
     case "HIDDEN":
     case "NUMBER":
     case "PHONE":
@@ -69,6 +69,11 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
     case "HONEYPOT":
       return {
         value: fieldResponse,
+      };
+    case "DATE":
+      const { dateFormat, dateType } = serverDataItem;
+      return {
+        value: formatDate(fieldResponse, dateType, dateFormat),
       };
     case "MULTISELECT":
       return {
