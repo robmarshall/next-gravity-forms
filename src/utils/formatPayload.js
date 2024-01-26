@@ -71,7 +71,7 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
         value: fieldResponse,
       };
     case "DATE":
-      const { dateFormat, dateType } = field;
+      const { dateFormat, dateType } = serverDataItem;
       return {
         value: formatDate(fieldResponse, dateType, dateFormat),
       };
@@ -97,8 +97,6 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
 };
 
 export default ({ serverData, clientData }) => {
-  console.log({ serverData, clientData });
-
   const formattedData = serverData
     .map(({ id, ...rest }) => {
       // Does this particular field have a response?
