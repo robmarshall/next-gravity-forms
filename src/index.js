@@ -101,7 +101,7 @@ const GravityFormForm = ({
             fieldValues: formRes,
           });
 
-          if (!Boolean(submitRes?.submitGfForm?.errors?.length)) {
+          if (!Boolean(submitRes?.errors?.length)) {
             setSuccess(true);
             setLoading(false);
             successCallback({
@@ -110,10 +110,10 @@ const GravityFormForm = ({
             });
           } else {
             setLoading(false);
-            handleGravityFormsValidationErrors(errors, setError);
+            handleGravityFormsValidationErrors(submitRes?.errors, setError);
             errorCallback({
               data: formRes,
-              error: errors,
+              error: handleGravityFormsValidationErrors(submitRes?.errors),
               reset,
             });
           }

@@ -12,9 +12,8 @@
  */
 import formatDate from "./formatDate";
 
-const formatter = ({ id, fieldResponse, field, clientData }) => {
-  const { type, inputs } = field;
-
+const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
+  const { type, inputs, choices } = serverDataItem;
   switch (type) {
     case "ADDRESS":
       return {
@@ -25,20 +24,16 @@ const formatter = ({ id, fieldResponse, field, clientData }) => {
         value: fieldResponse,
       };
     case "CHECKBOX":
+      let selectedChoices = [];
       // Loop through all Gravity Form Checkbox choices.
-      const selectedChoices = inputs
-        .map(({ id, label, name }) => {
-          const inputName = name || label;
-          // If the Gravity Forms choice matches with selected item from user.
-          // Add to response.
-          if (fieldResponse.find((option) => option === inputName)) {
-            return {
-              inputId: id,
-              value: inputName,
-            };
-          }
-        })
-        .filter(Boolean);
+      choices.forEach(({ value }, index) => {
+        const isSelected = fieldResponse.includes(value);
+        // If the Gravity Forms choice matches with selected item from user.
+        // Add to response.
+        if (isSelected) {
+          selectedChoices.push({ inputId: inputs[index].id, value });
+        }
+      });
 
       return {
         checkboxValues: selectedChoices,
@@ -82,7 +77,7 @@ const formatter = ({ id, fieldResponse, field, clientData }) => {
       };
     case "MULTISELECT":
       return {
-        values: fieldResponse?.map((i) => i.value),
+        values: fieldResponse,
       };
     case "POSTCATEGORY":
       return {
@@ -113,7 +108,7 @@ export default ({ serverData, clientData }) => {
       if (fieldResponse) {
         return {
           id,
-          ...formatter({ id, fieldResponse, field: rest, clientData }),
+          ...formatter({ id, fieldResponse, clientData, serverDataItem: rest }),
         };
       }
     })
