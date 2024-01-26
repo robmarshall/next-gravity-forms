@@ -17,6 +17,10 @@ const strings = {
       back: "characters.",
     },
   },
+  checkboxes: {
+    selectAll: "Select All",
+    deselectAll: "Deselect All",
+  },
   honeypot:
     "This field is for validation purposes and should be left unchanged.",
   multiselect: {
