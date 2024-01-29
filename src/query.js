@@ -19,6 +19,7 @@ import { sectionFieldFragment } from "./components/Section/query";
 import { textareaFieldFragment } from "./components/Textarea/query";
 import { formConfirmationFragment, submitButtonFragment } from "./fragments";
 import { emailFieldFragment } from "./components/Email/query";
+import { nameFieldFragment } from "./components/Name/query";
 
 export const submitMutationQuery = /* GraphQL */ `
   mutation submitForm($id: ID!, $fieldValues: [FormFieldValuesInput]!) {
@@ -71,6 +72,7 @@ export const gravityFormQuery = /* GraphQL */ `
           ${textareaFieldFragment}
           ${textFieldFragment}
           ${sectionFieldFragment}
+          ${nameFieldFragment}
         }
       }
     }
