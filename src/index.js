@@ -1,17 +1,15 @@
 // https://github.com/codifytools/react-npm-package-boilerplate/blob/master/package.json
 
-import classnames from "classnames";
 import PropTypes from "prop-types";
 import React, { useState, useRef } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import FormGeneralError from "./components/FormGeneralError";
-import FieldBuilder from "./container/FieldBuilder";
 import { handleGravityFormsValidationErrors } from "./utils/manageErrors";
 import { submissionHasOneFieldEntry } from "./utils/manageFormData";
 import formatPayload from "./utils/formatPayload";
-import { valueToLowerCase } from "./utils/helpers";
 import { submitGravityForm } from "./fetch";
 import { SettingsProvider } from "./providers/SettingsContext";
+import FormBuilder from "./container/FormBuilder";
 
 /**
  * Component to take Gravity Form graphQL data and turn into
@@ -60,6 +58,7 @@ const GravityFormForm = ({
     setError,
     reset,
     getValues,
+    trigger,
     formState: { errors },
   } = methods;
 
@@ -173,7 +172,13 @@ const GravityFormForm = ({
       <div className="gform_anchor" id={`gf_${databaseId}`} />
 
       {formFields && (
-        <SettingsProvider helperText={helperText} databaseId={databaseId}>
+        <SettingsProvider
+          helperText={helperText}
+          databaseId={databaseId}
+          settings={settings}
+          form={form}
+          loading={loading}
+        >
           <FormProvider {...methods}>
             <form
               className={
@@ -187,50 +192,12 @@ const GravityFormForm = ({
               noValidate // needed to skip the built in form validation, as we use custom one
             >
               {generalError && <FormGeneralError errorCode={generalError} />}
-              <div className="gform-body gform_body">
-                <div
-                  className={classnames(
-                    "gform_fields",
-                    {
-                      [`form_sublabel_${valueToLowerCase(subLabelPlacement)}`]:
-                        valueToLowerCase(subLabelPlacement),
-                    },
-                    `description_${valueToLowerCase(descriptionPlacement)}`,
-                    `${valueToLowerCase(labelPlacement)}_label`
-                  )}
-                  id={`gform_fields_${databaseId}`}
-                >
-                  <FieldBuilder
-                    databaseId={databaseId}
-                    formLoading={loading}
-                    formFields={formFieldNodes}
-                    labelPlacement={labelPlacement}
-                    preOnSubmit={preOnSubmit}
-                    presetValues={presetValues}
-                    settings={settings}
-                    formLayoutProps={form}
-                  />
-                </div>
-              </div>
-
-              <div
-                className={`gform_footer ${valueToLowerCase(labelPlacement)}`}
-              >
-                <button
-                  className="gravityform__button gform_button button"
-                  disabled={loading}
-                  id={`gform_submit_button_${databaseId}`}
-                  type="submit"
-                >
-                  {loading ? (
-                    <span className="gravityform__button__loading_span">
-                      Loading
-                    </span>
-                  ) : (
-                    submitButton?.text
-                  )}
-                </button>
-              </div>
+              <FormBuilder
+                nodes={formFieldNodes}
+                preOnSubmit={preOnSubmit}
+                presetValues={presetValues}
+                trigger={trigger}
+              />
             </form>
           </FormProvider>
         </SettingsProvider>

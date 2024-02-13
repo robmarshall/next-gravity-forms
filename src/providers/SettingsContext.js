@@ -6,12 +6,12 @@ import mergeDeep from "../utils/mergeDeep";
 
 const SettingsContext = createContext();
 
-export const SettingsProvider = ({ helperText, databaseId, children }) => {
+export const SettingsProvider = ({ helperText, children, ...props }) => {
   // Override custom strings with helperText object, allowing users to modify hardcoded strings
   const mergedStrings = mergeDeep(strings, helperText);
 
   return (
-    <SettingsContext.Provider value={{ strings: mergedStrings, databaseId }}>
+    <SettingsContext.Provider value={{ strings: mergedStrings, ...props }}>
       {children}
     </SettingsContext.Provider>
   );
