@@ -27,3 +27,7 @@ export const interpolateString = (template, values) => {
     return values[key] || placeholder;
   });
 };
+
+export const isNonEmptyObject = (obj) => {
+  return obj !== null && typeof obj === "object" && Object.keys(obj).length > 0;
+};

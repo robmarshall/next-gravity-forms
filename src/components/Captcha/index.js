@@ -13,7 +13,11 @@ import InputWrapper from "../InputWrapper";
 
 const Captcha = forwardRef(
   ({ captchaTheme, fieldData, name, settings, ...wrapProps }, ref) => {
-    const { register, errors, setValue } = useFormContext();
+    const {
+      register,
+      formState: { errors },
+      setValue,
+    } = useFormContext();
 
     if (!settings?.publicKey) {
       return (
@@ -66,7 +70,7 @@ const Captcha = forwardRef(
 
     return (
       <InputWrapper
-        errors={errors?.[`g-recaptcha-response`]}
+        errors={errors?.[name] || {}}
         inputData={fieldData}
         labelFor={name}
         {...wrapProps}

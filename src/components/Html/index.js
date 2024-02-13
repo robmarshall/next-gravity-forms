@@ -17,7 +17,6 @@ const Html = ({ fieldData, name, wrapClassName, ...wrapProps }) => {
         "gfield_html",
         "gfield_html_formatted",
         "gfield_no_follows_desc",
-        "gravityform__" + valueToLowerCase(type) + "__wrap",
         cssClass
       )}
     >

@@ -31,6 +31,11 @@ const strings = {
     maxFiles: "Max. files: {{max}}",
     deleteFile: "Delete this file: {{name}}",
   },
+  honeypot:
+    "This field is for validation purposes and should be left unchanged.",
+  multiselect: {
+    placeholder: "Click to select...",
+  },
 };
 
 export default strings;

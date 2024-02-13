@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classnames from "classnames";
 import { useFormContext } from "react-hook-form";
 import { valueToLowerCase } from "../../utils/helpers";
 import getFieldError from "../../utils/getFieldError";
@@ -20,7 +21,7 @@ const standardType = (type) => {
 
 const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
   const { strings } = useSettings();
-  const { inputMaskValue, isRequired, maxLength, type } = fieldData;
+  const { inputMaskValue, isRequired, maxLength, type, size } = fieldData;
 
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
   const inputType = standardType(type);
@@ -40,6 +41,9 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
       <Input
         defaultValue={defaultValue}
         fieldData={{ ...fieldData, type: valueToLowerCase(inputType) }}
+        className={classnames(valueToLowerCase(size), {
+          gform_hidden: type === "HIDDEN",
+        })}
         errors={errors}
         name={name}
         {...register(name, {
