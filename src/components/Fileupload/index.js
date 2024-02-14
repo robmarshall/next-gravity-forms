@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, Suspense } from "react";
 import PropTypes from "prop-types";
 import { useFormContext, Controller } from "react-hook-form";
 import classNames from "classnames";
@@ -6,13 +6,15 @@ import InputWrapper from "../InputWrapper";
 import Input from "../General/Input";
 import { useSettings } from "../../providers/SettingsContext";
 import FilePreview from "./FilePreview";
+import RulesMessages from "./RulesMessages";
 import {
   getRulesMessages,
-  getAllowedTypesList,
-  validateMaxFileSize,
-  validateType,
+  validateMaxSizeRule,
   cleanAllowedExtensions,
+  validateExtRule,
 } from "./helpers";
+
+const LazyMultiFileupload = React.lazy(() => import("./Multifileupload"));
 
 const FileUpload = ({ defaultValue, fieldData, name, ...wrapProps }) => {
   const {
@@ -30,7 +32,10 @@ const FileUpload = ({ defaultValue, fieldData, name, ...wrapProps }) => {
     allowedExtensions: dirtyExtensions,
     maxFiles,
     errorMessage,
+    canAcceptMultipleFiles,
+    id,
   } = fieldData;
+
   const allowedExtensions = cleanAllowedExtensions(dirtyExtensions);
   const rulesMessages = getRulesMessages(
     { allowedExtensions, maxFileSize, maxFiles },
@@ -38,6 +43,20 @@ const FileUpload = ({ defaultValue, fieldData, name, ...wrapProps }) => {
   );
   const selectedValue = watch(name);
   const isGFValidationError = errors?.[name]?.type === "gf_validation";
+
+  const rulesMessagesComponent = () => {
+    return (
+      rulesMessages && (
+        <RulesMessages
+          id={id}
+          databaseId={databaseId}
+          isGFValidationError={isGFValidationError}
+        >
+          {rulesMessages}
+        </RulesMessages>
+      )
+    );
+  };
 
   const removeSelectedFile = () => {
     setValue(name, null);
@@ -53,74 +72,72 @@ const FileUpload = ({ defaultValue, fieldData, name, ...wrapProps }) => {
       labelFor={name}
       {...wrapProps}
     >
-      {isGFValidationError && selectedValue?.length > 0 && (
-        <div
-          id={`gform_preview_${databaseId}_${wrapProps.gfId}`}
-          className="ginput_preview_list"
-        >
-          {selectedValue.map((file, i) => (
+      {canAcceptMultipleFiles ? ( // multi files upload
+        <Suspense>
+          <Controller
+            name={name}
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LazyMultiFileupload
+                name={name}
+                databaseId={databaseId}
+                id={id}
+                accept={dirtyExtensions}
+                onChange={onChange}
+                strings={strings}
+                rulesMessages={rulesMessagesComponent()}
+                setValue={setValue}
+              />
+            )}
+          />
+        </Suspense>
+      ) : (
+        // single file upload
+        <>
+          {isGFValidationError && selectedValue?.length > 0 && (
             <FilePreview
-              key={`${file.name}-${i}`}
+              databaseId={databaseId}
+              id={id}
+              files={selectedValue}
               strings={strings}
-              name={file.name}
               removeFile={removeSelectedFile}
             />
-          ))}
-        </div>
-      )}
-      <Controller
-        name={name}
-        control={control}
-        render={({ field: { onChange } }) => (
-          <Input
-            className={classNames(isGFValidationError && "gform_hidden")}
-            name={name}
-            errors={errors}
-            fieldData={fieldData}
-            type="file"
-            maxLength={undefined}
-            aria-describedby={`gfield_upload_rules_${databaseId}_${wrapProps.gfId}`}
-            accept={
-              allowedExtensions.length > 0
-                ? allowedExtensions.map((ext) => `.${ext}`).join(",")
-                : undefined
-            }
-            onChange={(e) => e.target.files && onChange([e.target.files[0]])}
-            ref={fileInputRef}
-          />
-        )}
-        rules={{
-          required: isRequired && (errorMessage || strings.errors.required),
-          validate: {
-            maxSize: (files) =>
-              !maxFileSize > 0 ||
-              validateMaxFileSize(
-                files,
-                maxFileSize,
-                strings.errors.fileupload.exceedsSizeLimit,
-                maxFileSize
-              ),
-            allowedTypes: (files) =>
-              !allowedExtensions?.length > 0 ||
-              validateType(
-                files,
-                allowedExtensions,
-                strings.errors.fileupload.typeNotAllowed,
-                getAllowedTypesList(allowedExtensions)
-              ),
-          },
-        }}
-      />
-      {rulesMessages && (
-        <span
-          className={classNames(
-            isGFValidationError && "gform_hidden",
-            "gfield_description gform_fileupload_rules"
           )}
-          id={`gfield_upload_rules_${databaseId}_${wrapProps.gfId}`}
-        >
-          {rulesMessages}
-        </span>
+          <Controller
+            name={name}
+            control={control}
+            render={({ field: { onChange } }) => (
+              <Input
+                className={classNames(isGFValidationError && "gform_hidden")}
+                name={name}
+                errors={errors}
+                fieldData={fieldData}
+                type="file"
+                maxLength={undefined}
+                aria-describedby={`gfield_upload_rules_${databaseId}_${wrapProps.gfId}`}
+                accept={
+                  allowedExtensions.length > 0
+                    ? allowedExtensions.map((ext) => `.${ext}`).join(",")
+                    : undefined
+                }
+                onChange={(e) =>
+                  e.target.files && onChange([e.target.files[0]])
+                }
+                ref={fileInputRef}
+              />
+            )}
+            rules={{
+              required: isRequired && (errorMessage || strings.errors.required),
+              validate: {
+                maxSize: (value) =>
+                  validateMaxSizeRule(value, maxFileSize, strings),
+                allowedTypes: (value) =>
+                  validateExtRule(value, allowedExtensions, strings),
+              },
+            }}
+          />
+          {rulesMessagesComponent()}
+        </>
       )}
     </InputWrapper>
   );

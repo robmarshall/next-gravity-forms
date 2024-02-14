@@ -1,4 +1,5 @@
 import { interpolateString } from "../../utils/helpers";
+import mime from "mime-types";
 
 export function getAllowedTypesList(allowedExtensions) {
   if (!allowedExtensions instanceof Array) return "";
@@ -32,8 +33,9 @@ export function getRulesMessages(rul, strings) {
 // validate max file size
 export function validateMaxFileSize(files, maxFileSize) {
   const maxFileSizeBytes = maxFileSize && maxFileSize * 1024 * 1024; // Convert MB to Bytes
+  console.log("validate", { files });
 
-  if (!files instanceof Array || !maxFileSize) return false;
+  if (!files || !files instanceof Array || !maxFileSize) return false;
   for (let i = 0; i < files.length; i++) {
     if (maxFileSizeBytes && files[i].size > maxFileSizeBytes) {
       return true;
@@ -62,3 +64,35 @@ export function cleanAllowedExtensions(extensions) {
   }
   return extensions.map((ext) => ext.trim().replace(/\s/g, ""));
 }
+
+// convert array of allowed extensions into react-dropzone format
+export const mimeTypesObject = (extensions) => {
+  return extensions.reduce((acc, ext) => {
+    const mimeType = mime.lookup(ext);
+    if (mimeType) {
+      acc[mimeType] = acc[mimeType] || [];
+      acc[mimeType].push(`.${ext}`);
+    }
+    return acc;
+  }, {});
+};
+
+export const validateMaxSizeRule = (value, maxFileSize, strings) => {
+  if (!value || !maxFileSize > 0) return true;
+  return (
+    validateMaxFileSize(value, maxFileSize) &&
+    interpolateString(strings.errors.fileupload.exceedsSizeLimit, {
+      max: maxFileSize,
+    })
+  );
+};
+
+export const validateExtRule = (value, allowedExtensions, strings) => {
+  if (!value || !allowedExtensions?.length > 0) return true;
+  return (
+    validateType(value, allowedExtensions) &&
+    interpolateString(strings.errors.fileupload.typeNotAllowed, {
+      types: getAllowedTypesList(allowedExtensions),
+    })
+  );
+};

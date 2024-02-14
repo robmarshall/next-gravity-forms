@@ -30,6 +30,10 @@ const strings = {
     maxFileSize: "Max. file size: {{max}}",
     maxFiles: "Max. files: {{max}}",
     deleteFile: "Delete this file: {{name}}",
+    multifileUpload: {
+      drop: "Drop files here or ",
+      select: "Select files",
+    },
   },
   honeypot:
     "This field is for validation purposes and should be left unchanged.",

@@ -123,6 +123,14 @@ add_filter( 'graphql_response_headers_to_send', function( $headers ) {
 
 On your WordPress backend within the Gravity Forms settings set up reCaptcha. Follow the instructions provided by Gravity Forms.
 
+## File Upload
+
+To enable file uploading functionality, your GraphQL server must support the `Upload` scalar type. In WordPress, this can be easily achieved by installing the [WP GraphQL Upload](https://github.com/dre1080/wp-graphql-upload) plugin.
+
+If you attempt to add a file upload field to your form without support for the `Upload` scalar type, your API will return an error. Ensure that your GraphQL server is properly configured to handle file uploads by integrating the WP GraphQL Upload plugin or another equivalent solution that provides support for the `Upload` type.
+
+When enabling the `Enable Multi-File Upload` option, it's important to note that files are not uploaded immediately upon being dropped into the upload area. Instead, all files are uploaded together during the form submission process. However, be aware that this can introduce a delay, particularly when users upload large files.
+
 ## Testing & Developing
 
 Firstly, yes please! Any help would be great.
