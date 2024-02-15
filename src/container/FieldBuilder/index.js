@@ -9,6 +9,7 @@ import Select from "../../components/Select";
 import SelectorList from "../../components/SelectorList";
 import Textarea from "../../components/Textarea";
 import Section from "../../components/Section";
+import Fileupload from "../../components/Fileupload";
 import Honeypot from "../../components/Honeypot";
 import Name from "../../components/Name";
 import { valueToLowerCase } from "../../utils/helpers";
@@ -133,6 +134,18 @@ const FieldBuilder = ({
       case "EMAIL":
         return (
           <Email
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={inputName}
+            defaultValue={defaultValue}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "FILEUPLOAD":
+        return (
+          <Fileupload
             fieldData={field}
             key={id}
             gfId={id}

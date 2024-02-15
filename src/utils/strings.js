@@ -17,6 +17,30 @@ const strings = {
       back: "characters.",
     },
     name: "Please complete the following fields: {{fields}}",
+    fileupload: {
+      exceedsSizeLimit: "File exceeds size limit. Maximum file size: {{max}}MB",
+      typeNotAllowed:
+        "The uploaded file type is not allowed. Must be one of the following: {{types}}",
+    },
+    multiFileUpload: {
+      exceedsSizeLimit: "{{name}} - File exceeds size limit",
+      typeNotAllowed:
+        "{{name}} - This type of file is not allowed. Must be one of the following: {{types}}",
+      maxFiles: "Maximum number of files reached",
+    },
+  },
+  multiselect: {
+    placeholder: "Click to select...",
+  },
+  fileupload: {
+    acceptedFiles: "Accepted file types: {{types}}",
+    maxFileSize: "Max. file size: {{max}}",
+    maxFiles: "Max. files: {{max}}",
+    deleteFile: "Delete this file: {{name}}",
+    multiFileUpload: {
+      drop: "Drop files here or ",
+      select: "Select files",
+    },
   },
   honeypot:
     "This field is for validation purposes and should be left unchanged.",
