@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import { useDropzone } from "react-dropzone";
-import { mimeTypesObject } from "./helpers";
+import { mimeTypesObject, escHtml } from "./helpers";
 import FilePreview from "./FilePreview";
+import RejectedFilesList from "./RejectedFilesList";
 
 const MultiFileupload = ({
   name,
@@ -12,8 +13,13 @@ const MultiFileupload = ({
   strings,
   rulesMessages,
   setValue,
+  maxFiles,
+  maxFileSize,
 }) => {
+  // Accepted files
   const [files, setFiles] = useState([]);
+  // Rejected files
+  const [rejectedFiles, setFilesRejected] = useState([]);
 
   const {
     getRootProps,
@@ -23,42 +29,58 @@ const MultiFileupload = ({
     isDragReject,
     isDragActive,
     isFileDialogActive,
-    fileRejections,
   } = useDropzone({
+    maxSize: maxFileSize && maxFileSize * 1024 * 1024, // mb to bytes
+    // TODO: The GF plugin immediately throws an error when users upload files with risky extensions, such as .js or .exe.
+    // Should we implement similar behavior here? If so, how can we determine which file extensions are considered risky?
+    // maybe by defining the array of potential risky files with option to override as prop?
     accept: accept?.length > 0 && mimeTypesObject(accept),
-    onDrop: (acceptedFiles) => {
-      const renamedFiles = acceptedFiles.map((file) => {
-        // Remove spaces from the file name and replace them with dashes
-        const newName = file.name.replace(/\s/g, "-");
+    onDrop: (acceptedFiles, fileRejections) => {
+      // Initialize a variable for files to be processed
+      let filesToProcess = [...files, ...acceptedFiles];
+      let excessFiles = [];
+
+      // If maxFiles is a number and less than the number of accepted files, apply the limit
+      if (typeof maxFiles === "number" && filesToProcess.length > maxFiles) {
+        const allFiles = [...filesToProcess];
+        filesToProcess = filesToProcess.slice(0, maxFiles);
+        excessFiles = allFiles.slice(maxFiles).map((file) => ({
+          file,
+          errors: [
+            {
+              code: "too-many-files",
+              message: `File not accepted - exceeds limit of ${maxFiles}.`,
+            },
+          ],
+        }));
+      }
+
+      // make sure we escape the name
+      const renamedFiles = filesToProcess.map((file) => {
+        // Escape html
+        const newName = escHtml(file.name);
         // Create a new File object with the updated name
         return new File([file], newName, { type: file.type });
       });
 
-      setFiles((prevFiles) => [...prevFiles, ...renamedFiles]);
+      setFiles(renamedFiles);
+
+      // Combine fileRejections from Dropzone with custom rejections for excess files
+      setFilesRejected((prev) => [...prev, ...fileRejections, ...excessFiles]);
+
       // Update form value if necessary
-      setValue(name, [...files, ...renamedFiles], { shouldValidate: true });
+      setValue(name, renamedFiles, { shouldValidate: true });
     },
   });
 
+  // remove file handler
   const removeFile = (file) => {
+    setFilesRejected([]); // Reset rejected files
     const newFiles = files.filter((f) => f !== file);
     setFiles(newFiles);
     // Update form value accordingly
     setValue(name, newFiles, { shouldValidate: true });
   };
-
-  const fileRejectionItems = fileRejections.map(({ file, errors }) => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-      <ul>
-        {errors.map((e) => (
-          <li key={e.code}>{e.message}</li>
-        ))}
-      </ul>
-    </li>
-  ));
-
-  console.log({ fileRejections });
 
   return (
     <>
@@ -78,15 +100,15 @@ const MultiFileupload = ({
         >
           <input {...getInputProps()} />
           {/* use dangerouslySetInnerHTML so user is able to add custom html also */}
-          {strings.fileupload.multifileUpload.drop && (
+          {strings.fileupload.multiFileUpload.drop && (
             <span
               className="gform_drop_instructions"
               dangerouslySetInnerHTML={{
-                __html: strings.fileupload.multifileUpload.drop,
+                __html: strings.fileupload.multiFileUpload.drop,
               }}
             />
           )}
-          {strings.fileupload.multifileUpload.select && (
+          {strings.fileupload.multiFileUpload.select && (
             <button
               type="button"
               id={`gform_browse_button_${databaseId}_${id}`}
@@ -94,7 +116,7 @@ const MultiFileupload = ({
               aria-describedby={`gfield_upload_rules_${databaseId}_${id}`}
               aria-label="select files, multiupload"
               dangerouslySetInnerHTML={{
-                __html: strings.fileupload.multifileUpload.select,
+                __html: strings.fileupload.multiFileUpload.select,
               }}
             />
           )}
@@ -102,6 +124,15 @@ const MultiFileupload = ({
       </div>
 
       {rulesMessages}
+
+      {rejectedFiles?.length > 0 && (
+        <RejectedFilesList
+          rejectedFiles={rejectedFiles}
+          strings={strings}
+          id={`gform_multifile_messages_${databaseId}_${id}`}
+          accept={accept}
+        />
+      )}
 
       {files?.length > 0 && (
         <FilePreview
@@ -112,16 +143,6 @@ const MultiFileupload = ({
           removeFile={(file) => removeFile(file)}
         />
       )}
-
-      <ul
-        class="validation_message--hidden-on-empty gform-ul-reset"
-        id={`gform_multifile_messages_${databaseId}_${id}`}
-      >
-        <li class="gfield_description gfield_validation_message">
-          ainspector-all-rules-2024-02-05-15h-50m-31s.csv - This type of file is
-          not allowed. Must be one of the following: pdf
-        </li>
-      </ul>
     </>
   );
 };

@@ -82,7 +82,9 @@ const FileUpload = ({ defaultValue, fieldData, name, ...wrapProps }) => {
                 name={name}
                 databaseId={databaseId}
                 id={id}
-                accept={dirtyExtensions}
+                maxFiles={maxFiles}
+                maxFileSize={maxFileSize}
+                accept={allowedExtensions}
                 onChange={onChange}
                 strings={strings}
                 rulesMessages={rulesMessagesComponent()}

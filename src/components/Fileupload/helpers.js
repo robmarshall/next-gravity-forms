@@ -96,3 +96,29 @@ export const validateExtRule = (value, allowedExtensions, strings) => {
     })
   );
 };
+
+// escape filename
+export const escHtml = (filename) => {
+  // Regular expression to match any character that is not a letter, number, hyphen, underscore, or period
+  const illegalRe = /[^a-zA-Z0-9-.]+/g;
+  // Split the filename into name and extension
+  let [name, extension] = filename.split(".").reduce(
+    (acc, val, i, arr) => {
+      if (i === arr.length - 1) {
+        // Last item, should be extension
+        acc[1] = val;
+      } else {
+        // Accumulate name parts (if filename has multiple periods)
+        acc[0] += (i ? "." : "") + val;
+      }
+      return acc;
+    },
+    ["", ""]
+  );
+
+  // Remove illegal characters from the name part
+  name = name.replace(illegalRe, "");
+
+  // Return the sanitized name with its extension, if it had one
+  return extension ? `${name}.${extension}` : name;
+};

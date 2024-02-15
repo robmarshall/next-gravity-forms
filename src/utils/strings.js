@@ -21,6 +21,12 @@ const strings = {
       typeNotAllowed:
         "The uploaded file type is not allowed. Must be one of the following: {{types}}",
     },
+    multiFileUpload: {
+      exceedsSizeLimit: "{{name}} - File exceeds size limit",
+      typeNotAllowed:
+        "{{name}} - This type of file is not allowed. Must be one of the following: {{types}}",
+      maxFiles: "Maximum number of files reached",
+    },
   },
   multiselect: {
     placeholder: "Click to select...",
@@ -30,7 +36,7 @@ const strings = {
     maxFileSize: "Max. file size: {{max}}",
     maxFiles: "Max. files: {{max}}",
     deleteFile: "Delete this file: {{name}}",
-    multifileUpload: {
+    multiFileUpload: {
       drop: "Drop files here or ",
       select: "Select files",
     },
