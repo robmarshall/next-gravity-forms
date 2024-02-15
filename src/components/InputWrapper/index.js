@@ -39,8 +39,6 @@ const InputWrapper = ({
     customErrorText: errorMessage,
   });
 
-  console.log(errorMessage);
-
   return (
     <Wrapper
       className={classnames(
