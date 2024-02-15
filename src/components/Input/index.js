@@ -6,7 +6,7 @@ import getFieldError from "../../utils/getFieldError";
 import InputWrapper from "../InputWrapper";
 import { Input } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
-import { getMinMaxRangeErrors } from "./helpers";
+import { useRangeUtilities } from "./helpers";
 
 const standardType = (type) => {
   switch (type) {
@@ -25,6 +25,7 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
     inputMaskValue,
     isRequired,
     maxLength,
+    numberFormat,
     type,
     rangeMax,
     rangeMin,
@@ -32,14 +33,28 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
   } = fieldData;
 
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
-  const inputType = standardType(type);
+
+  const generateInputType = (type, numberFormat) => {
+    if (type === "NUMBER") {
+      if (numberFormat !== "DECIMAL_DOT") {
+        return "TEXT";
+      }
+
+      return type;
+    }
+
+    return standardType(type);
+  };
 
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
-  console.log(getMinMaxRangeErrors(rangeMin, rangeMax, strings, errorMessage));
+  const { rangeValidation } = useRangeUtilities({
+    range: { minValue: rangeMin, maxValue: rangeMax },
+    customErrorText: errorMessage,
+  });
 
   return (
     <InputWrapper
@@ -50,7 +65,10 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
     >
       <Input
         defaultValue={defaultValue}
-        fieldData={{ ...fieldData, type: valueToLowerCase(inputType) }}
+        fieldData={{
+          ...fieldData,
+          type: valueToLowerCase(generateInputType(type, numberFormat)),
+        }}
         errors={errors}
         name={name}
         {...register(name, {
@@ -63,7 +81,7 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
             value: regex,
             message: regex && getFieldError(fieldData, strings),
           },
-          ...getMinMaxRangeErrors(rangeMin, rangeMax, strings, errorMessage),
+          ...rangeValidation,
         })}
       />
     </InputWrapper>
