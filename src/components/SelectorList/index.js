@@ -25,27 +25,18 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
     formState: { errors },
   } = useFormContext();
 
-  // Due to checkboxes and radios are seen in GraphQL each choice is given an
-  // error parameter. However in practice only one error matters.
-  // So we check to see if one error exists across all choices.
-  const error = errors[name]?.filter(({ message }) => {
-    if (message) {
-      return true;
-    }
-  })?.[0];
-
   return (
     <InputWrapper
-      errors={error}
+      errors={errors?.[name]}
       inputData={fieldData}
       labelFor={name}
       {...wrapProps}
     >
-      <ul className={`gfield_${type}`} id={name}>
+      <div className={`gfield_${type}`} id={name}>
         {choices.map(({ isSelected, text, value }, index) => {
           const choiceID = index + 1;
           return (
-            <li key={`${name}-${index + 1}`}>
+            <div key={`${name}-${index + 1}`}>
               <input
                 className={classnames(
                   `gravityform__field__input__${type}`,
@@ -55,13 +46,10 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
                 )}
                 defaultChecked={isSelected}
                 id={`${name}_${choiceID}`}
-                name={`${name}${type === "checkbox" ? `.${choiceID}` : ""}`}
-                {...register(
-                  `${name}${type === "checkbox" ? `.${choiceID}` : ""}`,
-                  {
-                    required: isRequired && strings.errors.required,
-                  }
-                )}
+                name={name}
+                {...register(name, {
+                  required: isRequired && strings.errors.required,
+                })}
                 type={type}
                 value={value}
               />
@@ -70,10 +58,10 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
                 htmlFor={`${name}_${choiceID}`}
                 dangerouslySetInnerHTML={{ __html: text }}
               />
-            </li>
+            </div>
           );
         })}
-      </ul>
+      </div>
     </InputWrapper>
   );
 };

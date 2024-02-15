@@ -30,12 +30,6 @@ const Input = forwardRef(function Input(
       ref={ref}
       aria-invalid={Boolean(errors?.[name])}
       aria-required={isRequired}
-      className={classnames(
-        "gravityform__field__input",
-        `gravityform__field__input__${valueToLowerCase(type)}`,
-        cssClass,
-        valueToLowerCase(size)
-      )}
       defaultValue={defaultFieldValue}
       id={name}
       maxLength={maxLength || 524288} // 524288 = 512kb, avoids invalid prop type error if maxLength is undefined.
