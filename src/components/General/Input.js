@@ -8,8 +8,16 @@ const Input = forwardRef(function Input(
   { fieldData, defaultValue, errors, name, ...props },
   ref
 ) {
-  const { cssClass, isRequired, maxLength, placeholder, size, type } =
-    fieldData;
+  const {
+    cssClass,
+    isRequired,
+    maxLength,
+    placeholder,
+    size,
+    type,
+    rangeMin,
+    rangeMax,
+  } = fieldData;
 
   // substr default value if there is maxLength set
   const defaultFieldValue =
@@ -25,6 +33,8 @@ const Input = forwardRef(function Input(
       defaultValue={defaultFieldValue}
       id={name}
       maxLength={maxLength || 524288} // 524288 = 512kb, avoids invalid prop type error if maxLength is undefined.
+      min={rangeMin}
+      max={rangeMax}
       name={name}
       placeholder={placeholder}
       type={valueToLowerCase(type)}

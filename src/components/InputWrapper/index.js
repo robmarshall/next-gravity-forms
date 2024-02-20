@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
+import { useRangeUtilities } from "../Input/helpers";
 
 const InputWrapper = ({
   children,
@@ -11,10 +12,14 @@ const InputWrapper = ({
     description,
     descriptionPlacement,
     isRequired,
+    id,
     label,
     maxLength,
+    rangeMin,
+    rangeMax,
     type,
     inputs,
+    errorMessage,
   },
   labelFor,
   wrapClassName,
@@ -27,6 +32,12 @@ const InputWrapper = ({
   const Label = inputs?.length > 0 ? "legend" : "label"; // if field has inputs, we render label as <legend>
   // @TODO replace li with div to match new GF markup
   const Wrapper = inputs?.length > 0 ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
+
+  const { rangeInstruction, showInstruction } = useRangeUtilities({
+    range: { minValue: rangeMin, maxValue: rangeMax },
+    isError: !!errors?.message,
+    customErrorText: errorMessage,
+  });
 
   return (
     <Wrapper
@@ -55,22 +66,28 @@ const InputWrapper = ({
             {maxLengthSentence(maxLength, type)}
           </div>
         )}
-        {/* TODO: Implement number min/max, these currently aren't fetch by the source plugin
-            https://docs.gravityforms.com/field-object/#number
-            <div class="instruction ">
-              Please enter a number from <strong>1</strong> to <strong>15</strong>.
-            </div>
-        */}
+        {showInstruction && (
+          <div
+            className="gfield_description instruction"
+            id={`gfield_instruction_${id}`}
+            dangerouslySetInnerHTML={{
+              __html: rangeInstruction,
+            }}
+          />
+        )}
       </div>
       {outputDescription(description, descriptionPlacement, "below", errors)}
       {isNonEmptyObject(errors) && (
         <div
           role="alert"
           aria-live="polite"
-          className="gravityform__error_message gfield_description validation_message"
-        >
-          {errors.message}
-        </div>
+          id={`validation_message_${id}`}
+          className="gfield_description validation_message gfield_validation_message"
+          /* @OTODO: i changed this so it checks for custom errorMessages first, is it enough? */
+          dangerouslySetInnerHTML={{
+            __html: errorMessage ? errorMessage : errors.message,
+          }}
+        />
       )}
     </Wrapper>
   );
