@@ -31,6 +31,7 @@ const FieldBuilder = ({
       captchaTheme,
       description,
       descriptionPlacement,
+      inputName,
       isRequired,
       subLabelPlacement,
       labelPlacement,
@@ -70,9 +71,7 @@ const FieldBuilder = ({
     const wrapId = `field_${databaseId}_${id}`;
 
     //TODO: Should this match GF version "input_form.id_input.id"
-    const inputName = `input_${field.id}`;
-
-    const defaultValue = presetValues?.[inputName] || field?.defaultValue || "";
+    const name = `input_${field.id}`;
 
     switch (field.type) {
       // Add note for unsupported captcha field
@@ -83,7 +82,7 @@ const FieldBuilder = ({
             fieldData={field}
             gfId={id}
             key={id}
-            name={inputName}
+            name={name}
             ref={preOnSubmit}
             settings={settings?.recaptcha}
             wrapClassName={inputWrapperClass}
@@ -95,7 +94,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -111,8 +110,8 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
-            defaultValue={defaultValue}
+            name={name}
+            presetValue={presetValues?.[inputName]}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -123,8 +122,8 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
-            defaultValue={defaultValue}
+            name={name}
+            presetValue={presetValues?.[inputName]}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -133,10 +132,10 @@ const FieldBuilder = ({
         return (
           <Textarea
             fieldData={field}
-            defaultValue={defaultValue}
+            presetValue={presetValues?.[inputName]}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -148,7 +147,8 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
+            presetValue={presetValues?.[inputName]}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -160,7 +160,8 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
+            presetValue={presetValues?.[inputName]}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -171,7 +172,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -182,7 +183,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
