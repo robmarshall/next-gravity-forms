@@ -13,6 +13,7 @@ export const emailFieldFragment = /* GraphQL */ `
     errorMessage
     hasAutocomplete
     hasEmailConfirmation
+    inputName
     inputs {
       ... on EmailInputProperty {
         id

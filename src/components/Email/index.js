@@ -8,7 +8,7 @@ import InputWrapper from "../InputWrapper";
 import { Input, ConditionalWrapper, SubLabelWrapper } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
+const Email = ({ presetValue, fieldData, name, ...wrapProps }) => {
   const { isRequired, placeholder, inputs, subLabelPlacement, size } =
     fieldData;
   const [emailField, confirmEmailField] = inputs || [];
@@ -44,7 +44,7 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
         <Input
           name={name}
           errors={errors}
-          defaultValue={emailField?.defaultValue || defaultValue}
+          defaultValue={presetValue ?? emailField?.defaultValue}
           fieldData={{ ...fieldData, type: "email" }}
           className={valueToLowerCase(size)}
           {...register(name, {
@@ -72,7 +72,7 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
           <Input
             name={`${name}_2`}
             errors={errors}
-            defaultValue={confirmEmailField?.defaultValue || defaultValue}
+            defaultValue={presetValue ?? confirmEmailField?.defaultValue}
             fieldData={{ ...fieldData, type: "email" }}
             {...register(`${name}_2`, {
               required: isRequired && strings.errors.required,
@@ -93,7 +93,7 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
 export default Email;
 
 Email.propTypes = {
-  defaultValue: PropTypes.string,
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     maxLength: PropTypes.number,

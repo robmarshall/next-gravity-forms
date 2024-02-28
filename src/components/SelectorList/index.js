@@ -7,7 +7,7 @@ import { valueToLowerCase } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
 
 // TODO: Enable Select All Choice
-const SelectorList = ({ fieldData, name, ...wrapProps }) => {
+const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
   const { strings } = useSettings();
   const {
     id,
@@ -44,7 +44,7 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
                   cssClass,
                   valueToLowerCase(size)
                 )}
-                defaultChecked={isSelected}
+                defaultChecked={value === presetValue || isSelected}
                 id={`${name}_${choiceID}`}
                 name={name}
                 {...register(name, {
@@ -69,6 +69,7 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
 export default SelectorList;
 
 SelectorList.propTypes = {
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     choices: PropTypes.array,
     cssClass: PropTypes.string,

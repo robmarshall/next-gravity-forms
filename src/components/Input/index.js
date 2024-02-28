@@ -20,7 +20,7 @@ const standardType = (type) => {
   }
 };
 
-const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
+const InputField = ({ presetValue, fieldData, name, ...wrapProps }) => {
   const { strings } = useSettings();
   const {
     inputMaskValue,
@@ -32,6 +32,7 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
     rangeMin,
     errorMessage,
     size,
+    defaultValue,
   } = fieldData;
 
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
@@ -66,7 +67,7 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
       {...wrapProps}
     >
       <Input
-        defaultValue={defaultValue}
+        defaultValue={presetValue ?? defaultValue}
         fieldData={{
           ...fieldData,
           type: valueToLowerCase(generateInputType(type, numberFormat)),
@@ -96,7 +97,7 @@ const InputField = ({ defaultValue, fieldData, name, ...wrapProps }) => {
 export default InputField;
 
 InputField.propTypes = {
-  defaultValue: PropTypes.string,
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     inputMaskValue: PropTypes.string,
