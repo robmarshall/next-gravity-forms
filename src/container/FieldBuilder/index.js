@@ -73,6 +73,8 @@ const FieldBuilder = ({
     //TODO: Should this match GF version "input_form.id_input.id"
     const name = `input_${field.id}`;
 
+    const presetValue = presetValues?.[inputName];
+
     switch (field.type) {
       // Add note for unsupported captcha field
       case "CAPTCHA":
@@ -111,7 +113,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
-            presetValue={presetValues?.[inputName]}
+            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -123,7 +125,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
-            presetValue={presetValues?.[inputName]}
+            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -132,7 +134,7 @@ const FieldBuilder = ({
         return (
           <Textarea
             fieldData={field}
-            presetValue={presetValues?.[inputName]}
+            presetValue={presetValue}
             key={id}
             gfId={id}
             name={name}
@@ -148,7 +150,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
-            presetValue={presetValues?.[inputName]}
+            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -161,7 +163,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
-            presetValue={presetValues?.[inputName]}
+            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
