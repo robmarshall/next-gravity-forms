@@ -25,6 +25,21 @@ const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
     formState: { errors },
   } = useFormContext();
 
+  // Determines if a field should be checked by default
+  const getDefaultChecked = (value, isSelected) => {
+    if (type === "checkbox") {
+      // both preset value and default can be displayed
+      return value === presetValue || isSelected;
+    } else if (type === "radio") {
+      const isPresetValueInChoices = choices.some(
+        (choice) => choice.value === presetValue
+      );
+      // preset value overrides default in priority
+      return isPresetValueInChoices ? value === presetValue : isSelected;
+    }
+    return false;
+  };
+
   return (
     <InputWrapper
       errors={errors?.[name]}
@@ -35,6 +50,7 @@ const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
       <div className={`gfield_${type}`} id={name}>
         {choices.map(({ isSelected, text, value }, index) => {
           const choiceID = index + 1;
+          const defaultChecked = getDefaultChecked(value, isSelected);
           return (
             <div key={`${name}-${index + 1}`}>
               <input
@@ -44,7 +60,7 @@ const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
                   cssClass,
                   valueToLowerCase(size)
                 )}
-                defaultChecked={value === presetValue || isSelected}
+                defaultChecked={defaultChecked}
                 id={`${name}_${choiceID}`}
                 name={name}
                 {...register(name, {
