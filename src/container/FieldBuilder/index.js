@@ -10,6 +10,7 @@ import SelectorList from "../../components/SelectorList";
 import Textarea from "../../components/Textarea";
 import Section from "../../components/Section";
 import Honeypot from "../../components/Honeypot";
+import Name from "../../components/Name";
 import { valueToLowerCase } from "../../utils/helpers";
 import { islabelHidden } from "../../utils/inputSettings";
 import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
@@ -114,6 +115,18 @@ const FieldBuilder = ({
             gfId={id}
             name={name}
             presetValue={presetValue}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "NAME":
+        return (
+          <Name
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={inputName}
+            defaultValue={defaultValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
