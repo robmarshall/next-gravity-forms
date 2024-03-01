@@ -2,18 +2,11 @@ import renderGravityForm from "../render";
 import { screen } from "@testing-library/dom";
 import mockFormData from "../../mocks/formData";
 import { getByText, fireEvent, waitFor, act } from "@testing-library/react";
-import {
-  submitGravityForm,
-  submitFormWithFile,
-  fetchAPI,
-} from "../../../src/fetch";
+import { submitGravityForm } from "../../../src/fetch";
 
 // mock submit so we don't run real request
 jest.mock("../../../src/fetch", () => ({
   submitGravityForm: jest.fn(),
-  submitFormWithFile: jest.fn(),
-  fetchAPI: jest.fn(),
-  fetch: jest.fn(),
 }));
 
 describe("File upload field", () => {
