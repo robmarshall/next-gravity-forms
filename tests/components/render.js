@@ -5,13 +5,16 @@ import { SettingsProvider } from "../../src/providers/SettingsContext";
 import mockFormData from "../mocks/formData";
 import mergeDeep from "../../src/utils/mergeDeep";
 
-function renderGravityForm(data = {}) {
+function renderGravityForm(data = {}, presetValues) {
   return render(
     <SettingsProvider
       helperText={{}}
       databaseId={mockFormData.gfForm.databaseId}
     >
-      <GravityFormForm data={mergeDeep(mockFormData, data)} />
+      <GravityFormForm
+        data={mergeDeep(mockFormData, data)}
+        presetValues={presetValues}
+      />
     </SettingsProvider>
   );
 }
