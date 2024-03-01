@@ -89,7 +89,7 @@ SelectorList.propTypes = {
   fieldData: PropTypes.shape({
     choices: PropTypes.array,
     cssClass: PropTypes.string,
-    id: PropTypes.number,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     isRequired: PropTypes.bool,
     size: PropTypes.string,
     type: PropTypes.string,

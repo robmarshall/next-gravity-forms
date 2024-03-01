@@ -77,6 +77,7 @@ describe("Number field", () => {
             formFields: {
               nodes: [
                 {
+                  id: 11,
                   label: "Number",
                   type: "NUMBER",
                   numberFormat: "DECIMAL_DOT",
@@ -175,6 +176,7 @@ describe("Number field", () => {
           formFields: {
             nodes: [
               {
+                id: 11,
                 label: "Number",
                 type: "NUMBER",
                 numberFormat: formatType,

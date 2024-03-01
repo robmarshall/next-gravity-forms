@@ -126,7 +126,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -149,8 +149,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
-            defaultValue={defaultValue}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
