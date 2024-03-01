@@ -18,6 +18,7 @@ const InputWrapper = ({
   },
   labelFor,
   wrapClassName,
+  ginputClassName,
   wrapId,
 }) => {
   const joinedLabel = `${label}${
@@ -45,9 +46,10 @@ const InputWrapper = ({
       )}
       {outputDescription(description, descriptionPlacement, "above", errors)}
       <div
-        className={`ginput_container ginput_container_${valueToLowerCase(
-          type
-        )}`}
+        className={classnames(
+          `ginput_container ginput_container_${valueToLowerCase(type)}`,
+          ginputClassName
+        )}
       >
         {children}
         {maxLength > 0 && (
@@ -94,7 +96,7 @@ InputWrapper.propTypes = {
     maxLength: PropTypes.number,
     type: PropTypes.string,
   }),
-  labelFor: PropTypes.string,
+  labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   wrapClassName: PropTypes.string,
   wrapId: PropTypes.string,
 };
