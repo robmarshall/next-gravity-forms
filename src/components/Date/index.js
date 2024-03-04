@@ -25,7 +25,12 @@ const DateField = ({ presetValue, fieldData, name, ...wrapProps }) => {
       {...wrapProps}
     >
       {dateType === "picker" ? (
-        <Picker fieldData={fieldData} name={name} control={control} />
+        <Picker
+          fieldData={fieldData}
+          name={name}
+          control={control}
+          presetValue={presetValue}
+        />
       ) : (
         <FieldDropdown
           fieldData={fieldData}

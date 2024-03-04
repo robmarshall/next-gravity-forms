@@ -116,6 +116,7 @@ FieldDropdown.propTypes = {
   name: PropTypes.string.isRequired,
   control: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default FieldDropdown;
