@@ -138,6 +138,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />

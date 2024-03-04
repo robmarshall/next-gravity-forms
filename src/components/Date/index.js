@@ -6,7 +6,7 @@ import { valueToLowerCase } from "../../utils/helpers";
 import Picker from "./Picker";
 import FieldDropdown from "./FieldDropdown";
 
-const DateField = ({ fieldData, name, ...wrapProps }) => {
+const DateField = ({ presetValue, fieldData, name, ...wrapProps }) => {
   const { dateType: dateTypeUpper } = fieldData;
 
   const dateType = valueToLowerCase(dateTypeUpper);
@@ -29,6 +29,7 @@ const DateField = ({ fieldData, name, ...wrapProps }) => {
       ) : (
         <FieldDropdown
           fieldData={fieldData}
+          presetValue={presetValue}
           name={name}
           control={control}
           type={dateType}
@@ -41,6 +42,7 @@ const DateField = ({ fieldData, name, ...wrapProps }) => {
 export default DateField;
 
 DateField.propTypes = {
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     inputMaskValue: PropTypes.string,
