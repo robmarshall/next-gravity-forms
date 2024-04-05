@@ -5,6 +5,7 @@ import { useFormContext } from "react-hook-form";
 import InputWrapper from "../InputWrapper";
 import { valueToLowerCase } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
+import SelectDeselectButton from "./SelectDeselectButton";
 
 // TODO: Enable Select All Choice
 const SelectorList = ({ fieldData, name, ...wrapProps }) => {
@@ -13,6 +14,7 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
     id,
     choices,
     cssClass,
+    hasSelectAll,
     isRequired,
     size,
     type: typeUpper,
@@ -23,6 +25,7 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
   const {
     register,
     formState: { errors },
+    setValue,
   } = useFormContext();
 
   return (
@@ -61,6 +64,14 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
             </div>
           );
         })}
+        {hasSelectAll && (
+          <SelectDeselectButton
+            id={id}
+            name={name}
+            choices={choices}
+            setValue={setValue}
+          />
+        )}
       </div>
     </InputWrapper>
   );
