@@ -11,6 +11,7 @@ import Textarea from "../../components/Textarea";
 import Section from "../../components/Section";
 import DateField from "../../components/Date";
 import Honeypot from "../../components/Honeypot";
+import Name from "../../components/Name";
 import { valueToLowerCase } from "../../utils/helpers";
 import { islabelHidden } from "../../utils/inputSettings";
 import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
@@ -120,6 +121,18 @@ const FieldBuilder = ({
       case "DATE":
         return (
           <DateField
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={inputName}
+            defaultValue={defaultValue}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "NAME":
+        return (
+          <Name
             fieldData={field}
             key={id}
             gfId={id}

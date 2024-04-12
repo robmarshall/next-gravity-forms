@@ -23,6 +23,7 @@ const strings = {
         invalid: "Please enter a valid date in the format ({{format}}).",
       },
     },
+    name: "Please complete the following fields: {{fields}}",
   },
   datepicker: {
     days: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
@@ -50,6 +51,11 @@ const strings = {
       ymd_dash: "YYYY dash MM dash DD",
       ymd_dot: "YYYY dot MM dot DD",
     },
+    name: "Please complete the following fields: {{fields}}",
+  },
+  checkboxes: {
+    selectAll: "Select All",
+    deselectAll: "Deselect All",
   },
   honeypot:
     "This field is for validation purposes and should be left unchanged.",
