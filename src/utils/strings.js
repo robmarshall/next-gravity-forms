@@ -16,6 +16,7 @@ const strings = {
       front: "Need more than",
       back: "characters.",
     },
+    name: "Please complete the following fields: {{fields}}",
   },
   checkboxes: {
     selectAll: "Select All",
