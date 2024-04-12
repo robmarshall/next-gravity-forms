@@ -1,6 +1,5 @@
 import { captchaFieldFragment } from "./components/Captcha/query";
 import {
-  dateFieldFragment,
   textFieldFragment,
   hiddenFieldFragment,
   numberFieldFragment,
@@ -15,6 +14,7 @@ import {
   radioFieldFragment,
   checkboxFieldFragment,
 } from "./components/SelectorList/query";
+import { dateFieldFragment } from "./components/Date/query";
 import { sectionFieldFragment } from "./components/Section/query";
 import { textareaFieldFragment } from "./components/Textarea/query";
 import { formConfirmationFragment, submitButtonFragment } from "./fragments";

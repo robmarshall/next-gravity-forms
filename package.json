@@ -30,6 +30,7 @@
     "nanoid": "^5.0.3",
     "node-fetch": "^3.3.1",
     "prop-types": "^15.8.1",
+    "react-datepicker": "^4.25.0",
     "react-google-recaptcha": "^3.1.0",
     "react-hook-form": "^7.48.2",
     "react-select": "^5.8.0"
