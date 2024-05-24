@@ -40,14 +40,13 @@ This package can be used with any React project. We just named it Next, because 
 To allow it to be flexible, we have added a number of arguments to the main component.
 
 ```js
-
 const GravityFormForm = ({
-data,
-presetValues = () => {},
-successCallback = () => {},
-errorCallback = {},
-navigate,
-helperText = {}
+  data,
+  presetValues = () => {},
+  successCallback = () => {},
+  errorCallback = {},
+  navigate,
+  helperText = {}
 })
 
 ```
@@ -131,6 +130,29 @@ If you attempt to add a file upload field to your form without support for the `
 
 When enabling the `Enable Multi-File Upload` option, it's important to note that files are not uploaded immediately upon being dropped into the upload area. Instead, all files are uploaded together during the form submission process. However, be aware that this can introduce a delay, particularly when users upload large files.
 
+## Date field
+
+The `Date Picker` functionality in our form utilizes the `react-datepicker` package. Please note that this package does not include default styles. To ensure proper styling of the date picker, you must either provide your own custom styles or import the default styles from the package. To use the default styles, include the following import statement in your code:
+
+```javascript
+import "react-datepicker/dist/react-datepicker.css";
+```
+
+Additionally, our component allows you to customize the settings of the DatePicker through the helperFieldsSettings prop. This is particularly useful for setting constraints like the maximum year. For instance, to set the maximum year to `2024`, you would configure the prop as follows:
+
+```
+<GravityFormForm
+  data={form}
+  helperFieldsSettings={{
+    date: {
+     dateMaxYear: 2024
+    },
+  }}
+/>
+```
+
+For a complete list of customizable options for the DatePicker, refer to the fieldsSettings.js file available in our repository: [fieldsSettings.js](https://github.com/robmarshall/next-gravity-forms/blob/main/src/utils/fieldsSettings.js).
+
 ## Testing & Developing
 
 Firstly, yes please! Any help would be great.
@@ -170,7 +192,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Add masking to inputs
 - [x] Section
 - [ ] Page
-- [ ] Date
+- [x] Date
 - [ ] File upload
 - [ ] Post Fields
 - [ ] Pricing Fields

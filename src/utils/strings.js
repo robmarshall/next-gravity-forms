@@ -19,6 +19,13 @@ const strings = {
       front: "Need more than",
       back: "characters.",
     },
+    date: {
+      required: "Please complete the following fields: {{fields}}",
+      invalid: "Please enter a valid date.",
+      picker: {
+        invalid: "Please enter a valid date in the format ({{format}}).",
+      },
+    },
     name: "Please complete the following fields: {{fields}}",
     fileupload: {
       exceedsSizeLimit: "File exceeds size limit. Maximum file size: {{max}}MB",
@@ -44,6 +51,38 @@ const strings = {
       drop: "Drop files here or ",
       select: "Select files",
     },
+  },
+  datepicker: {
+    days: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+    months: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    iconText: "Select date",
+    screenReaderText: {
+      mdy: "MM slash DD slash YYYY",
+      dmy: "DD slash MM slash YYYY",
+      dmy_dash: "DD dash MM dash YYYY",
+      dmy_dot: "DD dot MM dot YYYY",
+      ymd_slash: "YYYY slash MM slash DD",
+      ymd_dash: "YYYY dash MM dash DD",
+      ymd_dot: "YYYY dot MM dot DD",
+    },
+    name: "Please complete the following fields: {{fields}}",
+  },
+  checkboxes: {
+    selectAll: "Select All",
+    deselectAll: "Deselect All",
   },
   honeypot:
     "This field is for validation purposes and should be left unchanged.",

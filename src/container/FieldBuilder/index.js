@@ -10,6 +10,7 @@ import SelectorList from "../../components/SelectorList";
 import Textarea from "../../components/Textarea";
 import Section from "../../components/Section";
 import Fileupload from "../../components/Fileupload";
+import DateField from "../../components/Date";
 import Honeypot from "../../components/Honeypot";
 import Name from "../../components/Name";
 import { valueToLowerCase } from "../../utils/helpers";
@@ -107,7 +108,6 @@ const FieldBuilder = ({
       case "TEXT":
       case "NUMBER":
       case "HIDDEN":
-      case "DATE":
       case "PHONE":
         return (
           <Input
@@ -116,6 +116,18 @@ const FieldBuilder = ({
             gfId={id}
             name={name}
             presetValue={presetValue}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "DATE":
+        return (
+          <DateField
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={inputName}
+            defaultValue={defaultValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />

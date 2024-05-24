@@ -25,6 +25,7 @@ const GravityFormForm = ({
   errorCallback = () => {},
   navigate,
   helperText = {},
+  helperFieldsSettings = {},
 }) => {
   const preOnSubmit = useRef();
 
@@ -180,7 +181,11 @@ const GravityFormForm = ({
       <div className="gform_anchor" id={`gf_${databaseId}`} />
 
       {formFields && (
-        <SettingsProvider helperText={helperText} databaseId={databaseId}>
+        <SettingsProvider
+          helperText={helperText}
+          databaseId={databaseId}
+          helperFieldsSettings={helperFieldsSettings}
+        >
           <FormProvider {...methods}>
             <form
               className={
