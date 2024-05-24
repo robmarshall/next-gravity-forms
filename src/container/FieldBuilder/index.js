@@ -119,6 +119,18 @@ const FieldBuilder = ({
             wrapId={wrapId}
           />
         );
+      case "DATE":
+        return (
+          <DateField
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={inputName}
+            presetValue={presetValue}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
       case "NAME":
         return (
           <Name
