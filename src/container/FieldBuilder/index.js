@@ -125,7 +125,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
@@ -143,18 +143,7 @@ const FieldBuilder = ({
             wrapId={wrapId}
           />
         );
-      case "DATE":
-        return (
-          <DateField
-            fieldData={field}
-            key={id}
-            gfId={id}
-            name={name}
-            presetValue={presetValue}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
+
       case "EMAIL":
         return (
           <Email
