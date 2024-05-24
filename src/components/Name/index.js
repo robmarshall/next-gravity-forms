@@ -8,7 +8,7 @@ import strings from "../../utils/strings";
 import { getDefaultValue } from "./helpers";
 import { interpolateString } from "../../utils/helpers";
 
-const Name = ({ fieldData, name, ...wrapProps }) => {
+const Name = ({ fieldData, name, presetValues, ...wrapProps }) => {
   const { inputs, subLabelPlacement, errorMessage, isRequired } = fieldData;
   const { gfId } = wrapProps;
 
@@ -36,8 +36,9 @@ const Name = ({ fieldData, name, ...wrapProps }) => {
         defaultValue={defaultValue}
         render={({ field: { onChange, value } }) => {
           return fieldInputs.map(
-            ({ key, id, choices, placeholder, ...rest }) => {
+            ({ key, id, choices, placeholder, name, ...rest }) => {
               const fieldId = `input_${gfId}_${id}`;
+              const presetValue = presetValues?.[name];
               return (
                 <SubLabelWrapper
                   key={key}
@@ -50,7 +51,7 @@ const Name = ({ fieldData, name, ...wrapProps }) => {
                     <select
                       aria-required={isRequired}
                       id={fieldId}
-                      defaultValue={defaultValue?.[key]}
+                      defaultValue={presetValue ?? defaultValue?.[key]}
                       name={`input_${id}`}
                       onChange={(e) =>
                         onChange({ ...value, [key]: e.target.value })
@@ -70,7 +71,7 @@ const Name = ({ fieldData, name, ...wrapProps }) => {
                     </select>
                   ) : (
                     <Input
-                      defaultValue={defaultValue?.[key]}
+                      defaultValue={presetValue ?? defaultValue?.[key]}
                       placeholder={placeholder}
                       fieldData={{ ...fieldData, type: "text" }}
                       errors={errors}
@@ -119,5 +120,6 @@ Name.propTypes = {
     subLabelPlacement: PropTypes.string,
   }),
   name: PropTypes.string,
+  presetValues: PropTypes.object,
   wrapProps: PropTypes.object,
 };

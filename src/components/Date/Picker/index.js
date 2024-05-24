@@ -19,7 +19,7 @@ const dateFormats = {
   ymd_dot: "yyyy.MM.dd",
 };
 
-const Picker = ({ fieldData, name, control }) => {
+const Picker = ({ fieldData, name, control, presetValue }) => {
   const {
     isRequired,
     defaultValue,
@@ -49,15 +49,20 @@ const Picker = ({ fieldData, name, control }) => {
     },
   };
 
+  const getProperDefault = () => {
+    if (presetValue && isValidDate(new Date(presetValue)))
+      return new Date(presetValue);
+    if (defaultValue && isValidDate(new Date(defaultValue)))
+      return new Date(defaultValue);
+
+    return null;
+  };
+
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue={
-        defaultValue && isValidDate(new Date(defaultValue))
-          ? new Date(defaultValue)
-          : null
-      }
+      defaultValue={getProperDefault()}
       render={({ field: { onChange, value } }) => (
         <>
           <DatePicker
@@ -113,6 +118,7 @@ Picker.propTypes = {
   control: PropTypes.object,
   fieldData: PropTypes.object,
   name: PropTypes.string,
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default Picker;

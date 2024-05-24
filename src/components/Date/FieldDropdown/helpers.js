@@ -41,3 +41,30 @@ export function getDefaultValue(inputs) {
     year: inputs[2].defaultValue,
   };
 }
+
+export function dateStringToObj(dateString, dateFormat) {
+  if (!dateString || !dateFormat) return null;
+
+  const formatMap = {
+    d: "day",
+    m: "month",
+    y: "year",
+  };
+  const dateObj = {};
+
+  // Use a regular expression to match periods, slashes, or hyphens.
+  const dateArray = dateString.split(/[.\/-]/);
+
+  // Only first 3 characters indicate date order
+  const formatArray = [...dateFormat].slice(0, 3);
+
+  formatArray.forEach((formatChar, index) => {
+    const key = formatMap[formatChar];
+    const value = dateArray[index];
+    if (value) {
+      dateObj[key] = value;
+    }
+  });
+
+  return dateObj;
+}

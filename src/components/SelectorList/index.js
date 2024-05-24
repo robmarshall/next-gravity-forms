@@ -8,7 +8,7 @@ import { useSettings } from "../../providers/SettingsContext";
 import SelectDeselectButton from "./SelectDeselectButton";
 
 // TODO: Enable Select All Choice
-const SelectorList = ({ fieldData, name, ...wrapProps }) => {
+const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
   const { strings } = useSettings();
   const {
     id,
@@ -28,6 +28,21 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
     setValue,
   } = useFormContext();
 
+  // Determines if a field should be checked by default
+  const getDefaultChecked = (value, isSelected) => {
+    if (type === "checkbox") {
+      // both preset value and default can be displayed
+      return value === presetValue || isSelected;
+    } else if (type === "radio") {
+      const isPresetValueInChoices = choices.some(
+        (choice) => choice.value === presetValue
+      );
+      // preset value overrides default in priority
+      return isPresetValueInChoices ? value === presetValue : isSelected;
+    }
+    return false;
+  };
+
   return (
     <InputWrapper
       errors={errors?.[name]}
@@ -38,6 +53,7 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
       <div className={`gfield_${type}`} id={name}>
         {choices.map(({ isSelected, text, value }, index) => {
           const choiceID = index + 1;
+          const defaultChecked = getDefaultChecked(value, isSelected);
           return (
             <div key={`${name}-${index + 1}`}>
               <input
@@ -47,7 +63,7 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
                   cssClass,
                   valueToLowerCase(size)
                 )}
-                defaultChecked={isSelected}
+                defaultChecked={defaultChecked}
                 id={`${name}_${choiceID}`}
                 name={name}
                 {...register(name, {
@@ -80,6 +96,7 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
 export default SelectorList;
 
 SelectorList.propTypes = {
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     choices: PropTypes.array,
     cssClass: PropTypes.string,

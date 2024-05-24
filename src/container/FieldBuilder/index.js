@@ -33,6 +33,7 @@ const FieldBuilder = ({
       captchaTheme,
       description,
       descriptionPlacement,
+      inputName,
       isRequired,
       subLabelPlacement,
       labelPlacement,
@@ -72,9 +73,9 @@ const FieldBuilder = ({
     const wrapId = `field_${databaseId}_${id}`;
 
     //TODO: Should this match GF version "input_form.id_input.id"
-    const inputName = `input_${field.id}`;
+    const name = `input_${field.id}`;
 
-    const defaultValue = presetValues?.[inputName] || field?.defaultValue || "";
+    const presetValue = presetValues?.[inputName];
 
     switch (field.type) {
       // Add note for unsupported captcha field
@@ -85,7 +86,7 @@ const FieldBuilder = ({
             fieldData={field}
             gfId={id}
             key={id}
-            name={inputName}
+            name={name}
             ref={preOnSubmit}
             settings={settings?.recaptcha}
             wrapClassName={inputWrapperClass}
@@ -97,7 +98,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -112,8 +113,8 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
-            defaultValue={defaultValue}
+            name={name}
+            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -124,8 +125,8 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
-            defaultValue={defaultValue}
+            name={name}
+            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -136,20 +137,21 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
-            defaultValue={defaultValue}
+            name={name}
+            presetValues={presetValues}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
         );
+
       case "EMAIL":
         return (
           <Email
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
-            defaultValue={defaultValue}
+            name={name}
+            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -158,10 +160,10 @@ const FieldBuilder = ({
         return (
           <Textarea
             fieldData={field}
-            defaultValue={defaultValue}
+            presetValue={presetValue}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -173,7 +175,8 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
+            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -185,7 +188,8 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
+            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -196,7 +200,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -207,7 +211,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
