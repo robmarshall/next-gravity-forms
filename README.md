@@ -10,10 +10,10 @@ Uses [React Hook Forms](https://react-hook-form.com/) under the hood for all tha
 
 ```js
 # Install the component
-yarn add nextjs-gravity-forms
+yarn add next-gravity-forms
 
 # Or with NPM
-npm i nextjs-gravity-forms
+npm i next-gravity-forms
 ```
 
 ## How To Use
