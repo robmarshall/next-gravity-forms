@@ -2,7 +2,6 @@ import { conditionalLogicFragment } from "../../fragments";
 
 export const nameFieldFragment = /* GraphQL */ `
   ... on NameField {
-    id: databaseId
     adminLabel
     canPrepopulate
     conditionalLogic {
