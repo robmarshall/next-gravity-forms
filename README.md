@@ -7,13 +7,15 @@ To be used alongside [wp-graphql-gravity-forms](https://github.com/harness-softw
 Uses [React Hook Forms](https://react-hook-form.com/) under the hood for all that good state management.
 
 ## Installation
-
-```js
-# Install the component
-yarn add nextjs-gravity-forms
-
-# Or with NPM
-npm i nextjs-gravity-forms
+either:
+### Install with yarn
+```shell
+yarn add next-gravity-forms
+```
+or
+### Install with NPM
+```shell
+npm i next-gravity-forms
 ```
 
 ## How To Use
