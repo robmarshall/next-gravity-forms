@@ -2,7 +2,7 @@ import { conditionalLogicFragment } from "../../fragments";
 
 export const sectionFieldFragment = /* GraphQL */ `
 ... on SectionField {
-  id
+  id: databaseId
   cssClass
   databaseId
   label
