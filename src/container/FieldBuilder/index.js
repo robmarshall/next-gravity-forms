@@ -29,7 +29,7 @@ const FieldBuilder = ({
   return formFields.map((field) => {
     // Set the wrapper classes
     const {
-      databaseId: id,
+      id,
       captchaTheme,
       description,
       descriptionPlacement,
