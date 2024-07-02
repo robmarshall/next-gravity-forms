@@ -12,6 +12,7 @@ import formatPayload from "./utils/formatPayload";
 import { valueToLowerCase } from "./utils/helpers";
 import { submitGravityForm } from "./fetch";
 import { SettingsProvider } from "./providers/SettingsContext";
+import SubmitButton from "./components/SubmitButton";
 
 /**
  * Component to take Gravity Form graphQL data and turn into
@@ -56,13 +57,7 @@ const GravityFormForm = ({
 
   // Pull in form functions
   const methods = useForm();
-  const {
-    handleSubmit,
-    setError,
-    reset,
-    getValues,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit, setError, reset, getValues } = methods;
 
   const [generalError, setGeneralError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -101,7 +96,7 @@ const GravityFormForm = ({
             fieldValues: formRes,
           });
 
-          if (!Boolean(submitRes?.errors?.length)) {
+          if (!submitRes?.errors?.length) {
             setSuccess(true);
             setLoading(false);
             successCallback({
@@ -221,20 +216,11 @@ const GravityFormForm = ({
               <div
                 className={`gform_footer ${valueToLowerCase(labelPlacement)}`}
               >
-                <button
-                  className="gravityform__button gform_button button"
-                  disabled={loading}
-                  id={`gform_submit_button_${databaseId}`}
-                  type="submit"
-                >
-                  {loading ? (
-                    <span className="gravityform__button__loading_span">
-                      Loading
-                    </span>
-                  ) : (
-                    submitButton?.text
-                  )}
-                </button>
+                <SubmitButton
+                  databaseId={databaseId}
+                  loading={loading}
+                  submitButton={submitButton}
+                />
               </div>
             </form>
           </FormProvider>
@@ -250,6 +236,8 @@ GravityFormForm.propTypes = {
   successCallback: PropTypes.func,
   presetValues: PropTypes.shape({}),
   helperText: PropTypes.shape({}),
+  helperFieldsSettings: PropTypes.object,
+  navigate: PropTypes.func,
 };
 
 export default GravityFormForm;

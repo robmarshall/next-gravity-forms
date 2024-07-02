@@ -4,14 +4,15 @@ import { useFormContext } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import InputWrapper from "../InputWrapper";
 import { Input, SubLabelWrapper } from "../General";
-import strings from "../../utils/strings";
 import { getDefaultValue } from "./helpers";
 import { interpolateString } from "../../utils/helpers";
+import { useSettings } from "../../providers/SettingsContext";
 
 const Name = ({ fieldData, name, presetValues, ...wrapProps }) => {
   const { inputs, subLabelPlacement, errorMessage, isRequired } = fieldData;
   const { gfId } = wrapProps;
 
+  const { strings } = useSettings();
   const fieldInputs = [...inputs].filter((i) => !i.isHidden);
 
   const {

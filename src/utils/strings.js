@@ -24,7 +24,6 @@ const strings = {
         invalid: "Please enter a valid date in the format ({{format}}).",
       },
     },
-    name: "Please complete the following fields: {{fields}}",
   },
   datepicker: {
     days: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
@@ -63,6 +62,8 @@ const strings = {
   multiselect: {
     placeholder: "Click to select...",
   },
+  loading: "Loading...",
+  submit: "Submit",
 };
 
 export default strings;
