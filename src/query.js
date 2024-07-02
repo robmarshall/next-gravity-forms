@@ -51,7 +51,7 @@ export const gravityFormQuery = /* GraphQL */ `
       formFields {
         nodes {
           displayOnly
-          id
+          id: databaseId
           inputType
           layoutGridColumnSpan
           layoutSpacerGridColumnSpan
