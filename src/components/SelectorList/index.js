@@ -67,13 +67,10 @@ const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
                 defaultChecked={defaultChecked}
                 id={`${name}_${choiceID}`}
                 name={`${name}${type === "checkbox" ? `.${choiceID}` : ""}`}
-                {...register(
-                  `${name}${type === "checkbox" ? `.${choiceID}` : ""}`,
-                  {
-                    required:
-                      isRequired && (errorMessage || strings.errors.required),
-                  }
-                )}
+                {...register(name, {
+                  required:
+                    isRequired && (errorMessage || strings.errors.required),
+                })}
                 type={type}
                 value={value}
               />
