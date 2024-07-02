@@ -25,6 +25,7 @@ const GravityFormForm = ({
   errorCallback = () => {},
   navigate,
   helperText = {},
+  helperFieldsSettings = {},
 }) => {
   const preOnSubmit = useRef();
 
@@ -42,6 +43,7 @@ const GravityFormForm = ({
     formFields,
     labelPlacement,
     subLabelPlacement,
+    hasHoneypot,
   } = form;
 
   const redirect = navigate
@@ -65,6 +67,17 @@ const GravityFormForm = ({
   const [generalError, setGeneralError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  // add honeypot fake field if enabled to list of fields
+  const formFieldNodes = formFields?.nodes?.length > 0 && [
+    ...formFields.nodes,
+    hasHoneypot && {
+      id: formFields.nodes[formFields.nodes.length - 1].id + 1,
+      type: "HONEYPOT",
+      descriptionPlacement,
+      labelPlacement,
+      subLabelPlacement,
+    },
+  ];
 
   const onSubmitCallback = async () => {
     // Make sure we are not already waiting for a response
@@ -78,7 +91,7 @@ const GravityFormForm = ({
       if (submissionHasOneFieldEntry(values)) {
         setGeneralError("");
         const formRes = formatPayload({
-          serverData: formFields?.nodes,
+          serverData: formFieldNodes,
           clientData: values,
         });
 
@@ -88,7 +101,7 @@ const GravityFormForm = ({
             fieldValues: formRes,
           });
 
-          if (!Boolean(submitRes?.submitGfForm?.errors?.length)) {
+          if (!Boolean(submitRes?.errors?.length)) {
             setSuccess(true);
             setLoading(false);
             successCallback({
@@ -97,10 +110,10 @@ const GravityFormForm = ({
             });
           } else {
             setLoading(false);
-            handleGravityFormsValidationErrors(errors, setError);
+            handleGravityFormsValidationErrors(submitRes?.errors, setError);
             errorCallback({
               data: formRes,
-              error: errors,
+              error: handleGravityFormsValidationErrors(submitRes?.errors),
               reset,
             });
           }
@@ -161,7 +174,11 @@ const GravityFormForm = ({
       <div className="gform_anchor" id={`gf_${databaseId}`} />
 
       {formFields && (
-        <SettingsProvider helperText={helperText}>
+        <SettingsProvider
+          helperText={helperText}
+          databaseId={databaseId}
+          helperFieldsSettings={helperFieldsSettings}
+        >
           <FormProvider {...methods}>
             <form
               className={
@@ -175,8 +192,8 @@ const GravityFormForm = ({
               noValidate // needed to skip the built in form validation, as we use custom one
             >
               {generalError && <FormGeneralError errorCode={generalError} />}
-              <div className="gform_body">
-                <ul
+              <div className="gform-body gform_body">
+                <div
                   className={classnames(
                     "gform_fields",
                     {
@@ -184,20 +201,21 @@ const GravityFormForm = ({
                         valueToLowerCase(subLabelPlacement),
                     },
                     `description_${valueToLowerCase(descriptionPlacement)}`,
-                    `${valueToLowerCase(labelPlacement)}`
+                    `${valueToLowerCase(labelPlacement)}_label`
                   )}
                   id={`gform_fields_${databaseId}`}
                 >
                   <FieldBuilder
                     databaseId={databaseId}
                     formLoading={loading}
-                    formFields={formFields.nodes}
+                    formFields={formFieldNodes}
                     labelPlacement={labelPlacement}
                     preOnSubmit={preOnSubmit}
                     presetValues={presetValues}
                     settings={settings}
+                    formLayoutProps={form}
                   />
-                </ul>
+                </div>
               </div>
 
               <div

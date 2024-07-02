@@ -1,20 +1,50 @@
+import React from "react";
 import classnames from "classnames";
 import PropTypes from "prop-types";
-import React from "react";
 import { useFormContext } from "react-hook-form";
 import InputWrapper from "../../components/InputWrapper";
+import MultiSelectEnhancedUI from "./MultiSelectEnhancedUI";
 import { valueToLowerCase } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Select = ({ fieldData, name, ...wrapProps }) => {
+const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
   const { strings } = useSettings();
 
-  const { choices, cssClass, isRequired, size, errorMessage } = fieldData;
+  const {
+    choices,
+    cssClass,
+    isRequired,
+    size,
+    placeholder,
+    hasEnhancedUI,
+    type,
+    errorMessage,
+  } = fieldData;
+
+  const isMultiselectField = valueToLowerCase(type) === "multiselect";
+
+  // if there is placeholder we add it as first option with no value set
+  const options = [
+    ...(placeholder
+      ? [
+          {
+            text: placeholder,
+            value: "",
+            isSelected: !choices.some((i) => i.isSelected),
+            className: "gf_placeholder",
+          },
+          ...choices,
+        ]
+      : choices),
+  ];
 
   const {
     register,
+    control,
     formState: { errors },
   } = useFormContext();
+
+  const defaultValue = presetValue ?? options.find((i) => i.isSelected)?.value;
 
   return (
     <InputWrapper
@@ -23,35 +53,47 @@ const Select = ({ fieldData, name, ...wrapProps }) => {
       labelFor={name}
       {...wrapProps}
     >
-      <select
-        aria-invalid={errors}
-        aria-required={isRequired}
-        //TODO: GF uses select2 library and classes, need to figure out how to handle here if we're mimicing their functionality
-        className={classnames(
-          "gravityform__field__input",
-          "gravityform__field__input__select",
-          "gfield_select",
-          cssClass,
-          valueToLowerCase(size)
-        )}
-        id={name}
-        name={name}
-        {...register(name, {
-          required: true && (errorMessage || strings.errors.required),
-        })}
-      >
-        {choices.map(({ isSelected, text, value }, index) => {
-          return (
-            <option
-              defaultValue={isSelected}
-              key={`${name}-${index}`}
-              value={value}
-            >
-              {text}
-            </option>
-          );
-        })}
-      </select>
+      {hasEnhancedUI ? (
+        <MultiSelectEnhancedUI
+          name={name}
+          options={options}
+          cssClass={cssClass}
+          id={name}
+          isRequired={isRequired}
+          size={valueToLowerCase(size)}
+          control={control}
+          isMulti={isMultiselectField}
+          defaultValue={defaultValue}
+        />
+      ) : (
+        <select
+          multiple={isMultiselectField}
+          aria-invalid={!!errors?.[name]}
+          aria-required={isRequired}
+          className={classnames(
+            "gfield_select",
+            cssClass,
+            valueToLowerCase(size)
+          )}
+          id={name}
+          name={name}
+          {...register(name, {
+            required: isRequired && (errorMessage || strings.errors.required),
+          })}
+          defaultValue={isMultiselectField ? [defaultValue] : defaultValue}
+        >
+          {options.map(({ text, value, className }, index) => {
+            return (
+              <option
+                key={`${name}-${index}`}
+                value={value}
+                className={className}
+                dangerouslySetInnerHTML={{ __html: text }}
+              />
+            );
+          })}
+        </select>
+      )}
     </InputWrapper>
   );
 };
@@ -59,11 +101,17 @@ const Select = ({ fieldData, name, ...wrapProps }) => {
 export default Select;
 
 Select.propTypes = {
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  name: PropTypes.string,
   fieldData: PropTypes.shape({
     choices: PropTypes.array,
     cssClass: PropTypes.string,
     isRequired: PropTypes.bool,
     size: PropTypes.string,
+    placeholder: PropTypes.string,
+    hasEnhancedUI: PropTypes.bool,
+    errorMessage: PropTypes.string,
+    type: PropTypes.string,
   }),
   register: PropTypes.func,
   wrapProps: PropTypes.object,

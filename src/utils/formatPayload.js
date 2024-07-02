@@ -10,8 +10,10 @@
  * Useful info on Gravity Forms graphQL:
  * https://github.com/harness-software/wp-graphql-gravity-forms/blob/develop/docs/submitting-forms.md
  */
+import formatDate from "./formatDate";
 
-const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
+const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
+  const { type, inputs, choices } = serverDataItem;
   switch (type) {
     case "ADDRESS":
       return {
@@ -22,20 +24,16 @@ const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
         value: fieldResponse,
       };
     case "CHECKBOX":
+      let selectedChoices = [];
       // Loop through all Gravity Form Checkbox choices.
-      const selectedChoices = inputs
-        .map(({ id, label, name }) => {
-          const inputName = name || label;
-          // If the Gravity Forms choice matches with selected item from user.
-          // Add to response.
-          if (fieldResponse.find((option) => option === inputName)) {
-            return {
-              inputId: id,
-              value: inputName,
-            };
-          }
-        })
-        .filter(Boolean);
+      choices.forEach(({ value }, index) => {
+        const isSelected = fieldResponse.includes(value);
+        // If the Gravity Forms choice matches with selected item from user.
+        // Add to response.
+        if (isSelected) {
+          selectedChoices.push({ inputId: inputs[index].id, value });
+        }
+      });
 
       return {
         checkboxValues: selectedChoices,
@@ -55,8 +53,10 @@ const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
           value: fieldResponse,
         },
       };
+    case "NAME": {
+      return { nameValues: fieldResponse };
+    }
     case "CONSENT":
-    case "DATE":
     case "HIDDEN":
     case "NUMBER":
     case "PHONE":
@@ -69,8 +69,14 @@ const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
     case "TEXTAREA":
     case "TEXT":
     case "WEBSITE":
+    case "HONEYPOT":
       return {
         value: fieldResponse,
+      };
+    case "DATE":
+      const { dateFormat, dateType } = serverDataItem;
+      return {
+        value: formatDate(fieldResponse, dateType, dateFormat),
       };
     case "MULTISELECT":
       return {
@@ -95,7 +101,7 @@ const formatter = ({ id, fieldResponse, type, inputs, clientData }) => {
 
 export default ({ serverData, clientData }) => {
   const formattedData = serverData
-    .map(({ type, inputs, id }) => {
+    .map(({ id, ...rest }) => {
       // Does this particular field have a response?
       const fieldResponse = clientData[`input_${id}`];
 
@@ -103,7 +109,7 @@ export default ({ serverData, clientData }) => {
       if (fieldResponse) {
         return {
           id,
-          ...formatter({ id, fieldResponse, type, inputs, clientData }),
+          ...formatter({ id, fieldResponse, clientData, serverDataItem: rest }),
         };
       }
     })

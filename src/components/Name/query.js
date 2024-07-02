@@ -1,7 +1,8 @@
 import { conditionalLogicFragment } from "../../fragments";
 
-export const emailFieldFragment = /* GraphQL */ `
-  ... on EmailField {
+export const nameFieldFragment = /* GraphQL */ `
+  ... on NameField {
+    id
     adminLabel
     canPrepopulate
     conditionalLogic {
@@ -12,10 +13,8 @@ export const emailFieldFragment = /* GraphQL */ `
     descriptionPlacement
     errorMessage
     hasAutocomplete
-    hasEmailConfirmation
-    inputName
     inputs {
-      ... on EmailInputProperty {
+      ... on NameInputProperty {
         id
         name
         autocompleteAttribute
@@ -23,13 +22,17 @@ export const emailFieldFragment = /* GraphQL */ `
         defaultValue
         label
         placeholder
+        isHidden
+        key
+        choices {
+          text
+          value
+          isSelected
+        }
       }
     }
     isRequired
     label
-    placeholder
-    shouldAllowDuplicates
-    size
     subLabelPlacement
     value
   }

@@ -1,22 +1,25 @@
 import { captchaFieldFragment } from "./components/Captcha/query";
 import {
-  dateFieldFragment,
   textFieldFragment,
   hiddenFieldFragment,
   numberFieldFragment,
   phoneFieldFragment,
 } from "./components/Input/query";
 import { htmlFieldFragment } from "./components/Html/query";
-import { multiSelectFieldFragment } from "./components/Multiselect/query";
-import { selectFieldFragment } from "./components/Select/query";
+import {
+  selectFieldFragment,
+  multiSelectFieldFragment,
+} from "./components/Select/query";
 import {
   radioFieldFragment,
   checkboxFieldFragment,
 } from "./components/SelectorList/query";
+import { dateFieldFragment } from "./components/Date/query";
 import { sectionFieldFragment } from "./components/Section/query";
 import { textareaFieldFragment } from "./components/Textarea/query";
 import { formConfirmationFragment, submitButtonFragment } from "./fragments";
 import { emailFieldFragment } from "./components/Email/query";
+import { nameFieldFragment } from "./components/Name/query";
 
 export const submitMutationQuery = /* GraphQL */ `
   mutation submitForm($id: ID!, $fieldValues: [FormFieldValuesInput]!) {
@@ -44,7 +47,8 @@ export const gravityFormQuery = /* GraphQL */ `
       confirmations {
         ${formConfirmationFragment}
       }
-      formFields {
+      hasHoneypot
+      formFields(first: 999){
         nodes {
           displayOnly
           id
@@ -60,14 +64,15 @@ export const gravityFormQuery = /* GraphQL */ `
           ${emailFieldFragment}
           ${hiddenFieldFragment}
           ${htmlFieldFragment}
-          ${multiSelectFieldFragment}
           ${numberFieldFragment}
           ${phoneFieldFragment}
           ${radioFieldFragment}
           ${selectFieldFragment}
+          ${multiSelectFieldFragment}
           ${textareaFieldFragment}
           ${textFieldFragment}
           ${sectionFieldFragment}
+          ${nameFieldFragment}
         }
       }
     }

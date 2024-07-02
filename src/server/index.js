@@ -21,7 +21,7 @@ async function fetchAPI(query, { baseUrl, variables } = {}) {
   const json = await res.json();
 
   if (json.errors) {
-    console.error(JSON.stringify(json.errors, null, 2));
+    console.log(JSON.stringify(json.errors, null, 2));
     throw new Error("Failed to fetch API");
   }
   return json.data;

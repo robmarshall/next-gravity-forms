@@ -1,23 +1,25 @@
 import { conditionalLogicFragment } from "../../fragments";
 
-export const emailFieldFragment = /* GraphQL */ `
-  ... on EmailField {
+export const dateFieldFragment = /* GraphQL */ `
+  ... on DateField {
     adminLabel
+    calendarIconType
+    calendarIconUrl
     canPrepopulate
     conditionalLogic {
       ${conditionalLogicFragment}
     }
     cssClass
+    dateFormat
+    dateType
+    defaultValue
     description
     descriptionPlacement
     errorMessage
-    hasAutocomplete
-    hasEmailConfirmation
     inputName
     inputs {
-      ... on EmailInputProperty {
+      ... on DateInputProperty {
         id
-        name
         autocompleteAttribute
         customLabel
         defaultValue
@@ -29,7 +31,6 @@ export const emailFieldFragment = /* GraphQL */ `
     label
     placeholder
     shouldAllowDuplicates
-    size
     subLabelPlacement
     value
   }

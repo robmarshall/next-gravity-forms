@@ -7,7 +7,7 @@ import { valueToLowerCase } from "../../utils/helpers";
 import getFieldError from "../../utils/getFieldError";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
+const Textarea = ({ presetValue, fieldData, name, wrapClassName, wrapId }) => {
   const { strings } = useSettings();
   const {
     cssClass,
@@ -18,6 +18,7 @@ const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
     placeholder,
     size,
     type: typeUpper,
+    defaultValue,
   } = fieldData;
 
   const type = valueToLowerCase(typeUpper);
@@ -40,14 +41,8 @@ const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
       <textarea
         aria-invalid={Boolean(errors?.[name])}
         aria-required={isRequired}
-        className={classnames(
-          "gravityform__field__input",
-          `gravityform__field__input__${type}`,
-          cssClass,
-          valueToLowerCase(size),
-          "textarea"
-        )}
-        defaultValue={defaultValue}
+        className={classnames(cssClass, valueToLowerCase(size), "textarea")}
+        defaultValue={presetValue ?? defaultValue}
         id={name}
         maxLength={maxLength > 0 ? maxLength : undefined}
         name={name}
@@ -72,6 +67,7 @@ const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
 export default Textarea;
 
 Textarea.propTypes = {
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     description: PropTypes.string,
@@ -84,6 +80,7 @@ Textarea.propTypes = {
     defaultValue: PropTypes.string,
     type: PropTypes.string,
     size: PropTypes.string,
+    errorMessage: PropTypes.string,
   }),
   name: PropTypes.string,
   wrapClassName: PropTypes.string,
