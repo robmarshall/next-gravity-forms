@@ -118,6 +118,7 @@ Name.propTypes = {
     size: PropTypes.string,
     inputs: PropTypes.array,
     subLabelPlacement: PropTypes.string,
+    errorMessage: PropTypes.string,
   }),
   name: PropTypes.string,
   presetValues: PropTypes.object,

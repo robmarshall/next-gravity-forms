@@ -56,6 +56,7 @@ DateField.propTypes = {
     isRequired: PropTypes.bool,
     type: PropTypes.string,
     size: PropTypes.string,
+    dateType: PropTypes.string,
   }),
   value: PropTypes.string,
   name: PropTypes.string,

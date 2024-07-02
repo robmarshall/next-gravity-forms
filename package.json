@@ -40,6 +40,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "eslint": "^8.43.0",
+    "eslint-plugin-react": "^7.33.2",
     "@babel/core": "^7.23.3",
     "@babel/preset-env": "^7.23.3",
     "@babel/preset-react": "^7.23.3",

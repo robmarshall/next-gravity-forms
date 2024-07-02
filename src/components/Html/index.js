@@ -2,10 +2,9 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import InputWrapper from "../../components/InputWrapper";
-import { valueToLowerCase } from "../../utils/helpers";
 
 const Html = ({ fieldData, name, wrapClassName, ...wrapProps }) => {
-  const { content, cssClass, type } = fieldData;
+  const { content, cssClass } = fieldData;
 
   return (
     <InputWrapper
