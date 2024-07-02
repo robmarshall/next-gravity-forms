@@ -14,6 +14,7 @@ const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
     id,
     choices,
     cssClass,
+    errorMessage,
     hasSelectAll,
     isRequired,
     size,
@@ -65,9 +66,10 @@ const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
                 )}
                 defaultChecked={defaultChecked}
                 id={`${name}_${choiceID}`}
-                name={name}
+                name={`${name}${type === "checkbox" ? `.${choiceID}` : ""}`}
                 {...register(name, {
-                  required: isRequired && strings.errors.required,
+                  required:
+                    isRequired && (errorMessage || strings.errors.required),
                 })}
                 type={type}
                 value={value}
@@ -104,6 +106,8 @@ SelectorList.propTypes = {
     isRequired: PropTypes.bool,
     size: PropTypes.string,
     type: PropTypes.string,
+    errorMessage: PropTypes.string,
+    hasSelectAll: PropTypes.bool,
   }),
   name: PropTypes.string,
   wrapProps: PropTypes.object,

@@ -20,7 +20,6 @@ import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
 const FieldBuilder = ({
   databaseId,
   formFields,
-  formLoading,
   preOnSubmit,
   presetValues,
   settings,
@@ -43,7 +42,7 @@ const FieldBuilder = ({
       visibility,
     } = field;
 
-    let inputWrapperClass = classnames(
+    const inputWrapperClass = classnames(
       "gfield",
       "gfield--type-" + valueToLowerCase(type),
       field.cssClass,

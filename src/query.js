@@ -49,7 +49,7 @@ export const gravityFormQuery = /* GraphQL */ `
         ${formConfirmationFragment}
       }
       hasHoneypot
-      formFields {
+      formFields(first: 999){
         nodes {
           displayOnly
           id: databaseId
