@@ -4,14 +4,15 @@ import { Controller } from "react-hook-form";
 import { useSettings } from "../../../providers/SettingsContext";
 import NumberDropdown from "./NumberDropdown";
 import NumberInput from "./NumberInput";
+import { valueToLowerCase, interpolateString } from "../../../utils/helpers";
 import {
-  isEmptyObject,
-  valueToLowerCase,
-  interpolateString,
-} from "../../../utils/helpers";
-import { sortByFormat, isValidDate, getDefaultValue } from "./helpers";
+  sortByFormat,
+  isValidDate,
+  getDefaultValue,
+  dateStringToObj,
+} from "./helpers";
 
-const FieldDropdown = ({ fieldData, name, control, type }) => {
+const FieldDropdown = ({ fieldData, name, control, type, presetValue }) => {
   const {
     isRequired,
     dateFormat: dateFormatUpper,
@@ -50,11 +51,20 @@ const FieldDropdown = ({ fieldData, name, control, type }) => {
 
   const errorRequired = inputs.map((input) => input.label).join(", ");
 
+  const presetDateObj = dateStringToObj(presetValue, dateFormat);
+
+  const getProperDefault = () => {
+    if (presetDateObj && isValidDate(presetDateObj)) return presetDateObj;
+    if (isValidDate(defaultValue)) return defaultValue;
+
+    return null;
+  };
+
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue={isValidDate(defaultValue) ? defaultValue : null}
+      defaultValue={getProperDefault()}
       render={({ field: { onChange, value } }) => {
         return elements.map(
           ({
@@ -63,12 +73,15 @@ const FieldDropdown = ({ fieldData, name, control, type }) => {
             name: fieldName,
             defaultPlaceholder,
             index,
+            name,
+            defaultValue,
             ...rest
           }) => {
             return (
               <InputField
                 key={id}
                 {...rest}
+                selectedValue={presetDateObj?.[name] ?? defaultValue}
                 name={`${name}[]`}
                 id={`${name}_${index + 1}`}
                 placeholder={placeholder || defaultPlaceholder}
@@ -103,6 +116,7 @@ FieldDropdown.propTypes = {
   name: PropTypes.string.isRequired,
   control: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default FieldDropdown;

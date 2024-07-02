@@ -19,6 +19,7 @@ const strings = {
       front: "Need more than",
       back: "characters.",
     },
+    name: "Please complete the following fields: {{fields}}",
     date: {
       required: "Please complete the following fields: {{fields}}",
       invalid: "Please enter a valid date.",

@@ -139,10 +139,12 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            presetValues={presetValues}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
         );
+
       case "EMAIL":
         return (
           <Email
