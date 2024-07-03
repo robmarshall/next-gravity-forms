@@ -7,13 +7,19 @@ To be used alongside [wp-graphql-gravity-forms](https://github.com/harness-softw
 Uses [React Hook Forms](https://react-hook-form.com/) under the hood for all that good state management.
 
 ## Installation
+
 either:
+
 ### Install with yarn
+
 ```shell
 yarn add next-gravity-forms
 ```
+
 or
+
 ### Install with NPM
+
 ```shell
 npm i next-gravity-forms
 ```
@@ -175,7 +181,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 
 - [x] Input
 - [x] Textarea
-- [ ] Select (half done, need to add default values)
+- [x] Select
 - [ ] Multiselect (currently breaks form)
 - [x] Number
 - [ ] Checkbox (half done, need to add default values)
