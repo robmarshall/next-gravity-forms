@@ -7,13 +7,19 @@ To be used alongside [wp-graphql-gravity-forms](https://github.com/harness-softw
 Uses [React Hook Forms](https://react-hook-form.com/) under the hood for all that good state management.
 
 ## Installation
+
 either:
+
 ### Install with yarn
+
 ```shell
 yarn add next-gravity-forms
 ```
+
 or
+
 ### Install with NPM
+
 ```shell
 npm i next-gravity-forms
 ```
@@ -130,7 +136,7 @@ To enable file uploading functionality, your GraphQL server must support the `Up
 
 If you attempt to add a file upload field to your form without support for the `Upload` scalar type, your API will return an error. Ensure that your GraphQL server is properly configured to handle file uploads by integrating the WP GraphQL Upload plugin or another equivalent solution that provides support for the `Upload` type.
 
-When enabling the `Enable Multi-File Upload` option, it's important to note that files are not uploaded immediately upon being dropped into the upload area. Instead, all files are uploaded together during the form submission process. However, be aware that this can introduce a delay, particularly when users upload large files.
+When enabling the `Enable Multi-File Upload` option, it's important to note that files are not uploaded immediately upon being dropped into the upload area. Instead, all files are uploaded together during the form submission process. However, be aware that this can introduce a delay, particularly when users upload large files. Might be good to show spinner while uploading.
 
 ## Date field
 

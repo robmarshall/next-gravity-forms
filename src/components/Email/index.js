@@ -60,7 +60,7 @@ const Email = ({ presetValue, fieldData, name, ...wrapProps }) => {
               message: `${strings.errors.maxChar.front}  ${maxLength} ${strings.errors.maxChar.back}`,
             },
             pattern: {
-              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
               message: getFieldError(
                 { ...fieldData, inputMaskValue: true },
                 strings
