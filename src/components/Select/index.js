@@ -19,6 +19,7 @@ const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
     hasEnhancedUI,
     type,
     errorMessage,
+    defaultValue: fieldDefaultValue,
   } = fieldData;
 
   const isMultiselectField = valueToLowerCase(type) === "multiselect";
@@ -44,7 +45,10 @@ const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
     formState: { errors },
   } = useFormContext();
 
-  const defaultValue = presetValue ?? options.find((i) => i.isSelected)?.value;
+  const defaultValue =
+    presetValue ||
+    fieldDefaultValue ||
+    options.find((i) => i.isSelected)?.value;
 
   return (
     <InputWrapper
@@ -112,6 +116,7 @@ Select.propTypes = {
     hasEnhancedUI: PropTypes.bool,
     errorMessage: PropTypes.string,
     type: PropTypes.string,
+    defaultValue: PropTypes.string,
   }),
   register: PropTypes.func,
   wrapProps: PropTypes.object,
