@@ -33,7 +33,6 @@ export function getRulesMessages(rul, strings) {
 // validate max file size
 export function validateMaxFileSize(files, maxFileSize) {
   const maxFileSizeBytes = maxFileSize && maxFileSize * 1024 * 1024; // Convert MB to Bytes
-  console.log("validate", { files });
 
   if (!files || !files instanceof Array || !maxFileSize) return false;
   for (let i = 0; i < files.length; i++) {

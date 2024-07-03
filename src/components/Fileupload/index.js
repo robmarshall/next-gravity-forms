@@ -92,6 +92,9 @@ const FileUpload = ({ presetValue, fieldData, name, ...wrapProps }) => {
                 setValue={setValue}
               />
             )}
+            rules={{
+              required: isRequired && (errorMessage || strings.errors.required),
+            }}
           />
         </Suspense>
       ) : (
