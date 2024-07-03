@@ -45,10 +45,12 @@ const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
     formState: { errors },
   } = useFormContext();
 
-  const defaultValue =
+  let defaultValue =
     presetValue ||
     fieldDefaultValue ||
     options.find((i) => i.isSelected)?.value;
+
+  if (isMultiselectField) defaultValue = defaultValue?.split(",");
 
   return (
     <InputWrapper
@@ -84,7 +86,7 @@ const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
           {...register(name, {
             required: isRequired && (errorMessage || strings.errors.required),
           })}
-          defaultValue={isMultiselectField ? [defaultValue] : defaultValue}
+          defaultValue={defaultValue}
         >
           {options.map(({ text, value, className }, index) => {
             return (
