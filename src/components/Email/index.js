@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import classnames from "classnames";
 import { useFormContext } from "react-hook-form";
 import getFieldError from "../../utils/getFieldError";
 import { valueToLowerCase } from "../../utils/helpers";
@@ -8,7 +7,7 @@ import InputWrapper from "../InputWrapper";
 import { Input, ConditionalWrapper, SubLabelWrapper } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
+const Email = ({ presetValue, fieldData, name, ...wrapProps }) => {
   const {
     isRequired,
     maxLength,
@@ -16,6 +15,7 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
     inputs,
     subLabelPlacement,
     size,
+    errorMessage,
   } = fieldData;
   const [emailField, confirmEmailField] = inputs || [];
   const { strings } = useSettings();
@@ -50,17 +50,17 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
         <Input
           name={name}
           errors={errors}
-          defaultValue={emailField?.defaultValue || defaultValue}
+          defaultValue={presetValue ?? emailField?.defaultValue}
           fieldData={{ ...fieldData, type: "email" }}
           className={valueToLowerCase(size)}
           {...register(name, {
-            required: isRequired && strings.errors.required,
+            required: isRequired && (errorMessage || strings.errors.required),
             maxLength: maxLength > 0 && {
               value: maxLength,
               message: `${strings.errors.maxChar.front}  ${maxLength} ${strings.errors.maxChar.back}`,
             },
             pattern: {
-              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
               message: getFieldError(
                 { ...fieldData, inputMaskValue: true },
                 strings
@@ -82,7 +82,7 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
           <Input
             name={`${name}_2`}
             errors={errors}
-            defaultValue={confirmEmailField?.defaultValue || defaultValue}
+            defaultValue={presetValue ?? confirmEmailField?.defaultValue}
             fieldData={{ ...fieldData, type: "email" }}
             {...register(`${name}_2`, {
               required: isRequired && strings.errors.required,
@@ -103,7 +103,7 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
 export default Email;
 
 Email.propTypes = {
-  defaultValue: PropTypes.string,
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     maxLength: PropTypes.number,
@@ -113,6 +113,7 @@ Email.propTypes = {
     size: PropTypes.string,
     subLabelPlacement: PropTypes.string,
     inputs: PropTypes.array,
+    errorMessage: PropTypes.string,
   }),
   value: PropTypes.string,
   name: PropTypes.string,

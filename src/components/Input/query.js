@@ -14,6 +14,7 @@ export const textFieldFragment = /* GraphQL */ `
     descriptionPlacement
     errorMessage
     hasAutocomplete
+    inputMaskValue
     inputName
     isPasswordInput
     isRequired
@@ -24,42 +25,6 @@ export const textFieldFragment = /* GraphQL */ `
     placeholder
     shouldAllowDuplicates
     size
-    value
-  }
-`;
-
-export const dateFieldFragment = /* GraphQL */ `
-  ... on DateField {
-    adminLabel
-    calendarIconType
-    calendarIconUrl
-    canPrepopulate
-    conditionalLogic {
-      ${conditionalLogicFragment}
-    }
-    cssClass
-    dateFormat
-    dateType
-    defaultValue
-    description
-    descriptionPlacement
-    errorMessage
-    inputName
-    inputs {
-      ... on DateInputProperty {
-        id
-        autocompleteAttribute
-        customLabel
-        defaultValue
-        label
-        placeholder
-      }
-    }
-    isRequired
-    label
-    placeholder
-    shouldAllowDuplicates
-    subLabelPlacement
     value
   }
 `;

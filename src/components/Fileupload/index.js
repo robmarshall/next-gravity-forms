@@ -16,7 +16,7 @@ import {
 
 const LazyMultiFileupload = React.lazy(() => import("./Multifileupload"));
 
-const FileUpload = ({ defaultValue, fieldData, name, ...wrapProps }) => {
+const FileUpload = ({ presetValue, fieldData, name, ...wrapProps }) => {
   const {
     control,
     watch,
@@ -34,6 +34,7 @@ const FileUpload = ({ defaultValue, fieldData, name, ...wrapProps }) => {
     errorMessage,
     canAcceptMultipleFiles,
     id,
+    defaultValue, // TOOD does file upload have a default value??
   } = fieldData;
 
   const allowedExtensions = cleanAllowedExtensions(dirtyExtensions);
@@ -146,13 +147,16 @@ const FileUpload = ({ defaultValue, fieldData, name, ...wrapProps }) => {
 };
 
 FileUpload.propTypes = {
-  defaultValue: PropTypes.string,
+  presetValue: PropTypes.string,
   fieldData: PropTypes.shape({
     isRequired: PropTypes.bool,
     maxFileSize: PropTypes.number,
     errorMessage: PropTypes.string,
     allowedExtensions: PropTypes.arrayOf(PropTypes.string),
     maxFiles: PropTypes.number,
+    canAcceptMultipleFiles: PropTypes.bool,
+    id: PropTypes.number,
+    defaultValue: PropTypes.string,
   }),
   name: PropTypes.string.isRequired,
   wrapProps: PropTypes.object,

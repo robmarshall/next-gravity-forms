@@ -7,7 +7,7 @@ import MultiSelectEnhancedUI from "./MultiSelectEnhancedUI";
 import { valueToLowerCase } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Select = ({ fieldData, name, ...wrapProps }) => {
+const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
   const { strings } = useSettings();
 
   const {
@@ -18,12 +18,13 @@ const Select = ({ fieldData, name, ...wrapProps }) => {
     placeholder,
     hasEnhancedUI,
     type,
+    errorMessage,
   } = fieldData;
 
   const isMultiselectField = valueToLowerCase(type) === "multiselect";
 
   // if there is placeholder we add it as first option with no value set
-  let options = [
+  const options = [
     ...(placeholder
       ? [
           {
@@ -43,7 +44,7 @@ const Select = ({ fieldData, name, ...wrapProps }) => {
     formState: { errors },
   } = useFormContext();
 
-  const defaultValue = options.find((i) => i.isSelected)?.value;
+  const defaultValue = presetValue ?? options.find((i) => i.isSelected)?.value;
 
   return (
     <InputWrapper
@@ -77,7 +78,7 @@ const Select = ({ fieldData, name, ...wrapProps }) => {
           id={name}
           name={name}
           {...register(name, {
-            required: isRequired && strings.errors.required,
+            required: isRequired && (errorMessage || strings.errors.required),
           })}
           defaultValue={isMultiselectField ? [defaultValue] : defaultValue}
         >
@@ -100,11 +101,17 @@ const Select = ({ fieldData, name, ...wrapProps }) => {
 export default Select;
 
 Select.propTypes = {
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  name: PropTypes.string,
   fieldData: PropTypes.shape({
     choices: PropTypes.array,
     cssClass: PropTypes.string,
     isRequired: PropTypes.bool,
     size: PropTypes.string,
+    placeholder: PropTypes.string,
+    hasEnhancedUI: PropTypes.bool,
+    errorMessage: PropTypes.string,
+    type: PropTypes.string,
   }),
   register: PropTypes.func,
   wrapProps: PropTypes.object,

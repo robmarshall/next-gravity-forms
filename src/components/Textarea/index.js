@@ -7,16 +7,18 @@ import { valueToLowerCase } from "../../utils/helpers";
 import getFieldError from "../../utils/getFieldError";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
+const Textarea = ({ presetValue, fieldData, name, wrapClassName, wrapId }) => {
   const { strings } = useSettings();
   const {
     cssClass,
+    errorMessage,
     inputMaskValue,
     isRequired,
     maxLength,
     placeholder,
     size,
     type: typeUpper,
+    defaultValue,
   } = fieldData;
 
   const type = valueToLowerCase(typeUpper);
@@ -40,13 +42,13 @@ const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
         aria-invalid={Boolean(errors?.[name])}
         aria-required={isRequired}
         className={classnames(cssClass, valueToLowerCase(size), "textarea")}
-        defaultValue={defaultValue}
+        defaultValue={presetValue ?? defaultValue}
         id={name}
         maxLength={maxLength > 0 ? maxLength : undefined}
         name={name}
         placeholder={placeholder}
         {...register(name, {
-          required: isRequired && strings.errors.required,
+          required: isRequired && (errorMessage || strings.errors.required),
           maxLength: maxLength > 0 && {
             value: maxLength,
             message: `${strings.errors.maxChar.front}  ${maxLength} ${strings.errors.maxChar.back}`,
@@ -65,6 +67,7 @@ const Textarea = ({ defaultValue, fieldData, name, wrapClassName, wrapId }) => {
 export default Textarea;
 
 Textarea.propTypes = {
+  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     description: PropTypes.string,
@@ -77,6 +80,7 @@ Textarea.propTypes = {
     defaultValue: PropTypes.string,
     type: PropTypes.string,
     size: PropTypes.string,
+    errorMessage: PropTypes.string,
   }),
   name: PropTypes.string,
   wrapClassName: PropTypes.string,
