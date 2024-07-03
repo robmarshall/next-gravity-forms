@@ -96,7 +96,7 @@ const GravityFormForm = ({
             fieldValues: formRes,
           });
 
-          if (!submitRes?.errors?.length) {
+          if (!submitRes?.errors?.length && !submitRes?.submitGfForm?.errors) {
             setSuccess(true);
             setLoading(false);
             successCallback({
