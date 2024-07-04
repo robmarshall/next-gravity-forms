@@ -2,6 +2,7 @@
  * This file manages all of the Gravity Forms input settings.
  * Things such as: Input Mask, Required, Visibility
  */
+import React from "react";
 import { valueToLowerCase } from "./helpers";
 
 export function outputDescription(

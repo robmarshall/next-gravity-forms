@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, {
   forwardRef,
   useState,
@@ -6,6 +5,7 @@ import React, {
   useEffect,
   useImperativeHandle,
 } from "react";
+import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import ReCAPTCHA from "react-google-recaptcha";
 
@@ -99,6 +99,7 @@ Captcha.propTypes = {
   fieldData: PropTypes.object,
   name: PropTypes.string,
   wrapClassName: PropTypes.string,
+  settings: PropTypes.object,
 };
 
 export default Captcha;
