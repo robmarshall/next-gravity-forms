@@ -1,9 +1,10 @@
 {
   "name": "next-gravity-forms",
-  "version": "0.1.40",
+  "version": "2.0.1",
   "description": "A component to take GraphQl Gravity Forms query data from WordPress and return a usable form.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
+  "packageManager": "yarn@1.22.11",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c rollup.config.form.mjs && rollup -c rollup.config.server.mjs",
@@ -39,6 +40,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "eslint": "^8.43.0",
+    "eslint-plugin-react": "^7.33.2",
     "@babel/core": "^7.23.3",
     "@babel/preset-env": "^7.23.3",
     "@babel/preset-react": "^7.23.3",

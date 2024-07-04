@@ -1,60 +1,108 @@
-function getDefaultValues(fields) {
+// set the default value for the field
+
+import { getDateDefaultValue } from "../components/Date/FieldDropdown";
+import { getDatePickerDefaultValue } from "../components/Date/Picker";
+import { getNameDefaultValue } from "../components/Name/helpers";
+import { getSelectDefaultValue } from "../components/Select/helpers";
+import { getSelectionListDefaultValue } from "../components/SelectorList/helpers";
+import { valueToLowerCase } from "./helpers";
+
+// there are 2 possible options: presetValue, which has more priority and the defaultValue itself
+function getDefaultValues(fields, presetValues) {
   const values = {};
 
   if (!Array.isArray(fields)) return values;
 
-  fields.forEach(({ type, id, inputs, defaultValue, choices }) => {
-    const inputName = `input_${id}`;
+  fields.forEach(
+    ({
+      type,
+      id,
+      inputs,
+      defaultValue: defaultVal,
+      choices,
+      inputName: presetName,
+      dateFormat: dateFormatUpper,
+      dateType,
+      isMultiselectField,
+    }) => {
+      const inputName = `input_${id}`;
 
-    // Simplify the logic for fields with similar handling
-    const simpleFieldTypes = [
-      "DATE",
-      "HIDDEN",
-      "NUMBER",
-      "PHONE",
-      "POSTCONTENT",
-      "POSTEXCERPT",
-      "POSTTITLE",
-      "SELECT",
-      "SIGNATURE",
-      "TEXTAREA",
-      "TEXT",
-      "WEBSITE",
-      "EMAIL",
-    ];
+      const presetValue = presetValues?.[presetName];
 
-    if (simpleFieldTypes.includes(type) && defaultValue) {
-      values[inputName] = defaultValue;
+      const defaultValue = presetValue ?? defaultVal;
+
+      // Simplify the logic for fields with similar handling
+      const simpleFieldTypes = [
+        "DATE",
+        "HIDDEN",
+        "NUMBER",
+        "PHONE",
+        "POSTCONTENT",
+        "POSTEXCERPT",
+        "POSTTITLE",
+        "SIGNATURE",
+        "TEXTAREA",
+        "TEXT",
+        "WEBSITE",
+        "EMAIL",
+      ];
+
+      if (simpleFieldTypes.includes(type) && defaultValue) {
+        values[inputName] = defaultValue;
+      }
+
+      // Special handling for EMAIL type with inputs
+      if (type === "EMAIL" && inputs?.length > 0) {
+        const [email, confirmation] = inputs;
+
+        values[inputName] = defaultValue || email.defaultValue;
+
+        if (confirmation)
+          values[`${inputName}_2`] = defaultValue || confirmation.defaultValue;
+      }
+
+      // Multiselect && select
+      if (["MULTISELECT", "SELECT"].includes(type)) {
+        values[inputName] = getSelectDefaultValue({
+          defaultValue,
+          choices,
+          isMultiselectField,
+        });
+      }
+
+      // Common logic for CHECKBOX, and RADIO
+      if (
+        ["CHECKBOX", "RADIO"].includes(type) &&
+        choices?.some((i) => i.isSelected)
+      ) {
+        values[inputName] = getSelectionListDefaultValue({
+          type,
+          choices,
+          presetValue,
+        });
+      }
+
+      // Handling for NAME type
+      if (type === "NAME" && inputs?.length > 0) {
+        values[inputName] = getNameDefaultValue(inputs, presetValues);
+      }
+
+      if (type === "DATE") {
+        const type = valueToLowerCase(dateType);
+        values[inputName] =
+          type === "picker"
+            ? getDatePickerDefaultValue({
+                presetValue,
+                defaultValue: defaultVal,
+              })
+            : getDateDefaultValue({
+                dateFormatUpper,
+                presetValue,
+                inputs,
+              });
+      }
     }
-
-    // Special handling for EMAIL type with inputs
-    if (type === "EMAIL" && inputs?.length > 0) {
-      const [email, confirmation] = inputs;
-      if (email.defaultValue) values[inputName] = email.defaultValue;
-      if (confirmation?.defaultValue)
-        values[`${inputName}_2`] = confirmation.defaultValue;
-    }
-
-    // Common logic for MULTISELECT, CHECKBOX, and RADIO
-    if (
-      ["MULTISELECT", "CHECKBOX", "RADIO"].includes(type) &&
-      choices?.some((i) => i.isSelected)
-    ) {
-      values[inputName] =
-        type === "RADIO"
-          ? choices.find((i) => i.isSelected).value
-          : choices.filter((i) => i.isSelected).map((i) => i.value);
-    }
-
-    // Handling for NAME type
-    if (type === "NAME" && inputs?.length > 0) {
-      inputs.forEach(({ defaultValue, choices, id }) => {
-        if (defaultValue) values[`input_${id}`] = defaultValue;
-        else if (choices?.some((i) => i.isSelected))
-          values[`input_${id}`] = choices.find((i) => i.isSelected).value;
-      });
-    }
-  });
+  );
 
   return values;
 }

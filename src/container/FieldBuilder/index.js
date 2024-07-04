@@ -10,6 +10,8 @@ import SelectorList from "../../components/SelectorList";
 import Textarea from "../../components/Textarea";
 import Section from "../../components/Section";
 import DateField from "../../components/Date";
+import Honeypot from "../../components/Honeypot";
+import Name from "../../components/Name";
 import { valueToLowerCase } from "../../utils/helpers";
 import { islabelHidden } from "../../utils/inputSettings";
 import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
@@ -17,9 +19,7 @@ import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
 const FieldBuilder = ({
   databaseId,
   formFields,
-  formLoading,
   preOnSubmit,
-  presetValues,
   settings,
   formLayoutProps,
 }) => {
@@ -39,7 +39,7 @@ const FieldBuilder = ({
       visibility,
     } = field;
 
-    let inputWrapperClass = classnames(
+    const inputWrapperClass = classnames(
       "gfield",
       "gfield--type-" + valueToLowerCase(type),
       field.cssClass,
@@ -70,9 +70,7 @@ const FieldBuilder = ({
     const wrapId = `field_${databaseId}_${id}`;
 
     //TODO: Should this match GF version "input_form.id_input.id"
-    const inputName = `input_${field.id}`;
-
-    const defaultValue = presetValues?.[inputName] || field?.defaultValue || "";
+    const name = `input_${field.id}`;
 
     switch (field.type) {
       // Add note for unsupported captcha field
@@ -83,7 +81,7 @@ const FieldBuilder = ({
             fieldData={field}
             gfId={id}
             key={id}
-            name={inputName}
+            name={name}
             ref={preOnSubmit}
             settings={settings?.recaptcha}
             wrapClassName={inputWrapperClass}
@@ -95,7 +93,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -110,8 +108,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
-            defaultValue={defaultValue}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -122,8 +119,18 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
-            defaultValue={defaultValue}
+            name={name}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "NAME":
+        return (
+          <Name
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -134,8 +141,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
-            defaultValue={defaultValue}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -144,10 +150,9 @@ const FieldBuilder = ({
         return (
           <Textarea
             fieldData={field}
-            defaultValue={defaultValue}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -159,7 +164,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -171,7 +176,7 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -182,7 +187,18 @@ const FieldBuilder = ({
             fieldData={field}
             key={id}
             gfId={id}
-            name={inputName}
+            name={name}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "HONEYPOT":
+        return (
+          <Honeypot
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={name}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />

@@ -16,11 +16,12 @@ const strings = {
       front: "Need more than",
       back: "characters.",
     },
+    name: "Please complete the following fields: {{fields}}",
     date: {
-      required: "Please complete the following fields: %s.",
+      required: "Please complete the following fields: {{fields}}",
       invalid: "Please enter a valid date.",
       picker: {
-        invalid: "Please enter a valid date in the format (%s).",
+        invalid: "Please enter a valid date in the format ({{format}}).",
       },
     },
   },
@@ -50,10 +51,19 @@ const strings = {
       ymd_dash: "YYYY dash MM dash DD",
       ymd_dot: "YYYY dot MM dot DD",
     },
+    name: "Please complete the following fields: {{fields}}",
   },
+  checkboxes: {
+    selectAll: "Select All",
+    deselectAll: "Deselect All",
+  },
+  honeypot:
+    "This field is for validation purposes and should be left unchanged.",
   multiselect: {
     placeholder: "Click to select...",
   },
+  loading: "Loading...",
+  submit: "Submit",
 };
 
 export default strings;

@@ -4,10 +4,10 @@ import classnames from "classnames";
 import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import { useSettings } from "../../../providers/SettingsContext";
-import { valueToLowerCase } from "../../../utils/helpers";
+import { valueToLowerCase, interpolateString } from "../../../utils/helpers";
 import CalendarIconComponent from "./CalendarIconComponent";
 import { isValidDate } from "./helpers";
-import "react-datepicker/dist/react-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
 
 const dateFormats = {
   mdy: "MM/dd/yyyy",
@@ -19,10 +19,18 @@ const dateFormats = {
   ymd_dot: "yyyy.MM.dd",
 };
 
+export const getDatePickerDefaultValue = ({ presetValue, defaultValue }) => {
+  if (presetValue && isValidDate(new Date(presetValue)))
+    return new Date(presetValue);
+  if (defaultValue && isValidDate(new Date(defaultValue)))
+    return new Date(defaultValue);
+
+  return null;
+};
+
 const Picker = ({ fieldData, name, control }) => {
   const {
     isRequired,
-    defaultValue,
     dateFormat: dateFormatUpper,
     placeholder,
     calendarIconType,
@@ -33,6 +41,7 @@ const Picker = ({ fieldData, name, control }) => {
     strings = {},
     fieldsSettings: { date: dateSettings },
   } = useSettings();
+
   const calendarIconTypeLower = valueToLowerCase(calendarIconType);
   const dateFormat = valueToLowerCase(dateFormatUpper);
 
@@ -52,7 +61,6 @@ const Picker = ({ fieldData, name, control }) => {
     <Controller
       name={name}
       control={control}
-      defaultValue={defaultValue ? new Date(defaultValue) : null}
       render={({ field: { onChange, value } }) => (
         <>
           <DatePicker
@@ -96,10 +104,9 @@ const Picker = ({ fieldData, name, control }) => {
         validate: (value) =>
           !value || isValidDate(value)
             ? true
-            : strings.errors.date.picker.invalid.replace(
-                "%s",
-                valueToLowerCase(dateFormats[dateFormat])
-              ),
+            : interpolateString(strings.errors.date.picker.invalid, {
+                format: valueToLowerCase(dateFormats[dateFormat]),
+              }),
       }}
     />
   );

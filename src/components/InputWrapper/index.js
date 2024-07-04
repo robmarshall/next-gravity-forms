@@ -12,7 +12,6 @@ const InputWrapper = ({
   errors,
   inputData: {
     description,
-    errorMessage,
     descriptionPlacement,
     isRequired,
     label,
@@ -24,6 +23,7 @@ const InputWrapper = ({
   },
   labelFor,
   wrapClassName,
+  ginputClassName,
   wrapId,
 }) => {
   const joinedLabel = `${label}${
@@ -59,9 +59,10 @@ const InputWrapper = ({
         condition={!!name}
         wrapper={(children) => (
           <div
-            className={`ginput_container ginput_container_${valueToLowerCase(
-              type
-            )}`}
+            className={classnames(
+              `ginput_container ginput_container_${valueToLowerCase(type)}`,
+              ginputClassName
+            )}
           >
             {children}
           </div>
@@ -87,8 +88,7 @@ const InputWrapper = ({
           aria-live="polite"
           className="gravityform__error_message gfield_description validation_message"
         >
-          {/* @OTODO: i changed this so it checks for custom errorMessages first, is it enough? */}
-          {errorMessage ? errorMessage : errors.message}
+          {errors.message}
         </div>
       )}
     </Wrapper>
@@ -96,7 +96,7 @@ const InputWrapper = ({
 };
 
 const maxLengthSentence = (length, type) => {
-  let word = type === "number" ? "numbers" : "characters";
+  const word = type === "number" ? "numbers" : "characters";
   return length && ` (maxiumum ${length} ${word})`;
 };
 
@@ -113,7 +113,11 @@ InputWrapper.propTypes = {
     isRequired: PropTypes.bool,
     maxLength: PropTypes.number,
     type: PropTypes.string,
+    conditionalLogic: PropTypes.object,
+    inputs: PropTypes.array,
+    name: PropTypes.string,
   }),
+  ginputClassName: PropTypes.string,
   labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   wrapClassName: PropTypes.string,
   wrapId: PropTypes.string,

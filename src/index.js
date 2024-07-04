@@ -13,6 +13,7 @@ import formatPayload from "./utils/formatPayload";
 import { valueToLowerCase } from "./utils/helpers";
 import { submitGravityForm } from "./fetch";
 import { SettingsProvider } from "./providers/SettingsContext";
+import SubmitButton from "./components/SubmitButton";
 
 /**
  * Component to take Gravity Form graphQL data and turn into
@@ -26,6 +27,7 @@ const GravityFormForm = ({
   errorCallback = () => {},
   navigate,
   helperText = {},
+  helperFieldsSettings = {},
 }) => {
   const preOnSubmit = useRef();
 
@@ -43,6 +45,7 @@ const GravityFormForm = ({
     formFields,
     labelPlacement,
     subLabelPlacement,
+    hasHoneypot,
   } = form;
 
   const redirect = navigate
@@ -59,19 +62,24 @@ const GravityFormForm = ({
     // This is needed because `react-hook-form` doesn't automatically detect `defaultValue` attributes in fields,
     // and the form state starts empty. By setting these defaults upfront, we enable `react-hook-form` to
     // immediately recognize and apply them, ensuring conditional fields behave as expected from the start.
-    // defaultValues: getDefaultValues(formFields?.nodes),
+    defaultValues: getDefaultValues(formFields?.nodes, presetValues),
   });
-  const {
-    handleSubmit,
-    setError,
-    reset,
-    getValues,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit, setError, reset, getValues } = methods;
 
   const [generalError, setGeneralError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  // add honeypot fake field if enabled to list of fields
+  const formFieldNodes = formFields?.nodes?.length > 0 && [
+    ...formFields.nodes,
+    hasHoneypot && {
+      id: formFields.nodes[formFields.nodes.length - 1].id + 1,
+      type: "HONEYPOT",
+      descriptionPlacement,
+      labelPlacement,
+      subLabelPlacement,
+    },
+  ];
 
   const onSubmitCallback = async () => {
     // Make sure we are not already waiting for a response
@@ -85,7 +93,7 @@ const GravityFormForm = ({
       if (submissionHasOneFieldEntry(values)) {
         setGeneralError("");
         const formRes = formatPayload({
-          serverData: formFields?.nodes,
+          serverData: formFieldNodes,
           clientData: values,
         });
 
@@ -95,7 +103,7 @@ const GravityFormForm = ({
             fieldValues: formRes,
           });
 
-          if (!Boolean(submitRes?.submitGfForm?.errors?.length)) {
+          if (!submitRes?.errors?.length) {
             setSuccess(true);
             setLoading(false);
             successCallback({
@@ -104,10 +112,10 @@ const GravityFormForm = ({
             });
           } else {
             setLoading(false);
-            handleGravityFormsValidationErrors(errors, setError);
+            handleGravityFormsValidationErrors(submitRes?.errors, setError);
             errorCallback({
               data: formRes,
-              error: errors,
+              error: handleGravityFormsValidationErrors(submitRes?.errors),
               reset,
             });
           }
@@ -168,7 +176,11 @@ const GravityFormForm = ({
       <div className="gform_anchor" id={`gf_${databaseId}`} />
 
       {formFields && (
-        <SettingsProvider helperText={helperText}>
+        <SettingsProvider
+          helperText={helperText}
+          databaseId={databaseId}
+          helperFieldsSettings={helperFieldsSettings}
+        >
           <FormProvider {...methods}>
             <form
               className={
@@ -198,10 +210,9 @@ const GravityFormForm = ({
                   <FieldBuilder
                     databaseId={databaseId}
                     formLoading={loading}
-                    formFields={formFields.nodes}
+                    formFields={formFieldNodes}
                     labelPlacement={labelPlacement}
                     preOnSubmit={preOnSubmit}
-                    presetValues={presetValues}
                     settings={settings}
                     formLayoutProps={form}
                   />
@@ -211,20 +222,11 @@ const GravityFormForm = ({
               <div
                 className={`gform_footer ${valueToLowerCase(labelPlacement)}`}
               >
-                <button
-                  className="gravityform__button gform_button button"
-                  disabled={loading}
-                  id={`gform_submit_button_${databaseId}`}
-                  type="submit"
-                >
-                  {loading ? (
-                    <span className="gravityform__button__loading_span">
-                      Loading
-                    </span>
-                  ) : (
-                    submitButton?.text
-                  )}
-                </button>
+                <SubmitButton
+                  databaseId={databaseId}
+                  loading={loading}
+                  submitButton={submitButton}
+                />
               </div>
             </form>
           </FormProvider>
@@ -240,6 +242,8 @@ GravityFormForm.propTypes = {
   successCallback: PropTypes.func,
   presetValues: PropTypes.shape({}),
   helperText: PropTypes.shape({}),
+  helperFieldsSettings: PropTypes.object,
+  navigate: PropTypes.func,
 };
 
 export default GravityFormForm;

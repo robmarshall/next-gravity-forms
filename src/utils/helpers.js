@@ -12,8 +12,8 @@ export const doesObjectExist = (obj) => {
 };
 
 export const filteredKeys = (obj, filter) => {
-  let key,
-    keys = [];
+  let key;
+  const keys = [];
   for (key in obj)
     if ({}.hasOwnProperty.call(obj, key) && filter.test(key)) keys.push(key);
   return keys;
@@ -42,4 +42,10 @@ export const isEmptyObject = (obj) => {
 
 export const isNonEmptyObject = (obj) => {
   return obj !== null && typeof obj === "object" && Object.keys(obj).length > 0;
+};
+
+export const interpolateString = (template, values) => {
+  return template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => {
+    return values[key] || placeholder;
+  });
 };
