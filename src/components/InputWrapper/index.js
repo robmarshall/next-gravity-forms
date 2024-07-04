@@ -22,7 +22,7 @@ const InputWrapper = ({
   wrapId,
 }) => {
   const joinedLabel = `${label}${
-    isRequired ? '<span class="gfield_required">*</span>' : ""
+    isRequired ? '<span className="gfield_required">*</span>' : ""
   }`;
 
   const Label = inputs?.length > 0 ? "legend" : "label"; // if field has inputs, we render label as <legend>
@@ -44,7 +44,9 @@ const InputWrapper = ({
           dangerouslySetInnerHTML={{ __html: joinedLabel }}
         />
       )}
-      {outputDescription(description, descriptionPlacement, "above", errors)}
+      {description &&
+        valueToLowerCase(descriptionPlacement) == "above" &&
+        outputDescription(description, wrapId)}
       <div
         className={classnames(
           `ginput_container ginput_container_${valueToLowerCase(type)}`,
@@ -64,7 +66,9 @@ const InputWrapper = ({
             </div>
         */}
       </div>
-      {outputDescription(description, descriptionPlacement, "below", errors)}
+      {description &&
+        valueToLowerCase(descriptionPlacement) == "below" &&
+        outputDescription(description, wrapId)}
       {isNonEmptyObject(errors) && (
         <div
           aria-live="polite"
