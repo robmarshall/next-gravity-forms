@@ -44,7 +44,9 @@ const InputWrapper = ({
           dangerouslySetInnerHTML={{ __html: joinedLabel }}
         />
       )}
-      {outputDescription(description, descriptionPlacement, "above", errors)}
+      {description &&
+        valueToLowerCase(descriptionPlacement) == "above" &&
+        outputDescription(description, wrapId)}
       <div
         className={classnames(
           `ginput_container ginput_container_${valueToLowerCase(type)}`,
@@ -64,7 +66,9 @@ const InputWrapper = ({
             </div>
         */}
       </div>
-      {outputDescription(description, descriptionPlacement, "below", errors)}
+      {description &&
+        valueToLowerCase(descriptionPlacement) == "below" &&
+        outputDescription(description, wrapId)}
       {isNonEmptyObject(errors) && (
         <div
           aria-live="polite"
