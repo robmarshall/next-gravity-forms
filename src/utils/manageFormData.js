@@ -2,6 +2,10 @@ const checkValues = (values) => {
   const result = Object.keys(values).filter((key) => {
     const value = values[key];
 
+    if (value instanceof Date) {
+      return true;
+    }
+
     // Check if the value is a non-empty string
     if (typeof value === "string" && value.length > 0) {
       return true;
