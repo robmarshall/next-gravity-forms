@@ -190,8 +190,8 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Input
 - [x] Textarea
 - [x] Select
-- [ ] Multiselect (currently breaks form)
-- [x] Number
+- [x] Multiselect
+- [x] Number (range is not working yet)
 - [ ] Checkbox (half done, need to add default values)
 - [ ] Radio (half done, need to add default values and correct error placement)
 - [x] Hidden
