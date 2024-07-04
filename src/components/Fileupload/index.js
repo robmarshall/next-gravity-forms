@@ -35,7 +35,7 @@ const FileUpload = ({ fieldData, name, ...wrapProps }) => {
     description,
     canAcceptMultipleFiles,
     id,
-    defaultValue, // TODO does file upload have a default value??
+    // defaultValue, TODO does file upload have a default value??
   } = fieldData;
 
   const allowedExtensions = cleanAllowedExtensions(dirtyExtensions);
