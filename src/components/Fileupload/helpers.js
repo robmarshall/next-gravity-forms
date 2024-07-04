@@ -27,7 +27,8 @@ export function getRulesMessages(rul, strings) {
       interpolateString(strings.fileupload.maxFiles, { max: maxFiles })
     );
 
-  return rules.join(". ");
+  // Join rules with ". " and ensure a trailing dot if rules is not empty
+  return rules.length > 0 ? rules.join(". ") + "." : "";
 }
 
 // validate max file size
