@@ -27,7 +27,7 @@ const InputWrapper = ({
   wrapId,
 }) => {
   const joinedLabel = `${label}${
-    isRequired ? '<span class="gfield_required">*</span>' : ""
+    isRequired ? '<span className="gfield_required">*</span>' : ""
   }`;
 
   const { watch } = useFormContext();
@@ -54,7 +54,9 @@ const InputWrapper = ({
           dangerouslySetInnerHTML={{ __html: joinedLabel }}
         />
       )}
-      {outputDescription(description, descriptionPlacement, "above", errors)}
+      {description &&
+        valueToLowerCase(descriptionPlacement) == "above" &&
+        outputDescription(description, wrapId)}
       <ConditionalWrapper // render only when there is name field added
         condition={!!name}
         wrapper={(children) => (
@@ -82,7 +84,10 @@ const InputWrapper = ({
         */}
       </ConditionalWrapper>
 
-      {outputDescription(description, descriptionPlacement, "below", errors)}
+      {description &&
+        valueToLowerCase(descriptionPlacement) == "below" &&
+        outputDescription(description, wrapId)}
+
       {isNonEmptyObject(errors) && (
         <div
           aria-live="polite"

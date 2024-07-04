@@ -2,6 +2,10 @@ const checkValues = (values) => {
   const result = Object.keys(values).filter((key) => {
     const value = values[key];
 
+    if (value instanceof Date) {
+      return true;
+    }
+
     // Check if the value is a non-empty string
     if (typeof value === "string" && value.length > 0) {
       return true;
@@ -44,7 +48,7 @@ export const cleanGroupedFields = (values) => {
   for (const [key, value] of Object.entries(values)) {
     if (Array.isArray(value)) {
       value
-        .filter((spot) => typeof spot !== undefined)
+        .filter((spot) => typeof spot !== "undefined")
         .forEach((inputValue, i) => (values[`${key}_${i + 1}`] = inputValue));
       delete values[key];
     }

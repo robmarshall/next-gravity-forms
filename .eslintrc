@@ -23,6 +23,7 @@
   },
   "plugins": ["react"],
   "rules": {
-    "prefer-const": "error"
+    "prefer-const": "error",
+    "react/prop-types": 2
   }
 }
