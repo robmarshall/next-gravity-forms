@@ -82,7 +82,7 @@ const InputWrapper = ({
 };
 
 const maxLengthSentence = (length, type) => {
-  let word = type === "number" ? "numbers" : "characters";
+  const word = type === "number" ? "numbers" : "characters";
   return length && ` (maxiumum ${length} ${word})`;
 };
 
@@ -99,8 +99,10 @@ InputWrapper.propTypes = {
     isRequired: PropTypes.bool,
     maxLength: PropTypes.number,
     type: PropTypes.string,
+    inputs: PropTypes.array,
   }),
   labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   wrapClassName: PropTypes.string,
+  ginputClassName: PropTypes.string,
   wrapId: PropTypes.string,
 };

@@ -61,6 +61,7 @@ NumberDropdown.propTypes = {
   placeholder: PropTypes.string,
   startNumber: PropTypes.number.isRequired,
   endNumber: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
   isRequired: PropTypes.bool,
   fieldName: PropTypes.string.isRequired,
 };

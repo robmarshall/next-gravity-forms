@@ -1,19 +1,20 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useSettings } from "../../providers/SettingsContext";
 
-const FormGeneralError = (props) => {
+const FormGeneralError = ({ errorCode }) => {
   const { strings } = useSettings();
   let errorMessage = "";
 
-  if (props.errorCode === "formHasError") {
+  if (errorCode === "formHasError") {
     errorMessage = strings.errors.general;
   }
 
-  if (props.errorCode === "unknownError") {
+  if (errorCode === "unknownError") {
     errorMessage = strings.errors.unknownError;
   }
 
-  if (props.errorCode === "leastOneField") {
+  if (errorCode === "leastOneField") {
     errorMessage = strings.errors.leastOneField;
   }
 
@@ -26,6 +27,10 @@ const FormGeneralError = (props) => {
   } else {
     return false;
   }
+};
+
+FormGeneralError.propTypes = {
+  errorCode: PropTypes.string.isRequired,
 };
 
 export default FormGeneralError;

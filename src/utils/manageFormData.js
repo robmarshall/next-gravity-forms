@@ -48,7 +48,7 @@ export const cleanGroupedFields = (values) => {
   for (const [key, value] of Object.entries(values)) {
     if (Array.isArray(value)) {
       value
-        .filter((spot) => typeof spot !== undefined)
+        .filter((spot) => typeof spot !== "undefined")
         .forEach((inputValue, i) => (values[`${key}_${i + 1}`] = inputValue));
       delete values[key];
     }

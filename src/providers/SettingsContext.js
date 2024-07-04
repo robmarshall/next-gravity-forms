@@ -34,5 +34,7 @@ export const useSettings = () => useContext(SettingsContext);
 
 SettingsProvider.propTypes = {
   helperText: PropTypes.object,
+  databaseId: PropTypes.string,
+  helperFieldsSettings: PropTypes.object,
   children: PropTypes.node.isRequired,
 };

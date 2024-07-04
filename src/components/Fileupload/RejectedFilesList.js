@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { interpolateString } from "../../utils/helpers";
 import { getAllowedTypesList } from "./helpers";
 
@@ -58,6 +59,13 @@ const RejectedFilesList = ({ rejectedFiles, id, strings, accept }) => {
       ))}
     </ul>
   );
+};
+
+RejectedFilesList.propTypes = {
+  rejectedFiles: PropTypes.array,
+  strings: PropTypes.object,
+  id: PropTypes.number,
+  accept: PropTypes.array,
 };
 
 export default RejectedFilesList;
