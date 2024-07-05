@@ -186,7 +186,7 @@ const GravityFormForm = ({
           databaseId={databaseId}
           helperFieldsSettings={helperFieldsSettings}
         >
-          <FormProvider {...methods}>
+          <FormProvider {...methods} formFields={formFields}>
             <form
               className={
                 loading

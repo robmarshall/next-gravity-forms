@@ -30,13 +30,17 @@ const InputWrapper = ({
     isRequired ? '<span className="gfield_required">*</span>' : ""
   }`;
 
-  const { watch } = useFormContext();
+  const { watch, formFields } = useFormContext();
 
   const Label = inputs?.length > 0 ? "legend" : "label"; // if field has inputs, we render label as <legend>
   // @TODO replace li with div to match new GF markup
   const Wrapper = inputs?.length > 0 ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
 
-  const isHidden = checkConditionalRendering(conditionalLogic, watch);
+  const isHidden = checkConditionalRendering(
+    conditionalLogic,
+    watch,
+    formFields
+  );
 
   return (
     <Wrapper

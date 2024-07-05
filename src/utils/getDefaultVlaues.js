@@ -23,7 +23,6 @@ function getDefaultValues(fields, presetValues) {
       inputName: presetName,
       dateFormat: dateFormatUpper,
       dateType,
-      isMultiselectField,
     }) => {
       const inputName = `input_${id}`;
 
@@ -66,7 +65,7 @@ function getDefaultValues(fields, presetValues) {
         values[inputName] = getSelectDefaultValue({
           defaultValue,
           choices,
-          isMultiselectField,
+          isMultiselectField: valueToLowerCase(type) === "multiselect",
         });
       }
 
