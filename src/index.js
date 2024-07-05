@@ -10,7 +10,7 @@ import { handleGravityFormsValidationErrors } from "./utils/manageErrors";
 import getDefaultValues from "./utils/getDefaultVlaues";
 import { submissionHasOneFieldEntry } from "./utils/manageFormData";
 import formatPayload from "./utils/formatPayload";
-import { valueToLowerCase } from "./utils/helpers";
+import { valueToLowerCase, isInternalLink } from "./utils/helpers";
 import { submitGravityForm } from "./fetch";
 import { SettingsProvider } from "./providers/SettingsContext";
 import SubmitButton from "./components/SubmitButton";
@@ -152,15 +152,19 @@ const GravityFormForm = ({
     });
 
     if (confirmation.type === "PAGE") {
-      // TODO: Somehow need to get the page URL. Query currently
-      // returns the page ID for the page redirect.
-      redirect(confirmation?.url);
+      // TODO add fields values into link, .i.e. phone={Phone:1}&email={Email:2}
+      redirect(confirmation?.page?.node?.link);
     }
 
     if (confirmation.type === "REDIRECT") {
-      // TODO: Check that the redirect is internal.
-      // If not, use window.location to direct to external URL.
-      redirect(confirmation?.url);
+      if (!confirmation?.url) return;
+
+      // TODO add fields values into link, .i.e. phone={Phone:1}&email={Email:2}
+      if (isInternalLink(confirmation.url)) {
+        redirect(confirmation.url);
+      }
+
+      window.location.href = confirmation.url;
     }
 
     if (confirmation.type === "MESSAGE") {
