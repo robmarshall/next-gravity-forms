@@ -32,7 +32,6 @@ const FileUpload = ({ fieldData, name, ...wrapProps }) => {
     allowedExtensions: dirtyExtensions,
     maxFiles,
     errorMessage,
-    description,
     canAcceptMultipleFiles,
     id,
     // defaultValue, TODO does file upload have a default value??
@@ -145,13 +144,6 @@ const FileUpload = ({ fieldData, name, ...wrapProps }) => {
           />
           {rulesMessagesComponent()}
         </>
-      )}
-      {description && (
-        <div
-          className="gsection_description"
-          id={`gfield_description_${name}`}
-          dangerouslySetInnerHTML={{ __html: description }}
-        />
       )}
     </InputWrapper>
   );

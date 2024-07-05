@@ -7,7 +7,7 @@ import Picker from "./Picker";
 import FieldDropdown from "./FieldDropdown";
 
 const DateField = ({ presetValue, fieldData, name, ...wrapProps }) => {
-  const { dateType: dateTypeUpper, description } = fieldData;
+  const { dateType: dateTypeUpper } = fieldData;
 
   const dateType = valueToLowerCase(dateTypeUpper);
 
@@ -38,13 +38,6 @@ const DateField = ({ presetValue, fieldData, name, ...wrapProps }) => {
           name={name}
           control={control}
           type={dateType}
-        />
-      )}
-      {description && (
-        <div
-          className="gsection_description"
-          id={`gfield_description_${name}`}
-          dangerouslySetInnerHTML={{ __html: description }}
         />
       )}
     </InputWrapper>

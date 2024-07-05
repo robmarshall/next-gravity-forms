@@ -71,9 +71,7 @@ const FieldBuilder = ({
     );
 
     const wrapId = `field_${databaseId}_${id}`;
-
-    //TODO: Should this match GF version "input_form.id_input.id"
-    const name = `input_${field.id}`;
+    const name = `input_${databaseId}_${id}`;
 
     const presetValue = presetValues?.[inputName];
 
