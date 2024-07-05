@@ -66,9 +66,10 @@ const InputWrapper = ({
             </div>
         */}
       </div>
-      {(description && valueToLowerCase(descriptionPlacement) == "below") ||
-        (valueToLowerCase(descriptionPlacement) == "inherit" &&
-          outputDescription(description, wrapId))}
+      {description &&
+        (valueToLowerCase(descriptionPlacement) == "below" ||
+          valueToLowerCase(descriptionPlacement) == "inherit") &&
+        outputDescription(description, wrapId)}
       {isNonEmptyObject(errors) && (
         <div
           aria-live="polite"
