@@ -49,6 +49,7 @@ NumberInput.propTypes = {
   label: PropTypes.string.isRequired,
   customLabel: PropTypes.string,
   name: PropTypes.string.isRequired,
+  subLabelPlacement: PropTypes.string,
   fieldName: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

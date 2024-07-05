@@ -12,8 +12,8 @@ export const doesObjectExist = (obj) => {
 };
 
 export const filteredKeys = (obj, filter) => {
-  let key,
-    keys = [];
+  let key;
+  const keys = [];
   for (key in obj)
     if ({}.hasOwnProperty.call(obj, key) && filter.test(key)) keys.push(key);
   return keys;

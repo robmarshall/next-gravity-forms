@@ -53,7 +53,7 @@ export function dateStringToObj(dateString, dateFormat) {
   const dateObj = {};
 
   // Use a regular expression to match periods, slashes, or hyphens.
-  const dateArray = dateString.split(/[.\/-]/);
+  const dateArray = dateString.split(/[./-]/);
 
   // Only first 3 characters indicate date order
   const formatArray = [...dateFormat].slice(0, 3);
