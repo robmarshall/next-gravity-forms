@@ -6,6 +6,11 @@
     "mocha": true,
     "jest": true
   },
+  "settings": {
+    "react": {
+      "version": "detect" // React version. "detect" automatically picks the version
+    }
+  },
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "overrides": [
     {
@@ -24,6 +29,7 @@
   },
   "plugins": ["react"],
   "rules": {
-    "prefer-const": "error"
+    "prefer-const": "error",
+    "react/prop-types": 2
   }
 }

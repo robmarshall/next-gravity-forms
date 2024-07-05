@@ -1,5 +1,4 @@
 import React from "react";
-import classnames from "classnames";
 import PropTypes from "prop-types";
 import { valueToLowerCase } from "../../utils/helpers";
 import { forwardRef } from "react";
@@ -8,16 +7,8 @@ const Input = forwardRef(function Input(
   { fieldData, defaultValue, errors, name, ...props },
   ref
 ) {
-  const {
-    cssClass,
-    isRequired,
-    maxLength,
-    placeholder,
-    size,
-    type,
-    rangeMin,
-    rangeMax,
-  } = fieldData;
+  const { isRequired, maxLength, placeholder, type, rangeMin, rangeMax } =
+    fieldData;
 
   // substr default value if there is maxLength set
   const defaultFieldValue =
@@ -52,6 +43,8 @@ Input.propTypes = {
     isRequired: PropTypes.bool,
     type: PropTypes.string,
     size: PropTypes.string,
+    rangeMax: PropTypes.number,
+    rangeMin: PropTypes.number,
   }),
   name: PropTypes.string,
   errors: PropTypes.object,

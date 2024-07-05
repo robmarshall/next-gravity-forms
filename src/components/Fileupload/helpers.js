@@ -27,7 +27,8 @@ export function getRulesMessages(rul, strings) {
       interpolateString(strings.fileupload.maxFiles, { max: maxFiles })
     );
 
-  return rules.join(". ");
+  // Join rules with ". " and ensure a trailing dot if rules is not empty
+  return rules.length > 0 ? rules.join(". ") + "." : "";
 }
 
 // validate max file size
@@ -101,7 +102,7 @@ export const escHtml = (filename) => {
   // Regular expression to match any character that is not a letter, number, hyphen, underscore, or period
   const illegalRe = /[^a-zA-Z0-9-.]+/g;
   // Split the filename into name and extension
-  let [name, extension] = filename.split(".").reduce(
+  const [name, extension] = filename.split(".").reduce(
     (acc, val, i, arr) => {
       if (i === arr.length - 1) {
         // Last item, should be extension
@@ -116,8 +117,8 @@ export const escHtml = (filename) => {
   );
 
   // Remove illegal characters from the name part
-  name = name.replace(illegalRe, "");
+  const sanitizedName = name.replace(illegalRe, "");
 
   // Return the sanitized name with its extension, if it had one
-  return extension ? `${name}.${extension}` : name;
+  return extension ? `${sanitizedName}.${extension}` : sanitizedName;
 };
