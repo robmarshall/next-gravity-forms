@@ -7,8 +7,8 @@ import React from "react";
 export function outputDescription(description, wrapId) {
   return (
     <div
-      id={`gfield_description_${wrapId.replace(/^field_/, "")}`}
       className="gfield_description"
+      id={`gfield_description_${wrapId.replace(/^field_/, "")}`}
       dangerouslySetInnerHTML={{ __html: description }}
     />
   );
