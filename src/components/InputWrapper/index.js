@@ -80,9 +80,10 @@ const InputWrapper = ({
           />
         )}
       </div>
-      {(description && valueToLowerCase(descriptionPlacement) == "below") ||
-        (valueToLowerCase(descriptionPlacement) == "inherit" &&
-          outputDescription(description, wrapId))}
+      {description &&
+        (valueToLowerCase(descriptionPlacement) == "below" ||
+          valueToLowerCase(descriptionPlacement) == "inherit") &&
+        outputDescription(description, wrapId)}
       {isNonEmptyObject(errors) && (
         <div
           role="alert"
