@@ -7,7 +7,7 @@ import Picker from "./Picker";
 import FieldDropdown from "./FieldDropdown";
 
 const DateField = ({ presetValue, fieldData, name, ...wrapProps }) => {
-  const { dateType: dateTypeUpper, description } = fieldData;
+  const { dateType: dateTypeUpper } = fieldData;
 
   const dateType = valueToLowerCase(dateTypeUpper);
 

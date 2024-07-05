@@ -5,6 +5,11 @@
     "node": true,
     "mocha": true
   },
+  "settings": {
+    "react": {
+      "version": "detect" // React version. "detect" automatically picks the version
+    }
+  },
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "overrides": [
     {

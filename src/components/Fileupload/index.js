@@ -32,7 +32,6 @@ const FileUpload = ({ fieldData, name, ...wrapProps }) => {
     allowedExtensions: dirtyExtensions,
     maxFiles,
     errorMessage,
-    description,
     canAcceptMultipleFiles,
     id,
     // defaultValue, TODO does file upload have a default value??
