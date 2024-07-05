@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
 import { useSettings } from "../../../providers/SettingsContext";
@@ -12,7 +12,25 @@ import {
   dateStringToObj,
 } from "./helpers";
 
-const FieldDropdown = ({ fieldData, name, control, type, presetValue }) => {
+// get date default value based on presetValue or defaultValue values
+export const getDateDefaultValue = ({
+  dateFormatUpper,
+  inputs,
+  presetValue,
+}) => {
+  const dateFormat = valueToLowerCase(dateFormatUpper);
+  const presetDateObj = dateStringToObj(presetValue, dateFormat);
+
+  if (presetDateObj && isValidDate(presetDateObj)) return presetDateObj;
+
+  const defaultValue = getDefaultValue(inputs);
+
+  if (isValidDate(defaultValue)) return defaultValue;
+
+  return null;
+};
+
+const FieldDropdown = ({ fieldData, name, control, type, labelFor }) => {
   const {
     isRequired,
     dateFormat: dateFormatUpper,
@@ -22,14 +40,12 @@ const FieldDropdown = ({ fieldData, name, control, type, presetValue }) => {
   } = fieldData;
 
   const InputField = type === "field" ? NumberInput : NumberDropdown;
+  const dateFormat = valueToLowerCase(dateFormatUpper);
 
   const {
     fieldsSettings: { date: dateSettings },
     strings,
   } = useSettings();
-  const dateFormat = valueToLowerCase(dateFormatUpper);
-
-  const defaultValue = getDefaultValue(inputs);
 
   const data = [
     { name: "month", startNumber: 1, endNumber: 12, defaultPlaceholder: "MM" },
@@ -51,20 +67,10 @@ const FieldDropdown = ({ fieldData, name, control, type, presetValue }) => {
 
   const errorRequired = inputs.map((input) => input.label).join(", ");
 
-  const presetDateObj = dateStringToObj(presetValue, dateFormat);
-
-  const getProperDefault = () => {
-    if (presetDateObj && isValidDate(presetDateObj)) return presetDateObj;
-    if (isValidDate(defaultValue)) return defaultValue;
-
-    return null;
-  };
-
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue={getProperDefault()}
       render={({ field: { onChange, value } }) => {
         return elements.map(
           ({
@@ -74,16 +80,15 @@ const FieldDropdown = ({ fieldData, name, control, type, presetValue }) => {
             defaultPlaceholder,
             index,
             name,
-            defaultValue,
             ...rest
           }) => {
             return (
               <InputField
                 key={id}
                 {...rest}
-                selectedValue={presetDateObj?.[name] ?? defaultValue}
+                selectedValue={value?.[fieldName]}
                 name={`${name}[]`}
-                id={`${name}_${index + 1}`}
+                id={`${labelFor}_${index + 1}`}
                 placeholder={placeholder || defaultPlaceholder}
                 subLabelPlacement={subLabelPlacement}
                 onChange={(e) =>
@@ -116,7 +121,7 @@ FieldDropdown.propTypes = {
   name: PropTypes.string.isRequired,
   control: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
-  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  labelFor: PropTypes.string,
 };
 
 export default FieldDropdown;

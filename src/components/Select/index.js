@@ -7,7 +7,19 @@ import MultiSelectEnhancedUI from "./MultiSelectEnhancedUI";
 import { valueToLowerCase } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
+export const getSelectDefaultValue = ({
+  defaultValue,
+  options,
+  isMultiselectField,
+}) => {
+  let value = defaultValue || options.find((i) => i.isSelected)?.value;
+
+  if (isMultiselectField) value = value?.split(",");
+
+  return value;
+};
+
+const Select = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
 
   const {
@@ -18,12 +30,13 @@ const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
     placeholder,
     hasEnhancedUI,
     type,
+    errorMessage,
   } = fieldData;
 
   const isMultiselectField = valueToLowerCase(type) === "multiselect";
 
   // if there is placeholder we add it as first option with no value set
-  let options = [
+  const options = [
     ...(placeholder
       ? [
           {
@@ -43,13 +56,11 @@ const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
     formState: { errors },
   } = useFormContext();
 
-  const defaultValue = presetValue ?? options.find((i) => i.isSelected)?.value;
-
   return (
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       {...wrapProps}
     >
       {hasEnhancedUI ? (
@@ -57,12 +68,11 @@ const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
           name={name}
           options={options}
           cssClass={cssClass}
-          id={name}
+          id={labelFor}
           isRequired={isRequired}
           size={valueToLowerCase(size)}
           control={control}
           isMulti={isMultiselectField}
-          defaultValue={defaultValue}
         />
       ) : (
         <select
@@ -74,12 +84,11 @@ const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
             cssClass,
             valueToLowerCase(size)
           )}
-          id={name}
+          id={labelFor}
           name={name}
           {...register(name, {
-            required: isRequired && strings.errors.required,
+            required: isRequired && (errorMessage || strings.errors.required),
           })}
-          defaultValue={isMultiselectField ? [defaultValue] : defaultValue}
         >
           {options.map(({ text, value, className }, index) => {
             return (
@@ -100,12 +109,17 @@ const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
 export default Select;
 
 Select.propTypes = {
-  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  name: PropTypes.string,
+  labelFor: PropTypes.string,
   fieldData: PropTypes.shape({
     choices: PropTypes.array,
     cssClass: PropTypes.string,
     isRequired: PropTypes.bool,
     size: PropTypes.string,
+    placeholder: PropTypes.string,
+    hasEnhancedUI: PropTypes.bool,
+    errorMessage: PropTypes.string,
+    type: PropTypes.string,
   }),
   register: PropTypes.func,
   wrapProps: PropTypes.object,

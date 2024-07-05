@@ -3,10 +3,10 @@ import React from "react";
 import classnames from "classnames";
 import PropTypes from "prop-types";
 
-const Label = ({ name, label, sub_label_class }) => {
+const Label = ({ labelFor, label, sub_label_class }) => {
   return (
     <label
-      htmlFor={name}
+      htmlFor={labelFor}
       className={classnames(
         "gform-field-label gform-field-label--type-sub",
         sub_label_class
@@ -19,7 +19,7 @@ const Label = ({ name, label, sub_label_class }) => {
 Label.propTypes = {
   sub_label_class: PropTypes.string,
   label: PropTypes.string,
-  name: PropTypes.string,
+  labelFor: PropTypes.string,
 };
 
 export default Label;

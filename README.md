@@ -8,12 +8,20 @@ Uses [React Hook Forms](https://react-hook-form.com/) under the hood for all tha
 
 ## Installation
 
-```js
-# Install the component
-yarn add nextjs-gravity-forms
+either:
 
-# Or with NPM
-npm i nextjs-gravity-forms
+### Install with yarn
+
+```shell
+yarn add next-gravity-forms
+```
+
+or
+
+### Install with NPM
+
+```shell
+npm i next-gravity-forms
 ```
 
 ## How To Use
@@ -122,6 +130,14 @@ add_filter( 'graphql_response_headers_to_send', function( $headers ) {
 
 On your WordPress backend within the Gravity Forms settings set up reCaptcha. Follow the instructions provided by Gravity Forms.
 
+## File Upload
+
+To enable file uploading functionality, your GraphQL server must support the `Upload` scalar type. In WordPress, this can be easily achieved by installing the [WP GraphQL Upload](https://github.com/dre1080/wp-graphql-upload) plugin.
+
+If you attempt to add a file upload field to your form without support for the `Upload` scalar type, your API will return an error. Ensure that your GraphQL server is properly configured to handle file uploads by integrating the WP GraphQL Upload plugin or another equivalent solution that provides support for the `Upload` type.
+
+When enabling the `Enable Multi-File Upload` option, it's important to note that files are not uploaded immediately upon being dropped into the upload area. Instead, all files are uploaded together during the form submission process. However, be aware that this can introduce a delay, particularly when users upload large files. Might be good to show spinner while uploading.
+
 ## Date field
 
 The `Date Picker` functionality in our form utilizes the `react-datepicker` package. Please note that this package does not include default styles. To ensure proper styling of the date picker, you must either provide your own custom styles or import the default styles from the package. To use the default styles, include the following import statement in your code:
@@ -173,11 +189,11 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 
 - [x] Input
 - [x] Textarea
-- [ ] Select (half done, need to add default values)
-- [ ] Multiselect (currently breaks form)
-- [x] Number
-- [ ] Checkbox (half done, need to add default values)
-- [ ] Radio (half done, need to add default values and correct error placement)
+- [x] Select
+- [x] Multiselect
+- [ ] Number (range and number format is not working yet)
+- [ ] Checkbox (need to add select all)
+- [x] Radio
 - [x] Hidden
 - [x] HTML
 - [x] Captcha
@@ -185,17 +201,17 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Section
 - [ ] Page
 - [x] Date
-- [ ] File upload
+- [x] File upload
 - [ ] Post Fields
 - [ ] Pricing Fields
-- [ ] Phone
+- [ ] Phone (missing the international mask)
 - [x] Email
 - [ ] Configure error message (currently just 'An Unknown Error Occurred')
 - [ ] Integrate Success/Failure Handler from previous plugin
 
 ### General Form
 
-- [ ] Honeypot
+- [x] Honeypot
 - [ ] Save and Continue
 - [x] Add submit/error callback for custom use
 
@@ -218,7 +234,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [ ] Page Change
 - [ ] Redirect
 - [ ] Redirect query strings
-- [ ] Conditional Logic
+- [x] Conditional Logic
 
 ## Known Issues
 

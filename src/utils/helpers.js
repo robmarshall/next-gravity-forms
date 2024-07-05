@@ -12,8 +12,8 @@ export const doesObjectExist = (obj) => {
 };
 
 export const filteredKeys = (obj, filter) => {
-  let key,
-    keys = [];
+  let key;
+  const keys = [];
   for (key in obj)
     if ({}.hasOwnProperty.call(obj, key) && filter.test(key)) keys.push(key);
   return keys;
@@ -48,4 +48,9 @@ export const interpolateString = (template, values) => {
   return template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => {
     return values[key] || placeholder;
   });
+};
+
+export const isInternalLink = (url) => {
+  const currentOrigin = window.location.origin;
+  return url.startsWith(currentOrigin) || url.startsWith("/");
 };

@@ -9,6 +9,7 @@ import Select from "../../components/Select";
 import SelectorList from "../../components/SelectorList";
 import Textarea from "../../components/Textarea";
 import Section from "../../components/Section";
+import Fileupload from "../../components/Fileupload";
 import DateField from "../../components/Date";
 import Honeypot from "../../components/Honeypot";
 import Name from "../../components/Name";
@@ -19,9 +20,7 @@ import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
 const FieldBuilder = ({
   databaseId,
   formFields,
-  formLoading,
   preOnSubmit,
-  presetValues,
   settings,
   formLayoutProps,
 }) => {
@@ -33,7 +32,6 @@ const FieldBuilder = ({
       captchaTheme,
       description,
       descriptionPlacement,
-      inputName,
       isRequired,
       subLabelPlacement,
       labelPlacement,
@@ -42,7 +40,7 @@ const FieldBuilder = ({
       visibility,
     } = field;
 
-    let inputWrapperClass = classnames(
+    const inputWrapperClass = classnames(
       "gfield",
       "gfield--type-" + valueToLowerCase(type),
       field.cssClass,
@@ -71,11 +69,8 @@ const FieldBuilder = ({
     );
 
     const wrapId = `field_${databaseId}_${id}`;
-
-    //TODO: Should this match GF version "input_form.id_input.id"
-    const name = `input_${field.id}`;
-
-    const presetValue = presetValues?.[inputName];
+    const name = `input_${id}`;
+    const labelFor = `input_${databaseId}_${id}`;
 
     switch (field.type) {
       // Add note for unsupported captcha field
@@ -87,6 +82,7 @@ const FieldBuilder = ({
             gfId={id}
             key={id}
             name={name}
+            labelFor={labelFor}
             ref={preOnSubmit}
             settings={settings?.recaptcha}
             wrapClassName={inputWrapperClass}
@@ -99,6 +95,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -114,7 +111,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
-            presetValue={presetValue}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -126,7 +123,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
-            presetValue={presetValue}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -138,12 +135,11 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
-            presetValues={presetValues}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
         );
-
       case "EMAIL":
         return (
           <Email
@@ -151,7 +147,19 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
-            presetValue={presetValue}
+            labelFor={labelFor}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "FILEUPLOAD":
+        return (
+          <Fileupload
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -160,10 +168,10 @@ const FieldBuilder = ({
         return (
           <Textarea
             fieldData={field}
-            presetValue={presetValue}
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -176,7 +184,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
-            presetValue={presetValue}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -189,7 +197,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
-            presetValue={presetValue}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -212,6 +220,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />

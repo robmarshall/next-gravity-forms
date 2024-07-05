@@ -2,16 +2,15 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import InputWrapper from "../../components/InputWrapper";
-import { valueToLowerCase } from "../../utils/helpers";
 
-const Html = ({ fieldData, name, wrapClassName, ...wrapProps }) => {
-  const { content, cssClass, type } = fieldData;
+const Html = ({ fieldData, labelFor, wrapClassName, ...wrapProps }) => {
+  const { content, cssClass } = fieldData;
 
   return (
     <InputWrapper
       {...wrapProps}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       wrapClassName={classnames(
         wrapClassName,
         "gfield_html",
@@ -33,7 +32,7 @@ Html.propTypes = {
     content: PropTypes.string,
     type: PropTypes.string,
   }),
-  name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapClassName: PropTypes.string,
   wrapProps: PropTypes.object,
 };

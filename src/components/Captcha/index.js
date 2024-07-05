@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, {
   forwardRef,
   useState,
@@ -6,13 +5,17 @@ import React, {
   useEffect,
   useImperativeHandle,
 } from "react";
+import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import InputWrapper from "../InputWrapper";
 
 const Captcha = forwardRef(
-  ({ captchaTheme, fieldData, name, settings, ...wrapProps }, ref) => {
+  (
+    { captchaTheme, fieldData, name, settings, labelFor, ...wrapProps },
+    ref
+  ) => {
     const {
       register,
       formState: { errors },
@@ -72,7 +75,7 @@ const Captcha = forwardRef(
       <InputWrapper
         errors={errors?.[name] || {}}
         inputData={fieldData}
-        labelFor={name}
+        labelFor={labelFor}
         {...wrapProps}
       >
         <ReCAPTCHA
@@ -98,7 +101,9 @@ Captcha.propTypes = {
   captchaTheme: PropTypes.string,
   fieldData: PropTypes.object,
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapClassName: PropTypes.string,
+  settings: PropTypes.object,
 };
 
 export default Captcha;

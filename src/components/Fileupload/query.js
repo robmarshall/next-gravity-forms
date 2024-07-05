@@ -1,25 +1,23 @@
 import { conditionalLogicFragment } from "../../fragments";
 
-export const textareaFieldFragment = /* GraphQL */ `
-  ... on TextAreaField {
+export const fileuploadFieldFragment = /* GraphQL */ `
+  ... on FileUploadField {
     adminLabel
-    canPrepopulate
     conditionalLogic {
       ${conditionalLogicFragment}
     }
     cssClass
-    defaultValue
     description
     descriptionPlacement
     errorMessage
-    inputName
     isRequired
     label
-    maxLength
-    shouldAllowDuplicates
-    placeholder
-    size
-    hasRichTextEditor
     value
+    allowedExtensions
+    canAcceptMultipleFiles
+    inputType
+    maxFileSize
+    maxFiles
+    type
   }
 `;

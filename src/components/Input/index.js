@@ -19,9 +19,9 @@ const standardType = (type) => {
   }
 };
 
-const InputField = ({ presetValue, fieldData, name, ...wrapProps }) => {
+const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
-  const { inputMaskValue, isRequired, maxLength, type, size, defaultValue } =
+  const { inputMaskValue, isRequired, maxLength, type, size, errorMessage } =
     fieldData;
 
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
@@ -36,19 +36,19 @@ const InputField = ({ presetValue, fieldData, name, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       {...wrapProps}
     >
       <Input
-        defaultValue={presetValue ?? defaultValue}
         fieldData={{ ...fieldData, type: valueToLowerCase(inputType) }}
         className={classnames(valueToLowerCase(size), {
           gform_hidden: type === "HIDDEN",
         })}
         errors={errors}
         name={name}
+        labelFor={labelFor}
         {...register(name, {
-          required: isRequired && strings.errors.required,
+          required: isRequired && (errorMessage || strings.errors.required),
           maxLength: maxLength > 0 && {
             value: maxLength,
             message: `${strings.errors.maxChar.front}  ${maxLength} ${strings.errors.maxChar.back}`,
@@ -66,7 +66,6 @@ const InputField = ({ presetValue, fieldData, name, ...wrapProps }) => {
 export default InputField;
 
 InputField.propTypes = {
-  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     inputMaskValue: PropTypes.string,
@@ -75,8 +74,11 @@ InputField.propTypes = {
     isRequired: PropTypes.bool,
     type: PropTypes.string,
     size: PropTypes.string,
+    defaultValue: PropTypes.string,
+    errorMessage: PropTypes.string,
   }),
   value: PropTypes.string,
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
 };
