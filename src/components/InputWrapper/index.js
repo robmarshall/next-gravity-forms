@@ -15,6 +15,7 @@ const InputWrapper = ({
     maxLength,
     type,
     inputs,
+    choices,
   },
   labelFor,
   wrapClassName,
@@ -25,9 +26,12 @@ const InputWrapper = ({
     isRequired ? '<span className="gfield_required">*</span>' : ""
   }`;
 
-  const Label = inputs?.length > 0 ? "legend" : "label"; // if field has inputs, we render label as <legend>
-  // @TODO replace li with div to match new GF markup
-  const Wrapper = inputs?.length > 0 ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
+  const options = inputs || choices;
+  const compareValue = type === "EMAIL" ? 1 : 0; // for email field inputs consist of 1 input by default, and 2 in case of confirmation email
+
+  const checkForChildren = options?.length > compareValue;
+  const Label = checkForChildren ? "legend" : "label"; // if field has inputs, we render label as <legend>
+  const Wrapper = checkForChildren ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
 
   return (
     <Wrapper
@@ -40,7 +44,7 @@ const InputWrapper = ({
       {labelFor && (
         <Label
           className="gfield_label gform-field-label"
-          htmlFor={labelFor}
+          htmlFor={checkForChildren ? undefined : labelFor}
           dangerouslySetInnerHTML={{ __html: joinedLabel }}
         />
       )}
@@ -48,6 +52,7 @@ const InputWrapper = ({
         valueToLowerCase(descriptionPlacement) == "above" &&
         outputDescription(description, wrapId)}
       <div
+        id={checkForChildren ? labelFor : undefined} // only set an id when there are child elements like options
         className={classnames(
           `ginput_container ginput_container_${valueToLowerCase(type)}`,
           ginputClassName
@@ -101,6 +106,7 @@ InputWrapper.propTypes = {
     maxLength: PropTypes.number,
     type: PropTypes.string,
     inputs: PropTypes.array,
+    choices: PropTypes.array,
   }),
   labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   wrapClassName: PropTypes.string,

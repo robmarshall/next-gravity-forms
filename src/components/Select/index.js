@@ -7,7 +7,7 @@ import MultiSelectEnhancedUI from "./MultiSelectEnhancedUI";
 import { valueToLowerCase } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
+const Select = ({ presetValue, fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
 
   const {
@@ -56,7 +56,7 @@ const Select = ({ presetValue, fieldData, name, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       {...wrapProps}
     >
       {hasEnhancedUI ? (
@@ -109,6 +109,7 @@ export default Select;
 Select.propTypes = {
   presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   fieldData: PropTypes.shape({
     choices: PropTypes.array,
     cssClass: PropTypes.string,

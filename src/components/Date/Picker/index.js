@@ -19,7 +19,7 @@ const dateFormats = {
   ymd_dot: "yyyy.MM.dd",
 };
 
-const Picker = ({ fieldData, name, control, presetValue }) => {
+const Picker = ({ fieldData, name, inputId, control, presetValue, errors }) => {
   const {
     isRequired,
     defaultValue,
@@ -68,6 +68,10 @@ const Picker = ({ fieldData, name, control, presetValue }) => {
           <DatePicker
             selected={value}
             id={name}
+            name={`input_${inputId}`}
+            ariaRequired={isRequired}
+            ariaInvalid={errors?.type}
+            ariaDescribedBy={`${name}_date_format`}
             onChange={onChange}
             dateFormat={dateFormats[dateFormat]}
             showMonthDropdown
@@ -118,7 +122,9 @@ Picker.propTypes = {
   control: PropTypes.object,
   fieldData: PropTypes.object,
   name: PropTypes.string,
+  inputId: PropTypes.number,
   presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  errors: PropTypes.object,
 };
 
 export default Picker;
