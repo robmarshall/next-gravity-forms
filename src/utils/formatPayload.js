@@ -12,7 +12,13 @@
  */
 import formatDate from "./formatDate";
 
-const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
+const formatter = ({
+  id,
+  fieldResponse,
+  serverDataItem,
+  clientData,
+  databaseId,
+}) => {
   const { type, inputs, choices } = serverDataItem;
   switch (type) {
     case "ADDRESS":
@@ -44,7 +50,7 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
         return {
           emailValues: {
             value: fieldResponse,
-            confirmationValue: clientData[`input_${id}_2`],
+            confirmationValue: clientData[`input_${databaseId}_${id}_2`],
           },
         };
       }
@@ -105,17 +111,23 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
   }
 };
 
-export default ({ serverData, clientData }) => {
+export default ({ serverData, clientData, databaseId }) => {
   const formattedData = serverData
     .map(({ id, ...rest }) => {
       // Does this particular field have a response?
-      const fieldResponse = clientData[`input_${id}`];
+      const fieldResponse = clientData[`input_${databaseId}_${id}`];
 
       // If so, lets re-format and add to array.
       if (fieldResponse) {
         return {
           id,
-          ...formatter({ id, fieldResponse, clientData, serverDataItem: rest }),
+          ...formatter({
+            id,
+            fieldResponse,
+            clientData,
+            serverDataItem: rest,
+            databaseId,
+          }),
         };
       }
     })

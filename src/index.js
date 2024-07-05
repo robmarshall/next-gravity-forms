@@ -88,6 +88,7 @@ const GravityFormForm = ({
         const formRes = formatPayload({
           serverData: formFieldNodes,
           clientData: values,
+          databaseId,
         });
 
         try {
@@ -107,12 +108,14 @@ const GravityFormForm = ({
             setLoading(false);
             handleGravityFormsValidationErrors(
               submitRes?.submitGfForm?.errors,
+              databaseId,
               setError
             );
             errorCallback({
               data: formRes,
               error: handleGravityFormsValidationErrors(
-                submitRes?.submitGfForm?.errors
+                submitRes?.submitGfForm?.errors,
+                databaseId
               ),
               reset,
             });
