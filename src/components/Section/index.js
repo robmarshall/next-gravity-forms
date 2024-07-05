@@ -5,8 +5,6 @@ import { outputDescription } from "../../utils/inputSettings";
 
 const Section = ({ fieldData, wrapClassName, wrapId }) => {
   const { label, description, cssClass } = fieldData;
-  // @TODO: replace li with div, just like needed in InputWrapper.
-  // I skipped the InputWrapper here because we don't need any logic from it
   return (
     <div
       className={classnames(wrapClassName, cssClass, "gsection")}

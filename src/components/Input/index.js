@@ -19,7 +19,13 @@ const standardType = (type) => {
   }
 };
 
-const InputField = ({ presetValue, fieldData, name, ...wrapProps }) => {
+const InputField = ({
+  presetValue,
+  fieldData,
+  name,
+  labelFor,
+  ...wrapProps
+}) => {
   const { strings } = useSettings();
   const {
     inputMaskValue,
@@ -43,7 +49,7 @@ const InputField = ({ presetValue, fieldData, name, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       {...wrapProps}
     >
       <Input
@@ -87,5 +93,6 @@ InputField.propTypes = {
   }),
   value: PropTypes.string,
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
 };

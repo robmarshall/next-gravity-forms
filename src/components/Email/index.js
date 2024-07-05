@@ -7,7 +7,7 @@ import InputWrapper from "../InputWrapper";
 import { Input, ConditionalWrapper, SubLabelWrapper } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Email = ({ presetValue, fieldData, name, ...wrapProps }) => {
+const Email = ({ presetValue, fieldData, name, labelFor, ...wrapProps }) => {
   const {
     isRequired,
     maxLength,
@@ -30,7 +30,7 @@ const Email = ({ presetValue, fieldData, name, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || errors?.[`${name}_2`] || {}}
       inputData={fieldData}
-      labelFor={!confirmEmailField ? name : undefined}
+      labelFor={!confirmEmailField ? labelFor : undefined}
       {...wrapProps}
     >
       <ConditionalWrapper // render only when there is confirmation field added
@@ -117,5 +117,6 @@ Email.propTypes = {
   }),
   value: PropTypes.string,
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
 };

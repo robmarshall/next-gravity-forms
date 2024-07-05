@@ -6,7 +6,13 @@ import { valueToLowerCase } from "../../utils/helpers";
 import Picker from "./Picker";
 import FieldDropdown from "./FieldDropdown";
 
-const DateField = ({ presetValue, fieldData, name, ...wrapProps }) => {
+const DateField = ({
+  presetValue,
+  fieldData,
+  name,
+  labelFor,
+  ...wrapProps
+}) => {
   const { dateType: dateTypeUpper, id } = fieldData;
 
   const dateType = valueToLowerCase(dateTypeUpper);
@@ -20,7 +26,7 @@ const DateField = ({ presetValue, fieldData, name, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       ginputClassName={dateType != "picker" && "ginput_complex gform-grid-row"}
       {...wrapProps}
     >
@@ -56,5 +62,6 @@ DateField.propTypes = {
   }),
   value: PropTypes.string,
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
 };

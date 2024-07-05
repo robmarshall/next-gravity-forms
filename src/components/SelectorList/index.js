@@ -8,7 +8,13 @@ import { useSettings } from "../../providers/SettingsContext";
 import SelectDeselectButton from "./SelectDeselectButton";
 
 // TODO: Enable Select All Choice
-const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
+const SelectorList = ({
+  presetValue,
+  fieldData,
+  name,
+  labelFor,
+  ...wrapProps
+}) => {
   const { strings } = useSettings();
   const {
     id,
@@ -48,7 +54,7 @@ const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name]}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       {...wrapProps}
     >
       <div className={`gfield_${type}`} id={name}>
@@ -110,5 +116,6 @@ SelectorList.propTypes = {
     hasSelectAll: PropTypes.bool,
   }),
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
 };

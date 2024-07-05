@@ -8,7 +8,7 @@ import { getDefaultValue } from "./helpers";
 import { interpolateString } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Name = ({ fieldData, name, presetValues, ...wrapProps }) => {
+const Name = ({ fieldData, name, presetValues, labelFor, ...wrapProps }) => {
   const { inputs, subLabelPlacement, errorMessage, isRequired } = fieldData;
   const { gfId } = wrapProps;
 
@@ -28,7 +28,7 @@ const Name = ({ fieldData, name, presetValues, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       {...wrapProps}
     >
       <Controller
@@ -122,6 +122,7 @@ Name.propTypes = {
     errorMessage: PropTypes.string,
   }),
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   presetValues: PropTypes.object,
   wrapProps: PropTypes.object,
 };
