@@ -40,13 +40,6 @@ const DateField = ({ presetValue, fieldData, name, ...wrapProps }) => {
           type={dateType}
         />
       )}
-      {description && (
-        <div
-          className="gsection_description"
-          id={`gfield_description_${name}`}
-          dangerouslySetInnerHTML={{ __html: description }}
-        />
-      )}
     </InputWrapper>
   );
 };
