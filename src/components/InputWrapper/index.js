@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
+import { useFormContext } from "react-hook-form";
+import { checkConditionalRendering } from "./helpers";
 
 const InputWrapper = ({
   children,
@@ -15,6 +17,7 @@ const InputWrapper = ({
     maxLength,
     type,
     inputs,
+    conditionalLogic,
     choices,
   },
   labelFor,
@@ -26,12 +29,20 @@ const InputWrapper = ({
     isRequired ? '<span className="gfield_required">*</span>' : ""
   }`;
 
+  const { watch, formFields } = useFormContext();
+
   const options = inputs || choices;
   const compareValue = type === "EMAIL" ? 1 : 0; // for email field inputs consist of 1 input by default, and 2 in case of confirmation email
 
   const checkForChildren = options?.length > compareValue;
   const Label = checkForChildren ? "legend" : "label"; // if field has inputs, we render label as <legend>
   const Wrapper = checkForChildren ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
+
+  const isHidden = checkConditionalRendering(
+    conditionalLogic,
+    watch,
+    formFields
+  );
 
   return (
     <Wrapper
@@ -40,6 +51,7 @@ const InputWrapper = ({
         errors?.type && "gravityform__field--error"
       )}
       id={wrapId}
+      style={isHidden ? { display: "none" } : undefined}
     >
       {labelFor && (
         <Label
@@ -71,10 +83,12 @@ const InputWrapper = ({
             </div>
         */}
       </div>
+
       {description &&
         (valueToLowerCase(descriptionPlacement) == "below" ||
           valueToLowerCase(descriptionPlacement) == "inherit") &&
         outputDescription(description, wrapId)}
+
       {isNonEmptyObject(errors) && (
         <div
           aria-live="polite"
@@ -105,11 +119,12 @@ InputWrapper.propTypes = {
     isRequired: PropTypes.bool,
     maxLength: PropTypes.number,
     type: PropTypes.string,
+    conditionalLogic: PropTypes.object,
     inputs: PropTypes.array,
     choices: PropTypes.array,
   }),
+  ginputClassName: PropTypes.string,
   labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   wrapClassName: PropTypes.string,
-  ginputClassName: PropTypes.string,
   wrapId: PropTypes.string,
 };

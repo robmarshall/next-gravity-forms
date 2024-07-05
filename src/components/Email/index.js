@@ -7,7 +7,7 @@ import InputWrapper from "../InputWrapper";
 import { Input, ConditionalWrapper, SubLabelWrapper } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Email = ({ presetValue, fieldData, name, labelFor, ...wrapProps }) => {
+const Email = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const {
     isRequired,
     maxLength,
@@ -42,6 +42,7 @@ const Email = ({ presetValue, fieldData, name, labelFor, ...wrapProps }) => {
             className="ginput_left"
             {...emailField}
             name={name}
+            labelFor={labelFor}
           >
             {children}
           </SubLabelWrapper>
@@ -50,7 +51,6 @@ const Email = ({ presetValue, fieldData, name, labelFor, ...wrapProps }) => {
         <Input
           name={name}
           errors={errors}
-          defaultValue={presetValue ?? emailField?.defaultValue}
           fieldData={{ ...fieldData, type: "email" }}
           className={valueToLowerCase(size)}
           {...register(name, {
@@ -67,6 +67,7 @@ const Email = ({ presetValue, fieldData, name, labelFor, ...wrapProps }) => {
               ),
             },
           })}
+          labelFor={labelFor}
           placeholder={emailField?.placeholder || placeholder}
         />
       </ConditionalWrapper>
@@ -78,12 +79,13 @@ const Email = ({ presetValue, fieldData, name, labelFor, ...wrapProps }) => {
           className="ginput_right"
           {...confirmEmailField}
           name={`${name}_2`}
+          labelFor={`${labelFor}_2`}
         >
           <Input
             name={`${name}_2`}
             errors={errors}
-            defaultValue={presetValue ?? confirmEmailField?.defaultValue}
             fieldData={{ ...fieldData, type: "email" }}
+            labelFor={`${labelFor}_2`}
             {...register(`${name}_2`, {
               required: isRequired && strings.errors.required,
               validate: (val) => {
@@ -103,7 +105,6 @@ const Email = ({ presetValue, fieldData, name, labelFor, ...wrapProps }) => {
 export default Email;
 
 Email.propTypes = {
-  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     maxLength: PropTypes.number,

@@ -21,7 +21,6 @@ const FieldBuilder = ({
   databaseId,
   formFields,
   preOnSubmit,
-  presetValues,
   settings,
   formLayoutProps,
 }) => {
@@ -33,7 +32,6 @@ const FieldBuilder = ({
       captchaTheme,
       description,
       descriptionPlacement,
-      inputName,
       isRequired,
       subLabelPlacement,
       labelPlacement,
@@ -73,8 +71,6 @@ const FieldBuilder = ({
     const wrapId = `field_${databaseId}_${id}`;
     const name = `input_${id}`;
     const labelFor = `input_${databaseId}_${id}`;
-
-    const presetValue = presetValues?.[inputName];
 
     switch (field.type) {
       // Add note for unsupported captcha field
@@ -116,7 +112,6 @@ const FieldBuilder = ({
             gfId={id}
             name={name}
             labelFor={labelFor}
-            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -129,7 +124,6 @@ const FieldBuilder = ({
             gfId={id}
             name={name}
             labelFor={labelFor}
-            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -142,12 +136,10 @@ const FieldBuilder = ({
             gfId={id}
             name={name}
             labelFor={labelFor}
-            presetValues={presetValues}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
         );
-
       case "EMAIL":
         return (
           <Email
@@ -156,7 +148,6 @@ const FieldBuilder = ({
             gfId={id}
             name={name}
             labelFor={labelFor}
-            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -169,7 +160,6 @@ const FieldBuilder = ({
             gfId={id}
             name={name}
             labelFor={labelFor}
-            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -178,7 +168,6 @@ const FieldBuilder = ({
         return (
           <Textarea
             fieldData={field}
-            presetValue={presetValue}
             key={id}
             gfId={id}
             name={name}
@@ -196,7 +185,6 @@ const FieldBuilder = ({
             gfId={id}
             name={name}
             labelFor={labelFor}
-            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -210,7 +198,6 @@ const FieldBuilder = ({
             gfId={id}
             name={name}
             labelFor={labelFor}
-            presetValue={presetValue}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />

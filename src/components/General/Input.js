@@ -4,7 +4,7 @@ import { valueToLowerCase } from "../../utils/helpers";
 import { forwardRef } from "react";
 
 const Input = forwardRef(function Input(
-  { fieldData, defaultValue, errors, name, ...props },
+  { fieldData, defaultValue, errors, name, labelFor, ...props },
   ref
 ) {
   const { isRequired, maxLength, placeholder, type } = fieldData;
@@ -24,7 +24,7 @@ const Input = forwardRef(function Input(
       aria-required={isRequired}
       aria-describedby={describedBy}
       defaultValue={defaultFieldValue}
-      id={name}
+      id={labelFor}
       maxLength={maxLength || 524288} // 524288 = 512kb, avoids invalid prop type error if maxLength is undefined.
       name={name}
       placeholder={placeholder}
@@ -46,6 +46,7 @@ Input.propTypes = {
     size: PropTypes.string,
   }),
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   errors: PropTypes.object,
 };
 

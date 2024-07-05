@@ -19,23 +19,10 @@ const standardType = (type) => {
   }
 };
 
-const InputField = ({
-  presetValue,
-  fieldData,
-  name,
-  labelFor,
-  ...wrapProps
-}) => {
+const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
-  const {
-    inputMaskValue,
-    isRequired,
-    maxLength,
-    type,
-    size,
-    defaultValue,
-    errorMessage,
-  } = fieldData;
+  const { inputMaskValue, isRequired, maxLength, type, size, errorMessage } =
+    fieldData;
 
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
   const inputType = standardType(type);
@@ -53,13 +40,13 @@ const InputField = ({
       {...wrapProps}
     >
       <Input
-        defaultValue={presetValue ?? defaultValue}
         fieldData={{ ...fieldData, type: valueToLowerCase(inputType) }}
         className={classnames(valueToLowerCase(size), {
           gform_hidden: type === "HIDDEN",
         })}
         errors={errors}
         name={name}
+        labelFor={labelFor}
         {...register(name, {
           required: isRequired && (errorMessage || strings.errors.required),
           maxLength: maxLength > 0 && {
@@ -79,7 +66,6 @@ const InputField = ({
 export default InputField;
 
 InputField.propTypes = {
-  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     inputMaskValue: PropTypes.string,

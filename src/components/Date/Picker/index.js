@@ -19,10 +19,18 @@ const dateFormats = {
   ymd_dot: "yyyy.MM.dd",
 };
 
-const Picker = ({ fieldData, name, inputId, control, presetValue, errors }) => {
+export const getDatePickerDefaultValue = ({ presetValue, defaultValue }) => {
+  if (presetValue && isValidDate(new Date(presetValue)))
+    return new Date(presetValue);
+  if (defaultValue && isValidDate(new Date(defaultValue)))
+    return new Date(defaultValue);
+
+  return null;
+};
+
+const Picker = ({ fieldData, name, inputId, labelFor, control, errors }) => {
   const {
     isRequired,
-    defaultValue,
     dateFormat: dateFormatUpper,
     placeholder,
     calendarIconType,
@@ -49,25 +57,15 @@ const Picker = ({ fieldData, name, inputId, control, presetValue, errors }) => {
     },
   };
 
-  const getProperDefault = () => {
-    if (presetValue && isValidDate(new Date(presetValue)))
-      return new Date(presetValue);
-    if (defaultValue && isValidDate(new Date(defaultValue)))
-      return new Date(defaultValue);
-
-    return null;
-  };
-
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue={getProperDefault()}
       render={({ field: { onChange, value } }) => (
         <>
           <DatePicker
             selected={value}
-            id={name}
+            id={labelFor}
             name={`input_${inputId}`}
             ariaRequired={isRequired}
             ariaInvalid={errors?.type}
@@ -123,8 +121,8 @@ Picker.propTypes = {
   fieldData: PropTypes.object,
   name: PropTypes.string,
   inputId: PropTypes.number,
-  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   errors: PropTypes.object,
+  labelFor: PropTypes.string,
 };
 
 export default Picker;

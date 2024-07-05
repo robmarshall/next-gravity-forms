@@ -23,6 +23,7 @@ const NumberInput = ({
       name={id}
       label={customLabel || label}
       as="div"
+      labelFor={id}
     >
       <input
         defaultValue={selectedValue && parseInt(selectedValue, 10)}
@@ -53,6 +54,7 @@ NumberInput.propTypes = {
   fieldName: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  labelFor: PropTypes.string,
 };
 
 export default NumberInput;
