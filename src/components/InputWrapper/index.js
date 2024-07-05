@@ -89,7 +89,8 @@ const InputWrapper = ({
       </ConditionalWrapper>
 
       {description &&
-        valueToLowerCase(descriptionPlacement) == "below" &&
+        (valueToLowerCase(descriptionPlacement) == "below" ||
+          valueToLowerCase(descriptionPlacement) == "inherit") &&
         outputDescription(description, wrapId)}
 
       {isNonEmptyObject(errors) && (
