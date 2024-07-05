@@ -52,7 +52,7 @@ const InputWrapper = ({
         valueToLowerCase(descriptionPlacement) == "above" &&
         outputDescription(description, wrapId)}
       <div
-        id={checkForChildren && labelFor} // only set an id when there are child elements like options
+        id={checkForChildren ? labelFor : undefined} // only set an id when there are child elements like options
         className={classnames(
           `ginput_container ginput_container_${valueToLowerCase(type)}`,
           ginputClassName
