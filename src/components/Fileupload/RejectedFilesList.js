@@ -64,7 +64,7 @@ const RejectedFilesList = ({ rejectedFiles, id, strings, accept }) => {
 RejectedFilesList.propTypes = {
   rejectedFiles: PropTypes.array,
   strings: PropTypes.object,
-  id: PropTypes.number,
+  id: PropTypes.string,
   accept: PropTypes.array,
 };
 

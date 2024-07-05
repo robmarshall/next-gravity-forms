@@ -156,7 +156,7 @@ MultiFileupload.propTypes = {
   strings: PropTypes.object,
   maxFileSize: PropTypes.number,
   maxFiles: PropTypes.number,
-  rulesMessages: PropTypes.string,
+  rulesMessages: PropTypes.object,
   setValue: PropTypes.func,
 };
 
