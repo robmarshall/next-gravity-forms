@@ -21,6 +21,11 @@ export const formConfirmationFragment = /* GraphQL */ `
   queryString
   type
   url
+  page {
+    node {
+      link
+    }
+  }
 `;
 
 export const submitButtonFragment = /* GraphQL */ `

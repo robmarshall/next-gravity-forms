@@ -204,7 +204,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] File upload
 - [ ] Post Fields
 - [ ] Pricing Fields
-- [ ] Phone
+- [ ] Phone (missing the international mask)
 - [x] Email
 - [ ] Configure error message (currently just 'An Unknown Error Occurred')
 - [ ] Integrate Success/Failure Handler from previous plugin
@@ -234,7 +234,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [ ] Page Change
 - [ ] Redirect
 - [ ] Redirect query strings
-- [ ] Conditional Logic
+- [x] Conditional Logic
 
 ## Known Issues
 

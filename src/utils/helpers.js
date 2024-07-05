@@ -49,3 +49,8 @@ export const interpolateString = (template, values) => {
     return values[key] || placeholder;
   });
 };
+
+export const isInternalLink = (url) => {
+  const currentOrigin = window.location.origin;
+  return url.startsWith(currentOrigin) || url.startsWith("/");
+};
