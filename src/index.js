@@ -96,7 +96,7 @@ const GravityFormForm = ({
             fieldValues: formRes,
           });
 
-          if (!submitRes?.errors?.length) {
+          if (!submitRes?.errors?.length && !submitRes?.submitGfForm?.errors) {
             setSuccess(true);
             setLoading(false);
             successCallback({
@@ -105,10 +105,15 @@ const GravityFormForm = ({
             });
           } else {
             setLoading(false);
-            handleGravityFormsValidationErrors(submitRes?.errors, setError);
+            handleGravityFormsValidationErrors(
+              submitRes?.submitGfForm?.errors,
+              setError
+            );
             errorCallback({
               data: formRes,
-              error: handleGravityFormsValidationErrors(submitRes?.errors),
+              error: handleGravityFormsValidationErrors(
+                submitRes?.submitGfForm?.errors
+              ),
               reset,
             });
           }

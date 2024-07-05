@@ -17,14 +17,15 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
   switch (type) {
     case "ADDRESS":
       return {
-        addressValues: value,
+        addressValues: fieldResponse, // @TODO does it work?
       };
     case "CAPTCHA":
       return {
         value: fieldResponse,
       };
     case "CHECKBOX":
-      let selectedChoices = [];
+      // eslint-disable-next-line no-case-declarations
+      const selectedChoices = [];
       // Loop through all Gravity Form Checkbox choices.
       choices.forEach(({ value }, index) => {
         const isSelected = fieldResponse.includes(value);
@@ -53,6 +54,10 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
           value: fieldResponse,
         },
       };
+    case "FILEUPLOAD":
+      return {
+        fileUploadValues: fieldResponse,
+      };
     case "NAME": {
       return { nameValues: fieldResponse };
     }
@@ -74,6 +79,7 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
         value: fieldResponse,
       };
     case "DATE":
+      // eslint-disable-next-line no-case-declarations
       const { dateFormat, dateType } = serverDataItem;
       return {
         value: formatDate(fieldResponse, dateType, dateFormat),
