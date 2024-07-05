@@ -71,7 +71,7 @@ const FieldBuilder = ({
     );
 
     const wrapId = `field_${databaseId}_${id}`;
-    const name = `input_${databaseId}_${id}`;
+    const name = `input_${id}`;
 
     const presetValue = presetValues?.[inputName];
 
