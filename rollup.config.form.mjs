@@ -10,8 +10,22 @@ import pkg from "./package.json" assert { type: "json" };
 export default {
   input: "src/index.js",
   output: [
-    { file: pkg.main, format: "cjs", exports: "default", sourcemap: true },
-    { file: pkg.module, format: "esm", exports: "default", sourcemap: true },
+    {
+      dir: "dist/cjs",
+      format: "cjs",
+      exports: "default",
+      sourcemap: true,
+      entryFileNames: "[name].cjs.js",
+      chunkFileNames: "[name]-[hash].cjs.js",
+    },
+    {
+      dir: "dist/esm",
+      format: "esm",
+      exports: "default",
+      sourcemap: true,
+      entryFileNames: "[name].esm.js",
+      chunkFileNames: "[name]-[hash].esm.js",
+    },
   ],
   plugins: [
     babel({
@@ -29,12 +43,11 @@ export default {
     generatePackageJson({
       baseContents: (pkg) => ({
         ...pkg,
-        name: pkg.name,
-        main: "index.cjs.js",
-        module: "index.esm.js",
+        main: "cjs/index.cjs.js",
+        module: "esm/index.esm.js",
       }),
       outputFolder: "dist",
     }),
   ],
-  external: Object.keys(pkg.peerDependencies),
+  external: Object.keys(pkg.peerDependencies || {}),
 };

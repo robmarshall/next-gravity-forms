@@ -1,12 +1,14 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import { useSettings } from "../../../providers/SettingsContext";
 import { valueToLowerCase, interpolateString } from "../../../utils/helpers";
 import CalendarIconComponent from "./CalendarIconComponent";
 import { isValidDate } from "./helpers";
+
+const DatePicker = lazy(() => import("react-datepicker"));
+
 // import "react-datepicker/dist/react-datepicker.css";
 
 const dateFormats = {
@@ -62,7 +64,7 @@ const Picker = ({ fieldData, name, inputId, labelFor, control, errors }) => {
       name={name}
       control={control}
       render={({ field: { onChange, value } }) => (
-        <>
+        <Suspense>
           <DatePicker
             selected={value}
             id={labelFor}
@@ -101,7 +103,7 @@ const Picker = ({ fieldData, name, inputId, labelFor, control, errors }) => {
               {datepicker.screenReaderText[dateFormat]}
             </span>
           )}
-        </>
+        </Suspense>
       )}
       rules={{
         required: isRequired && (errorMessage || strings.errors.required),
