@@ -69,7 +69,8 @@ const FieldBuilder = ({
     );
 
     const wrapId = `field_${databaseId}_${id}`;
-    const name = `input_${databaseId}_${id}`;
+    const name = `input_${id}`;
+    const labelFor = `input_${databaseId}_${id}`;
 
     switch (field.type) {
       // Add note for unsupported captcha field
@@ -81,6 +82,7 @@ const FieldBuilder = ({
             gfId={id}
             key={id}
             name={name}
+            labelFor={labelFor}
             ref={preOnSubmit}
             settings={settings?.recaptcha}
             wrapClassName={inputWrapperClass}
@@ -93,6 +95,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -108,6 +111,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -119,6 +123,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -130,6 +135,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -141,6 +147,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -152,6 +159,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -163,6 +171,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -175,6 +184,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -187,6 +197,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />
@@ -209,6 +220,7 @@ const FieldBuilder = ({
             key={id}
             gfId={id}
             name={name}
+            labelFor={labelFor}
             wrapClassName={inputWrapperClass}
             wrapId={wrapId}
           />

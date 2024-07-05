@@ -19,7 +19,7 @@ export const getSelectDefaultValue = ({
   return value;
 };
 
-const Select = ({ fieldData, name, ...wrapProps }) => {
+const Select = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
 
   const {
@@ -60,7 +60,7 @@ const Select = ({ fieldData, name, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       {...wrapProps}
     >
       {hasEnhancedUI ? (
@@ -110,6 +110,7 @@ export default Select;
 
 Select.propTypes = {
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   fieldData: PropTypes.shape({
     choices: PropTypes.array,
     cssClass: PropTypes.string,

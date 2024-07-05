@@ -7,7 +7,7 @@ import { valueToLowerCase } from "../../utils/helpers";
 import getFieldError from "../../utils/getFieldError";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Textarea = ({ fieldData, name, wrapClassName, wrapId }) => {
+const Textarea = ({ fieldData, name, labelFor, wrapClassName, wrapId }) => {
   const { strings } = useSettings();
   const {
     cssClass,
@@ -33,7 +33,7 @@ const Textarea = ({ fieldData, name, wrapClassName, wrapId }) => {
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       wrapClassName={wrapClassName}
       wrapId={wrapId}
     >
@@ -79,6 +79,7 @@ Textarea.propTypes = {
     errorMessage: PropTypes.string,
   }),
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapClassName: PropTypes.string,
   wrapId: PropTypes.string,
 };

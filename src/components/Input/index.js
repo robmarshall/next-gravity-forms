@@ -19,7 +19,7 @@ const standardType = (type) => {
   }
 };
 
-const InputField = ({ fieldData, name, ...wrapProps }) => {
+const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
   const { inputMaskValue, isRequired, maxLength, type, size, errorMessage } =
     fieldData;
@@ -36,7 +36,7 @@ const InputField = ({ fieldData, name, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       {...wrapProps}
     >
       <Input
@@ -78,5 +78,6 @@ InputField.propTypes = {
   }),
   value: PropTypes.string,
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
 };
