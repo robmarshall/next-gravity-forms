@@ -68,7 +68,7 @@ const Select = ({ fieldData, name, labelFor, ...wrapProps }) => {
           name={name}
           options={options}
           cssClass={cssClass}
-          id={name}
+          id={labelFor}
           isRequired={isRequired}
           size={valueToLowerCase(size)}
           control={control}
@@ -84,7 +84,7 @@ const Select = ({ fieldData, name, labelFor, ...wrapProps }) => {
             cssClass,
             valueToLowerCase(size)
           )}
-          id={name}
+          id={labelFor}
           name={name}
           {...register(name, {
             required: isRequired && (errorMessage || strings.errors.required),

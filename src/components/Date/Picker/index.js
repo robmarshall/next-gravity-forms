@@ -28,7 +28,7 @@ export const getDatePickerDefaultValue = ({ presetValue, defaultValue }) => {
   return null;
 };
 
-const Picker = ({ fieldData, name, inputId, control, errors }) => {
+const Picker = ({ fieldData, name, inputId, labelFor, control, errors }) => {
   const {
     isRequired,
     dateFormat: dateFormatUpper,
@@ -65,7 +65,7 @@ const Picker = ({ fieldData, name, inputId, control, errors }) => {
         <>
           <DatePicker
             selected={value}
-            id={name}
+            id={labelFor}
             name={`input_${inputId}`}
             ariaRequired={isRequired}
             ariaInvalid={errors?.type}
@@ -122,6 +122,7 @@ Picker.propTypes = {
   name: PropTypes.string,
   inputId: PropTypes.number,
   errors: PropTypes.object,
+  labelFor: PropTypes.string,
 };
 
 export default Picker;

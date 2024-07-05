@@ -30,7 +30,7 @@ export const getDateDefaultValue = ({
   return null;
 };
 
-const FieldDropdown = ({ fieldData, name, control, type }) => {
+const FieldDropdown = ({ fieldData, name, control, type, labelFor }) => {
   const {
     isRequired,
     dateFormat: dateFormatUpper,
@@ -88,7 +88,7 @@ const FieldDropdown = ({ fieldData, name, control, type }) => {
                 {...rest}
                 selectedValue={value?.[fieldName]}
                 name={`${name}[]`}
-                id={`${name}_${index + 1}`}
+                id={`${labelFor}_${index + 1}`}
                 placeholder={placeholder || defaultPlaceholder}
                 subLabelPlacement={subLabelPlacement}
                 onChange={(e) =>
@@ -121,6 +121,7 @@ FieldDropdown.propTypes = {
   name: PropTypes.string.isRequired,
   control: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
+  labelFor: PropTypes.string,
 };
 
 export default FieldDropdown;

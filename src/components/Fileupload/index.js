@@ -120,6 +120,7 @@ const FileUpload = ({ fieldData, name, labelFor, ...wrapProps }) => {
                 fieldData={fieldData}
                 type="file"
                 maxLength={undefined}
+                labelFor={labelFor}
                 aria-describedby={`gfield_upload_rules_${databaseId}_${wrapProps.gfId}`}
                 accept={
                   allowedExtensions.length > 0

@@ -42,6 +42,7 @@ const Email = ({ fieldData, name, labelFor, ...wrapProps }) => {
             className="ginput_left"
             {...emailField}
             name={name}
+            labelFor={labelFor}
           >
             {children}
           </SubLabelWrapper>
@@ -66,6 +67,7 @@ const Email = ({ fieldData, name, labelFor, ...wrapProps }) => {
               ),
             },
           })}
+          labelFor={labelFor}
           placeholder={emailField?.placeholder || placeholder}
         />
       </ConditionalWrapper>
@@ -77,11 +79,13 @@ const Email = ({ fieldData, name, labelFor, ...wrapProps }) => {
           className="ginput_right"
           {...confirmEmailField}
           name={`${name}_2`}
+          labelFor={`${labelFor}_2`}
         >
           <Input
             name={`${name}_2`}
             errors={errors}
             fieldData={{ ...fieldData, type: "email" }}
+            labelFor={`${labelFor}_2`}
             {...register(`${name}_2`, {
               required: isRequired && strings.errors.required,
               validate: (val) => {

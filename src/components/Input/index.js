@@ -46,6 +46,7 @@ const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
         })}
         errors={errors}
         name={name}
+        labelFor={labelFor}
         {...register(name, {
           required: isRequired && (errorMessage || strings.errors.required),
           maxLength: maxLength > 0 && {

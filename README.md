@@ -191,9 +191,9 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Textarea
 - [x] Select
 - [x] Multiselect
-- [x] Number (range is not working yet)
-- [ ] Checkbox (half done, need to add default values)
-- [ ] Radio (half done, need to add default values and correct error placement)
+- [ ] Number (range and number format is not working yet)
+- [ ] Checkbox (need to add select all)
+- [x] Radio
 - [x] Hidden
 - [x] HTML
 - [x] Captcha
@@ -201,7 +201,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Section
 - [ ] Page
 - [x] Date
-- [ ] File upload
+- [x] File upload
 - [ ] Post Fields
 - [ ] Pricing Fields
 - [ ] Phone
@@ -211,7 +211,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 
 ### General Form
 
-- [ ] Honeypot
+- [x] Honeypot
 - [ ] Save and Continue
 - [x] Add submit/error callback for custom use
 

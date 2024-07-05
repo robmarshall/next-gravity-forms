@@ -31,6 +31,7 @@ const DateField = ({ fieldData, name, labelFor, ...wrapProps }) => {
           name={name}
           inputId={id}
           control={control}
+          labelFor={labelFor}
         />
       ) : (
         <FieldDropdown
@@ -38,6 +39,7 @@ const DateField = ({ fieldData, name, labelFor, ...wrapProps }) => {
           name={name}
           control={control}
           type={dateType}
+          labelFor={labelFor}
         />
       )}
     </InputWrapper>

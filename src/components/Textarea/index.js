@@ -41,7 +41,7 @@ const Textarea = ({ fieldData, name, labelFor, wrapClassName, wrapId }) => {
         aria-invalid={Boolean(errors?.[name])}
         aria-required={isRequired}
         className={classnames(cssClass, valueToLowerCase(size), "textarea")}
-        id={name}
+        id={labelFor}
         maxLength={maxLength > 0 ? maxLength : undefined}
         name={name}
         placeholder={placeholder}
