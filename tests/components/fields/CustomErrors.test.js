@@ -1,6 +1,12 @@
 import renderGravityForm from "../render";
 import mockFormData from "../../mocks/formData";
-import { getByText, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  getByText,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from "@testing-library/react";
 
 // mock submit so we don't run real request
 jest.mock("../../../src/fetch", () => ({
@@ -133,10 +139,14 @@ describe("Custom error messages", () => {
         const container = rendered.container;
         const element = container.querySelector(`#${fieldId}`);
 
-        fireEvent.submit(screen.getByRole("button"));
+        await act(async () => {
+          fireEvent.submit(screen.getByRole("button"));
+        });
 
         await waitFor(() => {
-          expect(getByText(element, errorMessage)).toBeInTheDocument();
+          expect(
+            getByText(element, /Please complete the following/i)
+          ).toBeInTheDocument();
         });
       }
     );

@@ -203,6 +203,7 @@ describe("Name field", () => {
             first: "first",
             middle: "middle default value",
             last: "last",
+            suffix: "van",
           },
           id: field.id,
         },

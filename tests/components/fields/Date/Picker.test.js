@@ -39,17 +39,22 @@ describe("Date field picker", () => {
   const fieldId = `field_${mockFormData.gfForm.databaseId}_${field.id}`;
 
   it("renders correctly", async () => {
-    const { container } = renderGravityForm({
-      gfForm: { formFields: { nodes: [field] } },
+    const { container } = await act(async () => {
+      return renderGravityForm({
+        gfForm: { formFields: { nodes: [field] } },
+      });
     });
+
     const element = container.querySelector(`#${fieldId}`);
 
     expect(element).toBeInTheDocument();
   });
 
   it("submits when form is correct", async () => {
-    const { container } = renderGravityForm({
-      gfForm: { formFields: { nodes: [field] } },
+    const { container } = await act(async () => {
+      return renderGravityForm({
+        gfForm: { formFields: { nodes: [field] } },
+      });
     });
 
     await fireEvent.change(screen.getByLabelText(/Date/i), {
@@ -78,10 +83,13 @@ describe("Date field picker", () => {
   describe("render errors", () => {
     let container;
     let element;
-    beforeEach(() => {
-      const rendered = renderGravityForm({
-        gfForm: { formFields: { nodes: [field] } },
+    beforeEach(async () => {
+      const rendered = await act(async () => {
+        return renderGravityForm({
+          gfForm: { formFields: { nodes: [field] } },
+        });
       });
+
       container = rendered.container;
 
       element = container.querySelector(`#${fieldId}`);
@@ -113,8 +121,10 @@ describe("Date field picker", () => {
   });
 
   it("shows placeholder value correctly", async () => {
-    const { container } = renderGravityForm({
-      gfForm: { formFields: { nodes: [field] } },
+    await act(async () => {
+      return renderGravityForm({
+        gfForm: { formFields: { nodes: [field] } },
+      });
     });
 
     expect(screen.getByLabelText(/Date/i)).toBeInTheDocument();
