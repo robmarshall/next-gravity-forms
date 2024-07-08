@@ -1,14 +1,11 @@
+import { conditionalLogicFragment } from "../../fragments";
+
 export const textareaFieldFragment = /* GraphQL */ `
   ... on TextAreaField {
     adminLabel
     canPrepopulate
     conditionalLogic {
-      actionType
-      rules {
-        fieldId
-        operator
-        value
-      }
+      ${conditionalLogicFragment}
     }
     cssClass
     defaultValue

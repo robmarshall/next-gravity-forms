@@ -5,7 +5,7 @@ import InputWrapper from "../InputWrapper";
 import classnames from "classnames";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Honeypot = ({ gfId, wrapClassName, fieldData }) => {
+const Honeypot = ({ gfId, wrapClassName, fieldData, labelFor }) => {
   const labels = ["Name", "Email", "Phone", "Comments"];
   const label = labels[Math.floor(Math.random() * Math.floor(4))];
   const name = `input_${gfId}`;
@@ -15,7 +15,7 @@ const Honeypot = ({ gfId, wrapClassName, fieldData }) => {
 
   return (
     <InputWrapper
-      labelFor={name}
+      labelFor={labelFor}
       inputData={{
         label,
         description: strings.honeypot,
@@ -43,6 +43,7 @@ Honeypot.propTypes = {
   value: PropTypes.string,
   gfId: PropTypes.number,
   wrapClassName: PropTypes.string,
+  labelFor: PropTypes.string,
 };
 
 export default Honeypot;

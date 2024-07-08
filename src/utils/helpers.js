@@ -40,12 +40,17 @@ export const isEmptyObject = (obj) => {
   return Object.keys(obj).length === 0 && obj.constructor === Object;
 };
 
+export const isNonEmptyObject = (obj) => {
+  return obj !== null && typeof obj === "object" && Object.keys(obj).length > 0;
+};
+
 export const interpolateString = (template, values) => {
   return template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => {
     return values[key] || placeholder;
   });
 };
 
-export const isNonEmptyObject = (obj) => {
-  return obj !== null && typeof obj === "object" && Object.keys(obj).length > 0;
+export const isInternalLink = (url) => {
+  const currentOrigin = window.location.origin;
+  return url.startsWith(currentOrigin) || url.startsWith("/");
 };

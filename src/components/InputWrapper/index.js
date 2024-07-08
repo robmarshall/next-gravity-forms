@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
-import { useRangeUtilities } from "../Input/helpers";
+import { useFormContext } from "react-hook-form";
+import { checkConditionalRendering } from "./helpers";
 
 const InputWrapper = ({
   children,
@@ -12,14 +13,12 @@ const InputWrapper = ({
     description,
     descriptionPlacement,
     isRequired,
-    id,
     label,
     maxLength,
-    rangeMin,
-    rangeMax,
     type,
     inputs,
-    errorMessage,
+    conditionalLogic,
+    choices,
   },
   labelFor,
   wrapClassName,
@@ -30,15 +29,20 @@ const InputWrapper = ({
     isRequired ? '<span className="gfield_required">*</span>' : ""
   }`;
 
-  const Label = inputs?.length > 0 ? "legend" : "label"; // if field has inputs, we render label as <legend>
-  // @TODO replace li with div to match new GF markup
-  const Wrapper = inputs?.length > 0 ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
+  const { watch, formFields } = useFormContext();
 
-  const { rangeInstruction, showInstruction } = useRangeUtilities({
-    range: { minValue: rangeMin, maxValue: rangeMax },
-    isError: !!errors?.message,
-    customErrorText: errorMessage,
-  });
+  const options = inputs || choices;
+  const compareValue = type === "EMAIL" ? 1 : 0; // for email field inputs consist of 1 input by default, and 2 in case of confirmation email
+
+  const checkForChildren = options?.length > compareValue;
+  const Label = checkForChildren ? "legend" : "label"; // if field has inputs, we render label as <legend>
+  const Wrapper = checkForChildren ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
+
+  const isHidden = checkConditionalRendering(
+    conditionalLogic,
+    watch,
+    formFields
+  );
 
   return (
     <Wrapper
@@ -47,11 +51,12 @@ const InputWrapper = ({
         errors?.type && "gravityform__field--error"
       )}
       id={wrapId}
+      style={isHidden ? { display: "none" } : undefined}
     >
       {labelFor && (
         <Label
           className="gfield_label gform-field-label"
-          htmlFor={labelFor}
+          htmlFor={checkForChildren ? undefined : labelFor}
           dangerouslySetInnerHTML={{ __html: joinedLabel }}
         />
       )}
@@ -59,6 +64,7 @@ const InputWrapper = ({
         valueToLowerCase(descriptionPlacement) == "above" &&
         outputDescription(description, wrapId)}
       <div
+        id={checkForChildren ? labelFor : undefined} // only set an id when there are child elements like options
         className={classnames(
           `ginput_container ginput_container_${valueToLowerCase(type)}`,
           ginputClassName
@@ -70,31 +76,26 @@ const InputWrapper = ({
             {maxLengthSentence(maxLength, type)}
           </div>
         )}
-        {showInstruction && (
-          <div
-            className="gfield_description instruction"
-            id={`gfield_instruction_${id}`}
-            dangerouslySetInnerHTML={{
-              __html: rangeInstruction,
-            }}
-          />
-        )}
+        {/* TODO: Implement number min/max, these currently aren't fetch by the source plugin
+            https://docs.gravityforms.com/field-object/#number
+            <div class="instruction ">
+              Please enter a number from <strong>1</strong> to <strong>15</strong>.
+            </div>
+        */}
       </div>
+
       {description &&
         (valueToLowerCase(descriptionPlacement) == "below" ||
           valueToLowerCase(descriptionPlacement) == "inherit") &&
         outputDescription(description, wrapId)}
+
       {isNonEmptyObject(errors) && (
         <div
-          role="alert"
           aria-live="polite"
-          id={`validation_message_${id}`}
-          className="gfield_description validation_message gfield_validation_message"
-          /* @OTODO: i changed this so it checks for custom errorMessages first, is it enough? */
-          dangerouslySetInnerHTML={{
-            __html: errorMessage ? errorMessage : errors.message,
-          }}
-        />
+          className="gravityform__error_message gfield_description validation_message"
+        >
+          {errors.message}
+        </div>
       )}
     </Wrapper>
   );
@@ -118,10 +119,12 @@ InputWrapper.propTypes = {
     isRequired: PropTypes.bool,
     maxLength: PropTypes.number,
     type: PropTypes.string,
+    conditionalLogic: PropTypes.object,
     inputs: PropTypes.array,
+    choices: PropTypes.array,
   }),
+  ginputClassName: PropTypes.string,
   labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   wrapClassName: PropTypes.string,
-  ginputClassName: PropTypes.string,
   wrapId: PropTypes.string,
 };

@@ -16,7 +16,7 @@ import {
 
 const LazyMultiFileupload = React.lazy(() => import("./Multifileupload"));
 
-const FileUpload = ({ fieldData, name, ...wrapProps }) => {
+const FileUpload = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const {
     control,
     watch,
@@ -70,7 +70,7 @@ const FileUpload = ({ fieldData, name, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name]}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       {...wrapProps}
     >
       {canAcceptMultipleFiles ? ( // multi files upload
@@ -120,6 +120,7 @@ const FileUpload = ({ fieldData, name, ...wrapProps }) => {
                 fieldData={fieldData}
                 type="file"
                 maxLength={undefined}
+                labelFor={labelFor}
                 aria-describedby={`gfield_upload_rules_${databaseId}_${wrapProps.gfId}`}
                 accept={
                   allowedExtensions.length > 0
@@ -163,6 +164,7 @@ FileUpload.propTypes = {
     description: PropTypes.string,
   }),
   name: PropTypes.string.isRequired,
+  labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
 };
 

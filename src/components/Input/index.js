@@ -7,7 +7,6 @@ import getFieldError from "../../utils/getFieldError";
 import InputWrapper from "../InputWrapper";
 import { Input } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
-import { useRangeUtilities } from "./helpers";
 
 const standardType = (type) => {
   switch (type) {
@@ -20,63 +19,34 @@ const standardType = (type) => {
   }
 };
 
-const InputField = ({ presetValue, fieldData, name, ...wrapProps }) => {
+const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
-  const {
-    inputMaskValue,
-    isRequired,
-    maxLength,
-    numberFormat,
-    rangeMax,
-    rangeMin,
-    type,
-    size,
-    defaultValue,
-    errorMessage,
-  } = fieldData;
+  const { inputMaskValue, isRequired, maxLength, type, size, errorMessage } =
+    fieldData;
 
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
-
-  const generateInputType = (type, numberFormat) => {
-    if (type === "NUMBER") {
-      if (numberFormat !== "DECIMAL_DOT") {
-        return "TEXT";
-      }
-
-      return type;
-    }
-
-    return standardType(type);
-  };
+  const inputType = standardType(type);
 
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
-  const { rangeValidation } = useRangeUtilities({
-    range: { minValue: rangeMin, maxValue: rangeMax },
-    customErrorText: errorMessage,
-  });
-
   return (
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       {...wrapProps}
     >
       <Input
-        defaultValue={presetValue ?? defaultValue}
-        fieldData={{
-          ...fieldData,
-          type: valueToLowerCase(generateInputType(type, numberFormat)),
-        }}
+        fieldData={{ ...fieldData, type: valueToLowerCase(inputType) }}
         className={classnames(valueToLowerCase(size), {
           gform_hidden: type === "HIDDEN",
         })}
         errors={errors}
         name={name}
+        labelFor={labelFor}
         {...register(name, {
           required: isRequired && (errorMessage || strings.errors.required),
           maxLength: maxLength > 0 && {
@@ -87,7 +57,6 @@ const InputField = ({ presetValue, fieldData, name, ...wrapProps }) => {
             value: regex,
             message: regex && getFieldError(fieldData, strings),
           },
-          ...rangeValidation,
         })}
       />
     </InputWrapper>
@@ -97,7 +66,6 @@ const InputField = ({ presetValue, fieldData, name, ...wrapProps }) => {
 export default InputField;
 
 InputField.propTypes = {
-  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     inputMaskValue: PropTypes.string,
@@ -108,11 +76,9 @@ InputField.propTypes = {
     size: PropTypes.string,
     defaultValue: PropTypes.string,
     errorMessage: PropTypes.string,
-    numberFormat: PropTypes.string,
-    rangeMax: PropTypes.number,
-    rangeMin: PropTypes.number,
   }),
   value: PropTypes.string,
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
 };

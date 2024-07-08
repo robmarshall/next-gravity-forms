@@ -7,7 +7,7 @@ import { valueToLowerCase } from "../../utils/helpers";
 import getFieldError from "../../utils/getFieldError";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Textarea = ({ presetValue, fieldData, name, wrapClassName, wrapId }) => {
+const Textarea = ({ fieldData, name, labelFor, wrapClassName, wrapId }) => {
   const { strings } = useSettings();
   const {
     cssClass,
@@ -18,7 +18,6 @@ const Textarea = ({ presetValue, fieldData, name, wrapClassName, wrapId }) => {
     placeholder,
     size,
     type: typeUpper,
-    defaultValue,
   } = fieldData;
 
   const type = valueToLowerCase(typeUpper);
@@ -34,7 +33,7 @@ const Textarea = ({ presetValue, fieldData, name, wrapClassName, wrapId }) => {
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       wrapClassName={wrapClassName}
       wrapId={wrapId}
     >
@@ -42,8 +41,7 @@ const Textarea = ({ presetValue, fieldData, name, wrapClassName, wrapId }) => {
         aria-invalid={Boolean(errors?.[name])}
         aria-required={isRequired}
         className={classnames(cssClass, valueToLowerCase(size), "textarea")}
-        defaultValue={presetValue ?? defaultValue}
-        id={name}
+        id={labelFor}
         maxLength={maxLength > 0 ? maxLength : undefined}
         name={name}
         placeholder={placeholder}
@@ -67,7 +65,6 @@ const Textarea = ({ presetValue, fieldData, name, wrapClassName, wrapId }) => {
 export default Textarea;
 
 Textarea.propTypes = {
-  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     description: PropTypes.string,
@@ -77,12 +74,12 @@ Textarea.propTypes = {
     maxLength: PropTypes.number,
     placeholder: PropTypes.string,
     isRequired: PropTypes.bool,
-    defaultValue: PropTypes.string,
     type: PropTypes.string,
     size: PropTypes.string,
     errorMessage: PropTypes.string,
   }),
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapClassName: PropTypes.string,
   wrapId: PropTypes.string,
 };

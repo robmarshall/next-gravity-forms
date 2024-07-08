@@ -8,7 +8,7 @@ import { useSettings } from "../../providers/SettingsContext";
 import SelectDeselectButton from "./SelectDeselectButton";
 
 // TODO: Enable Select All Choice
-const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
+const SelectorList = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
   const {
     id,
@@ -29,32 +29,17 @@ const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
     setValue,
   } = useFormContext();
 
-  // Determines if a field should be checked by default
-  const getDefaultChecked = (value, isSelected) => {
-    if (type === "checkbox") {
-      // both preset value and default can be displayed
-      return value === presetValue || isSelected;
-    } else if (type === "radio") {
-      const isPresetValueInChoices = choices.some(
-        (choice) => choice.value === presetValue
-      );
-      // preset value overrides default in priority
-      return isPresetValueInChoices ? value === presetValue : isSelected;
-    }
-    return false;
-  };
-
   return (
     <InputWrapper
       errors={errors?.[name]}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       {...wrapProps}
     >
       <div className={`gfield_${type}`} id={name}>
-        {choices.map(({ isSelected, text, value }, index) => {
+        {choices.map(({ text, value }, index) => {
           const choiceID = index + 1;
-          const defaultChecked = getDefaultChecked(value, isSelected);
+          // const defaultChecked = getDefaultChecked(value, isSelected);
           return (
             <div key={`${name}-${index + 1}`}>
               <input
@@ -64,7 +49,6 @@ const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
                   cssClass,
                   valueToLowerCase(size)
                 )}
-                defaultChecked={defaultChecked}
                 id={`${name}_${choiceID}`}
                 name={`${name}${type === "checkbox" ? `.${choiceID}` : ""}`}
                 {...register(name, {
@@ -98,11 +82,10 @@ const SelectorList = ({ presetValue, fieldData, name, ...wrapProps }) => {
 export default SelectorList;
 
 SelectorList.propTypes = {
-  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
     choices: PropTypes.array,
     cssClass: PropTypes.string,
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    id: PropTypes.number,
     isRequired: PropTypes.bool,
     size: PropTypes.string,
     type: PropTypes.string,
@@ -110,5 +93,6 @@ SelectorList.propTypes = {
     hasSelectAll: PropTypes.bool,
   }),
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
 };

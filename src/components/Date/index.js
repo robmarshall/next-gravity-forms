@@ -6,8 +6,8 @@ import { valueToLowerCase } from "../../utils/helpers";
 import Picker from "./Picker";
 import FieldDropdown from "./FieldDropdown";
 
-const DateField = ({ presetValue, fieldData, name, ...wrapProps }) => {
-  const { dateType: dateTypeUpper } = fieldData;
+const DateField = ({ fieldData, name, labelFor, ...wrapProps }) => {
+  const { dateType: dateTypeUpper, id } = fieldData;
 
   const dateType = valueToLowerCase(dateTypeUpper);
 
@@ -20,24 +20,26 @@ const DateField = ({ presetValue, fieldData, name, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       ginputClassName={dateType != "picker" && "ginput_complex gform-grid-row"}
       {...wrapProps}
     >
       {dateType === "picker" ? (
         <Picker
+          errors={errors?.[name] || {}}
           fieldData={fieldData}
           name={name}
+          inputId={id}
           control={control}
-          presetValue={presetValue}
+          labelFor={labelFor}
         />
       ) : (
         <FieldDropdown
           fieldData={fieldData}
-          presetValue={presetValue}
           name={name}
           control={control}
           type={dateType}
+          labelFor={labelFor}
         />
       )}
     </InputWrapper>
@@ -47,19 +49,12 @@ const DateField = ({ presetValue, fieldData, name, ...wrapProps }) => {
 export default DateField;
 
 DateField.propTypes = {
-  presetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fieldData: PropTypes.shape({
-    cssClass: PropTypes.string,
-    inputMaskValue: PropTypes.string,
-    maxLength: PropTypes.number,
-    placeholder: PropTypes.string,
-    isRequired: PropTypes.bool,
-    type: PropTypes.string,
-    size: PropTypes.string,
     dateType: PropTypes.string,
-    description: PropTypes.string,
+    id: PropTypes.number,
   }),
   value: PropTypes.string,
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
 };

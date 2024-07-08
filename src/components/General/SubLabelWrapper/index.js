@@ -10,6 +10,7 @@ const SubLabelWrapper = ({
   customLabel,
   name,
   className,
+  labelFor,
   as = "span",
 }) => {
   const sub_label_class =
@@ -31,7 +32,7 @@ const SubLabelWrapper = ({
     >
       {labelPlacement === "ABOVE" && (
         <Label
-          name={name}
+          labelFor={labelFor || name}
           label={customLabel || label}
           sub_label_class={sub_label_class}
         />
@@ -39,7 +40,7 @@ const SubLabelWrapper = ({
       {children}
       {labelPlacement === "BELOW" && (
         <Label
-          name={name}
+          labelFor={labelFor || name}
           label={customLabel || label}
           sub_label_class={sub_label_class}
         />
@@ -58,4 +59,5 @@ SubLabelWrapper.propTypes = {
   name: PropTypes.string,
   className: PropTypes.string,
   as: PropTypes.string,
+  labelFor: PropTypes.string,
 };

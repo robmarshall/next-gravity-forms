@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import React from "react";
 import InputWrapper from "../../components/InputWrapper";
 
-const Html = ({ fieldData, name, wrapClassName, ...wrapProps }) => {
+const Html = ({ fieldData, labelFor, wrapClassName, ...wrapProps }) => {
   const { content, cssClass } = fieldData;
 
   return (
     <InputWrapper
       {...wrapProps}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       wrapClassName={classnames(
         wrapClassName,
         "gfield_html",
@@ -32,7 +32,7 @@ Html.propTypes = {
     content: PropTypes.string,
     type: PropTypes.string,
   }),
-  name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapClassName: PropTypes.string,
   wrapProps: PropTypes.object,
 };
