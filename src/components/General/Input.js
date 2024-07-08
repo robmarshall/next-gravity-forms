@@ -39,7 +39,7 @@ Input.propTypes = {
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     maxLength: PropTypes.number,
-    id: PropTypes.number,
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     placeholder: PropTypes.string,
     isRequired: PropTypes.bool,
     type: PropTypes.string,
