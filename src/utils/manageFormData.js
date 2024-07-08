@@ -2,6 +2,11 @@ const checkValues = (values) => {
   const result = Object.keys(values).filter((key) => {
     const value = values[key];
 
+    // Check if the value is a File object
+    if (value instanceof File) {
+      return true;
+    }
+
     if (value instanceof Date) {
       return true;
     }
