@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import classnames from "classnames";
 import { useFormContext } from "react-hook-form";
 import getFieldError from "../../utils/getFieldError";
 import { valueToLowerCase } from "../../utils/helpers";
@@ -8,7 +7,7 @@ import InputWrapper from "../InputWrapper";
 import { Input, ConditionalWrapper, SubLabelWrapper } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
 
-const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
+const Email = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const {
     isRequired,
     maxLength,
@@ -16,6 +15,7 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
     inputs,
     subLabelPlacement,
     size,
+    errorMessage,
   } = fieldData;
   const [emailField, confirmEmailField] = inputs || [];
   const { strings } = useSettings();
@@ -30,7 +30,7 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || errors?.[`${name}_2`] || {}}
       inputData={fieldData}
-      labelFor={!confirmEmailField ? name : undefined}
+      labelFor={!confirmEmailField ? labelFor : undefined}
       {...wrapProps}
     >
       <ConditionalWrapper // render only when there is confirmation field added
@@ -42,6 +42,7 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
             className="ginput_left"
             {...emailField}
             name={name}
+            labelFor={labelFor}
           >
             {children}
           </SubLabelWrapper>
@@ -50,23 +51,23 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
         <Input
           name={name}
           errors={errors}
-          defaultValue={emailField?.defaultValue || defaultValue}
           fieldData={{ ...fieldData, type: "email" }}
           className={valueToLowerCase(size)}
           {...register(name, {
-            required: isRequired && strings.errors.required,
+            required: isRequired && (errorMessage || strings.errors.required),
             maxLength: maxLength > 0 && {
               value: maxLength,
               message: `${strings.errors.maxChar.front}  ${maxLength} ${strings.errors.maxChar.back}`,
             },
             pattern: {
-              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
               message: getFieldError(
                 { ...fieldData, inputMaskValue: true },
                 strings
               ),
             },
           })}
+          labelFor={labelFor}
           placeholder={emailField?.placeholder || placeholder}
         />
       </ConditionalWrapper>
@@ -78,12 +79,13 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
           className="ginput_right"
           {...confirmEmailField}
           name={`${name}_2`}
+          labelFor={`${labelFor}_2`}
         >
           <Input
             name={`${name}_2`}
             errors={errors}
-            defaultValue={confirmEmailField?.defaultValue || defaultValue}
             fieldData={{ ...fieldData, type: "email" }}
+            labelFor={`${labelFor}_2`}
             {...register(`${name}_2`, {
               required: isRequired && strings.errors.required,
               validate: (val) => {
@@ -103,7 +105,6 @@ const Email = ({ defaultValue, fieldData, name, ...wrapProps }) => {
 export default Email;
 
 Email.propTypes = {
-  defaultValue: PropTypes.string,
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     maxLength: PropTypes.number,
@@ -113,8 +114,10 @@ Email.propTypes = {
     size: PropTypes.string,
     subLabelPlacement: PropTypes.string,
     inputs: PropTypes.array,
+    errorMessage: PropTypes.string,
   }),
   value: PropTypes.string,
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
 };

@@ -6,8 +6,9 @@ import PageNav from "./PageNav";
 import SubmitButton from "../../components/Submit";
 import { valueToLowerCase, groupFields } from "../../utils/helpers";
 import { ConditionalWrapper } from "../../components/General";
+import { array, func } from "prop-types";
 
-const FormBuilder = ({ nodes, preOnSubmit, presetValues, trigger }) => {
+const FormBuilder = ({ nodes, preOnSubmit, trigger }) => {
   const { databaseId, settings, loading, form } = useSettings();
   const [page, setPage] = useState(1);
   const { subLabelPlacement, descriptionPlacement, labelPlacement } = form;
@@ -57,7 +58,6 @@ const FormBuilder = ({ nodes, preOnSubmit, presetValues, trigger }) => {
             formLoading={loading}
             formFields={fields}
             preOnSubmit={preOnSubmit}
-            presetValues={presetValues}
             settings={settings}
             formLayoutProps={{
               labelPlacement,
@@ -84,6 +84,12 @@ const FormBuilder = ({ nodes, preOnSubmit, presetValues, trigger }) => {
       )}
     </>
   );
+};
+
+FormBuilder.propTypes = {
+  nodes: array,
+  preOnSubmit: func.isRequired,
+  trigger: func.isRequired,
 };
 
 export default FormBuilder;

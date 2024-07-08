@@ -3,31 +3,46 @@ import PropTypes from "prop-types";
 import React from "react";
 import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
+import { useFormContext } from "react-hook-form";
+import { checkConditionalRendering } from "./helpers";
 
 const InputWrapper = ({
   children,
   errors,
   inputData: {
     description,
-    errorMessage,
     descriptionPlacement,
     isRequired,
     label,
     maxLength,
     type,
     inputs,
+    conditionalLogic,
+    choices,
   },
   labelFor,
   wrapClassName,
+  ginputClassName,
   wrapId,
 }) => {
   const joinedLabel = `${label}${
-    isRequired ? '<span class="gfield_required">*</span>' : ""
+    isRequired ? '<span className="gfield_required">*</span>' : ""
   }`;
 
-  const Label = inputs?.length > 0 ? "legend" : "label"; // if field has inputs, we render label as <legend>
-  // @TODO replace li with div to match new GF markup
-  const Wrapper = inputs?.length > 0 ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
+  const { watch, formFields } = useFormContext();
+
+  const options = inputs || choices;
+  const compareValue = type === "EMAIL" ? 1 : 0; // for email field inputs consist of 1 input by default, and 2 in case of confirmation email
+
+  const checkForChildren = options?.length > compareValue;
+  const Label = checkForChildren ? "legend" : "label"; // if field has inputs, we render label as <legend>
+  const Wrapper = checkForChildren ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
+
+  const isHidden = checkConditionalRendering(
+    conditionalLogic,
+    watch,
+    formFields
+  );
 
   return (
     <Wrapper
@@ -36,19 +51,24 @@ const InputWrapper = ({
         errors?.type && "gravityform__field--error"
       )}
       id={wrapId}
+      style={isHidden ? { display: "none" } : undefined}
     >
       {labelFor && (
         <Label
           className="gfield_label gform-field-label"
-          htmlFor={labelFor}
+          htmlFor={checkForChildren ? undefined : labelFor}
           dangerouslySetInnerHTML={{ __html: joinedLabel }}
         />
       )}
-      {outputDescription(description, descriptionPlacement, "above", errors)}
+      {description &&
+        valueToLowerCase(descriptionPlacement) == "above" &&
+        outputDescription(description, wrapId)}
       <div
-        className={`ginput_container ginput_container_${valueToLowerCase(
-          type
-        )}`}
+        id={checkForChildren ? labelFor : undefined} // only set an id when there are child elements like options
+        className={classnames(
+          `ginput_container ginput_container_${valueToLowerCase(type)}`,
+          ginputClassName
+        )}
       >
         {children}
         {maxLength > 0 && (
@@ -63,14 +83,18 @@ const InputWrapper = ({
             </div>
         */}
       </div>
-      {outputDescription(description, descriptionPlacement, "below", errors)}
+
+      {description &&
+        (valueToLowerCase(descriptionPlacement) == "below" ||
+          valueToLowerCase(descriptionPlacement) == "inherit") &&
+        outputDescription(description, wrapId)}
+
       {isNonEmptyObject(errors) && (
         <div
           aria-live="polite"
           className="gravityform__error_message gfield_description validation_message"
         >
-          {/* @OTODO: i changed this so it checks for custom errorMessages first, is it enough? */}
-          {errorMessage ? errorMessage : errors.message}
+          {errors.message}
         </div>
       )}
     </Wrapper>
@@ -78,7 +102,7 @@ const InputWrapper = ({
 };
 
 const maxLengthSentence = (length, type) => {
-  let word = type === "number" ? "numbers" : "characters";
+  const word = type === "number" ? "numbers" : "characters";
   return length && ` (maxiumum ${length} ${word})`;
 };
 
@@ -95,8 +119,12 @@ InputWrapper.propTypes = {
     isRequired: PropTypes.bool,
     maxLength: PropTypes.number,
     type: PropTypes.string,
+    conditionalLogic: PropTypes.object,
+    inputs: PropTypes.array,
+    choices: PropTypes.array,
   }),
-  labelFor: PropTypes.string,
+  ginputClassName: PropTypes.string,
+  labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   wrapClassName: PropTypes.string,
   wrapId: PropTypes.string,
 };

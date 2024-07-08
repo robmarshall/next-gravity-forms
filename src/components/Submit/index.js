@@ -2,7 +2,12 @@ import React from "react";
 import { useSettings } from "../../providers/SettingsContext";
 
 const SubmitButton = () => {
-  const { loading, databaseId, form: { submitButton } = {} } = useSettings();
+  const {
+    loading,
+    databaseId,
+    form: { submitButton } = {},
+    strings,
+  } = useSettings();
   return (
     <button
       className="gravityform__button gform_button button"
@@ -11,9 +16,11 @@ const SubmitButton = () => {
       type="submit"
     >
       {loading ? (
-        <span className="gravityform__button__loading_span">Loading</span>
+        <span className="gravityform__button__loading_span">
+          {strings.loading}
+        </span>
       ) : (
-        submitButton?.text
+        submitButton?.text || strings.submit
       )}
     </button>
   );

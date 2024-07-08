@@ -5,14 +5,17 @@ import { useFormContext } from "react-hook-form";
 import InputWrapper from "../InputWrapper";
 import { valueToLowerCase } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
+import SelectDeselectButton from "./SelectDeselectButton";
 
 // TODO: Enable Select All Choice
-const SelectorList = ({ fieldData, name, ...wrapProps }) => {
+const SelectorList = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
   const {
     id,
     choices,
     cssClass,
+    errorMessage,
+    hasSelectAll,
     isRequired,
     size,
     type: typeUpper,
@@ -23,18 +26,20 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
   const {
     register,
     formState: { errors },
+    setValue,
   } = useFormContext();
 
   return (
     <InputWrapper
       errors={errors?.[name]}
       inputData={fieldData}
-      labelFor={name}
+      labelFor={labelFor}
       {...wrapProps}
     >
       <div className={`gfield_${type}`} id={name}>
-        {choices.map(({ isSelected, text, value }, index) => {
+        {choices.map(({ text, value }, index) => {
           const choiceID = index + 1;
+          // const defaultChecked = getDefaultChecked(value, isSelected);
           return (
             <div key={`${name}-${index + 1}`}>
               <input
@@ -44,11 +49,11 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
                   cssClass,
                   valueToLowerCase(size)
                 )}
-                defaultChecked={isSelected}
                 id={`${name}_${choiceID}`}
-                name={name}
+                name={`${name}${type === "checkbox" ? `.${choiceID}` : ""}`}
                 {...register(name, {
-                  required: isRequired && strings.errors.required,
+                  required:
+                    isRequired && (errorMessage || strings.errors.required),
                 })}
                 type={type}
                 value={value}
@@ -61,6 +66,14 @@ const SelectorList = ({ fieldData, name, ...wrapProps }) => {
             </div>
           );
         })}
+        {hasSelectAll && (
+          <SelectDeselectButton
+            id={id}
+            name={name}
+            choices={choices}
+            setValue={setValue}
+          />
+        )}
       </div>
     </InputWrapper>
   );
@@ -76,7 +89,10 @@ SelectorList.propTypes = {
     isRequired: PropTypes.bool,
     size: PropTypes.string,
     type: PropTypes.string,
+    errorMessage: PropTypes.string,
+    hasSelectAll: PropTypes.bool,
   }),
   name: PropTypes.string,
+  labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
 };

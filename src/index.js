@@ -5,11 +5,13 @@ import React, { useState, useRef } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import FormGeneralError from "./components/FormGeneralError";
 import { handleGravityFormsValidationErrors } from "./utils/manageErrors";
+import getDefaultValues from "./utils/getDefaultVlaues";
 import { submissionHasOneFieldEntry } from "./utils/manageFormData";
 import formatPayload from "./utils/formatPayload";
+import FormBuilder from "./container/FormBuilder";
+import { isInternalLink } from "./utils/helpers";
 import { submitGravityForm } from "./fetch";
 import { SettingsProvider } from "./providers/SettingsContext";
-import FormBuilder from "./container/FormBuilder";
 
 /**
  * Component to take Gravity Form graphQL data and turn into
@@ -23,6 +25,7 @@ const GravityFormForm = ({
   errorCallback = () => {},
   navigate,
   helperText = {},
+  helperFieldsSettings = {},
 }) => {
   const preOnSubmit = useRef();
 
@@ -33,7 +36,6 @@ const GravityFormForm = ({
   const settings = data?.gfSettings || {};
 
   const {
-    submitButton,
     confirmations,
     databaseId,
     descriptionPlacement,
@@ -52,15 +54,14 @@ const GravityFormForm = ({
       };
 
   // Pull in form functions
-  const methods = useForm();
-  const {
-    handleSubmit,
-    setError,
-    reset,
-    getValues,
-    trigger,
-    formState: { errors },
-  } = methods;
+  const methods = useForm({
+    // Predefine default values (needed for conditional fields to ensure they render correctly on the initial load).
+    // This is needed because `react-hook-form` doesn't automatically detect `defaultValue` attributes in fields,
+    // and the form state starts empty. By setting these defaults upfront, we enable `react-hook-form` to
+    // immediately recognize and apply them, ensuring conditional fields behave as expected from the start.
+    defaultValues: getDefaultValues(formFields?.nodes, presetValues),
+  });
+  const { handleSubmit, setError, reset, getValues, trigger } = methods;
 
   const [generalError, setGeneralError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -99,7 +100,7 @@ const GravityFormForm = ({
             fieldValues: formRes,
           });
 
-          if (!Boolean(submitRes?.errors?.length)) {
+          if (!submitRes?.errors?.length && !submitRes?.submitGfForm?.errors) {
             setSuccess(true);
             setLoading(false);
             successCallback({
@@ -108,10 +109,15 @@ const GravityFormForm = ({
             });
           } else {
             setLoading(false);
-            handleGravityFormsValidationErrors(submitRes?.errors, setError);
+            handleGravityFormsValidationErrors(
+              submitRes?.submitGfForm?.errors,
+              setError
+            );
             errorCallback({
               data: formRes,
-              error: handleGravityFormsValidationErrors(submitRes?.errors),
+              error: handleGravityFormsValidationErrors(
+                submitRes?.submitGfForm?.errors
+              ),
               reset,
             });
           }
@@ -143,15 +149,19 @@ const GravityFormForm = ({
     });
 
     if (confirmation.type === "PAGE") {
-      // TODO: Somehow need to get the page URL. Query currently
-      // returns the page ID for the page redirect.
-      redirect(confirmation?.url);
+      // TODO add fields values into link, .i.e. phone={Phone:1}&email={Email:2}
+      redirect(confirmation?.page?.node?.link);
     }
 
     if (confirmation.type === "REDIRECT") {
-      // TODO: Check that the redirect is internal.
-      // If not, use window.location to direct to external URL.
-      redirect(confirmation?.url);
+      if (!confirmation?.url) return;
+
+      // TODO add fields values into link, .i.e. phone={Phone:1}&email={Email:2}
+      if (isInternalLink(confirmation.url)) {
+        redirect(confirmation.url);
+      }
+
+      window.location.href = confirmation.url;
     }
 
     if (confirmation.type === "MESSAGE") {
@@ -175,11 +185,12 @@ const GravityFormForm = ({
         <SettingsProvider
           helperText={helperText}
           databaseId={databaseId}
+          helperFieldsSettings={helperFieldsSettings}
           settings={settings}
           form={form}
           loading={loading}
         >
-          <FormProvider {...methods}>
+          <FormProvider {...methods} formFields={formFields}>
             <form
               className={
                 loading
@@ -195,7 +206,6 @@ const GravityFormForm = ({
               <FormBuilder
                 nodes={formFieldNodes}
                 preOnSubmit={preOnSubmit}
-                presetValues={presetValues}
                 trigger={trigger}
               />
             </form>
@@ -212,6 +222,8 @@ GravityFormForm.propTypes = {
   successCallback: PropTypes.func,
   presetValues: PropTypes.shape({}),
   helperText: PropTypes.shape({}),
+  helperFieldsSettings: PropTypes.object,
+  navigate: PropTypes.func,
 };
 
 export default GravityFormForm;
