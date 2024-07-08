@@ -38,9 +38,11 @@ describe("Custom error messages", () => {
     };
 
     return renderGravityForm({
-      gfForm: {
-        formFields: {
-          nodes: [fieldConfig],
+      data: {
+        gfForm: {
+          formFields: {
+            nodes: [fieldConfig],
+          },
         },
       },
     });

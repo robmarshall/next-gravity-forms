@@ -49,7 +49,9 @@ describe("File upload field", () => {
     );
 
     const rendered = renderGravityForm({
-      gfForm: { formFields: { nodes: [field] } },
+      data: {
+        gfForm: { formFields: { nodes: [field] } },
+      },
     });
     container = rendered.container;
 
@@ -221,7 +223,9 @@ describe("Multi file upload", () => {
 
     const rendered = await act(async () => {
       return renderGravityForm({
-        gfForm: { formFields: { nodes: [multiupload] } },
+        data: {
+          gfForm: { formFields: { nodes: [multiupload] } },
+        },
       });
     });
 

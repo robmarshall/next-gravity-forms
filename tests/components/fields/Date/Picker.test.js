@@ -41,7 +41,9 @@ describe("Date field picker", () => {
   it("renders correctly", async () => {
     const { container } = await act(async () => {
       return renderGravityForm({
-        gfForm: { formFields: { nodes: [field] } },
+        data: {
+          gfForm: { formFields: { nodes: [field] } },
+        },
       });
     });
 
@@ -53,7 +55,9 @@ describe("Date field picker", () => {
   it("submits when form is correct", async () => {
     const { container } = await act(async () => {
       return renderGravityForm({
-        gfForm: { formFields: { nodes: [field] } },
+        data: {
+          gfForm: { formFields: { nodes: [field] } },
+        },
       });
     });
 
@@ -86,7 +90,9 @@ describe("Date field picker", () => {
     beforeEach(async () => {
       const rendered = await act(async () => {
         return renderGravityForm({
-          gfForm: { formFields: { nodes: [field] } },
+          data: {
+            gfForm: { formFields: { nodes: [field] } },
+          },
         });
       });
 
@@ -123,7 +129,9 @@ describe("Date field picker", () => {
   it("shows placeholder value correctly", async () => {
     await act(async () => {
       return renderGravityForm({
-        gfForm: { formFields: { nodes: [field] } },
+        data: {
+          gfForm: { formFields: { nodes: [field] } },
+        },
       });
     });
 

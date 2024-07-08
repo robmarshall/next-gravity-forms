@@ -16,7 +16,9 @@ describe("Section field", () => {
 
   it("renders correctly", async () => {
     const { container } = renderGravityForm({
-      gfForm: { formFields: { nodes: [field] } },
+      data: {
+        gfForm: { formFields: { nodes: [field] } },
+      },
     });
     const element = container.querySelector(`div#${fieldId}`);
 

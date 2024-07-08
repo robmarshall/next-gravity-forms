@@ -31,16 +31,16 @@ describe("Text field", () => {
       ...additionalConfig,
     };
 
-    renderGravityForm(
-      {
+    renderGravityForm({
+      data: {
         gfForm: {
           formFields: {
             nodes: [fieldConfig],
           },
         },
       },
-      presetValues
-    );
+      presetValues,
+    });
   };
 
   // Text, textArea

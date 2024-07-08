@@ -17,7 +17,9 @@ describe("Honeypot field", () => {
 
   it("doesn't render field if hasHoneypot is false", () => {
     const { container } = renderGravityForm({
-      gfForm: { formFields: { nodes: fields } },
+      data: {
+        gfForm: { formFields: { nodes: fields } },
+      },
     });
 
     const element = container.querySelector(
@@ -29,9 +31,11 @@ describe("Honeypot field", () => {
 
   it("renders honeypot", () => {
     const { container } = renderGravityForm({
-      gfForm: {
-        hasHoneypot: true,
-        formFields: { nodes: fields },
+      data: {
+        gfForm: {
+          hasHoneypot: true,
+          formFields: { nodes: fields },
+        },
       },
     });
 

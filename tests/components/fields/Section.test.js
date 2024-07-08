@@ -22,7 +22,9 @@ describe("Section field", () => {
 
   it("renders correctly", async () => {
     const { container } = renderGravityForm({
-      gfForm: { formFields: { nodes: [field] } },
+      data: {
+        gfForm: { formFields: { nodes: [field] } },
+      },
     });
     const sectionElement = container.querySelector(`div#${fieldId}`);
 
@@ -43,15 +45,17 @@ describe("Section field", () => {
 
   it("doesn't render description field if empty", () => {
     const { container } = renderGravityForm({
-      gfForm: {
-        formFields: {
-          nodes: [
-            {
-              id: 9,
-              type: "SECTION",
-              description: null,
-            },
-          ],
+      data: {
+        gfForm: {
+          formFields: {
+            nodes: [
+              {
+                id: 9,
+                type: "SECTION",
+                description: null,
+              },
+            ],
+          },
         },
       },
     });

@@ -42,7 +42,9 @@ describe("Email field", () => {
 
   it("renders correctly", async () => {
     const { container } = renderGravityForm({
-      gfForm: { formFields: { nodes: [field] } },
+      data: {
+        gfForm: { formFields: { nodes: [field] } },
+      },
     });
     const element = container.querySelector(`#${fieldId}`);
 
@@ -52,7 +54,9 @@ describe("Email field", () => {
 
   it("submits form when value is correct", async () => {
     const { container } = renderGravityForm({
-      gfForm: { formFields: { nodes: [field] } },
+      data: {
+        gfForm: { formFields: { nodes: [field] } },
+      },
     });
 
     fireEvent.input(screen.getByLabelText(/Email/i), {
@@ -86,7 +90,9 @@ describe("Email field", () => {
     let element;
     beforeEach(() => {
       const rendered = renderGravityForm({
-        gfForm: { formFields: { nodes: [field] } },
+        data: {
+          gfForm: { formFields: { nodes: [field] } },
+        },
       });
       container = rendered.container;
 
@@ -154,9 +160,11 @@ describe("Email field", () => {
 
     beforeEach(() => {
       const rendered = renderGravityForm({
-        gfForm: {
-          formFields: {
-            nodes: [confirmationField],
+        data: {
+          gfForm: {
+            formFields: {
+              nodes: [confirmationField],
+            },
           },
         },
       });

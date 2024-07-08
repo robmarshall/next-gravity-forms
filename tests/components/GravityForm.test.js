@@ -62,7 +62,9 @@ describe("GravityFormForm", () => {
 
   it("renders form correctly", async () => {
     const { container } = renderGravityForm({
-      gfForm: { formFields: { nodes: fields } },
+      data: {
+        gfForm: { formFields: { nodes: fields } },
+      },
     });
     const formElement = container.querySelector("form");
 

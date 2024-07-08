@@ -93,7 +93,9 @@ describe("Name field", () => {
 
   beforeEach(() => {
     const rendered = renderGravityForm({
-      gfForm: { formFields: { nodes: [field] } },
+      data: {
+        gfForm: { formFields: { nodes: [field] } },
+      },
     });
     container = rendered.container;
     unmount = rendered.unmount;
@@ -126,12 +128,14 @@ describe("Name field", () => {
     unmount();
 
     const rendered = renderGravityForm({
-      gfForm: {
-        formFields: {
-          nodes: [
-            { ...field, isRequired: false },
-            { id: 14, databaseId: 13, type: "INPUT", defaultValue: "test" },
-          ],
+      data: {
+        gfForm: {
+          formFields: {
+            nodes: [
+              { ...field, isRequired: false },
+              { id: 14, databaseId: 13, type: "INPUT", defaultValue: "test" },
+            ],
+          },
         },
       },
     });

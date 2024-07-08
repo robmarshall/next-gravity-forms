@@ -21,7 +21,9 @@ describe("Number field", () => {
 
   it("renders correctly", async () => {
     const { container } = renderGravityForm({
-      gfForm: { formFields: { nodes: [field] } },
+      data: {
+        gfForm: { formFields: { nodes: [field] } },
+      },
     });
     const sectionElement = container.querySelector(`div#${fieldId}`);
 
@@ -42,16 +44,18 @@ describe("Number field", () => {
       "validation message for range",
       (rangeMin, rangeMax, expectedMessage) => {
         const { container } = renderGravityForm({
-          gfForm: {
-            formFields: {
-              nodes: [
-                {
-                  id: 9,
-                  type: "NUMBER",
-                  rangeMin: rangeMin,
-                  rangeMax: rangeMax,
-                },
-              ],
+          data: {
+            gfForm: {
+              formFields: {
+                nodes: [
+                  {
+                    id: 9,
+                    type: "NUMBER",
+                    rangeMin: rangeMin,
+                    rangeMax: rangeMax,
+                  },
+                ],
+              },
             },
           },
         });
@@ -73,18 +77,20 @@ describe("Number field", () => {
       "validates the input %d when rangeMin is %s and rangeMax is %s",
       async (rangeMin, rangeMax, inputValue, expectedMessage) => {
         const { container, getByLabelText, getByRole } = renderGravityForm({
-          gfForm: {
-            formFields: {
-              nodes: [
-                {
-                  id: 11,
-                  label: "Number",
-                  type: "NUMBER",
-                  numberFormat: "DECIMAL_DOT",
-                  rangeMin: rangeMin,
-                  rangeMax: rangeMax,
-                },
-              ],
+          data: {
+            gfForm: {
+              formFields: {
+                nodes: [
+                  {
+                    id: 11,
+                    label: "Number",
+                    type: "NUMBER",
+                    numberFormat: "DECIMAL_DOT",
+                    rangeMin: rangeMin,
+                    rangeMax: rangeMax,
+                  },
+                ],
+              },
             },
           },
         });
@@ -110,17 +116,19 @@ describe("Number field", () => {
 
   it("no validation message for range when custom validation message is provided", () => {
     const { container } = renderGravityForm({
-      gfForm: {
-        formFields: {
-          nodes: [
-            {
-              id: 9,
-              type: "NUMBER",
-              rangeMin: 1,
-              rangeMax: 10,
-              errorMessage: "Provided range is not right",
-            },
-          ],
+      data: {
+        gfForm: {
+          formFields: {
+            nodes: [
+              {
+                id: 9,
+                type: "NUMBER",
+                rangeMin: 1,
+                rangeMax: 10,
+                errorMessage: "Provided range is not right",
+              },
+            ],
+          },
         },
       },
     });
@@ -130,18 +138,20 @@ describe("Number field", () => {
 
   it("custom validation message is displayed if number range validation is failed", async () => {
     const { container, getByLabelText, getByRole } = renderGravityForm({
-      gfForm: {
-        formFields: {
-          nodes: [
-            {
-              id: 9,
-              type: "NUMBER",
-              label: "Number",
-              rangeMin: 1,
-              rangeMax: 10,
-              errorMessage: "Provided range is not right",
-            },
-          ],
+      data: {
+        gfForm: {
+          formFields: {
+            nodes: [
+              {
+                id: 9,
+                type: "NUMBER",
+                label: "Number",
+                rangeMin: 1,
+                rangeMax: 10,
+                errorMessage: "Provided range is not right",
+              },
+            ],
+          },
         },
       },
     });
@@ -172,16 +182,18 @@ describe("Number field", () => {
       ["CURRENCY", "11,50"],
     ])("formatType %s", async (formatType, inputValue) => {
       const { container, getByLabelText, getByRole } = renderGravityForm({
-        gfForm: {
-          formFields: {
-            nodes: [
-              {
-                id: 11,
-                label: "Number",
-                type: "NUMBER",
-                numberFormat: formatType,
-              },
-            ],
+        data: {
+          gfForm: {
+            formFields: {
+              nodes: [
+                {
+                  id: 11,
+                  label: "Number",
+                  type: "NUMBER",
+                  numberFormat: formatType,
+                },
+              ],
+            },
           },
         },
       });
