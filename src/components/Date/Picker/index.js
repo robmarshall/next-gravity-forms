@@ -7,6 +7,7 @@ import { useSettings } from "../../../providers/SettingsContext";
 import { valueToLowerCase, interpolateString } from "../../../utils/helpers";
 import CalendarIconComponent from "./CalendarIconComponent";
 import { isValidDate } from "./helpers";
+import { enUS as defaultLocale } from "date-fns/locale";
 // import "react-datepicker/dist/react-datepicker.css";
 
 const dateFormats = {
@@ -47,6 +48,7 @@ const Picker = ({ fieldData, name, control, presetValue }) => {
     formatLong: {
       date: () => dateFormats[dateFormat],
     },
+    match: defaultLocale.match,
   };
 
   const getProperDefault = () => {
