@@ -2,6 +2,8 @@ import { valueToLowerCase } from "../../utils/helpers";
 
 // IS
 function compareIS(ruleValue, fieldValue, type) {
+  console.log({ fieldValue, ruleValue, type });
+
   if (
     ["checkbox", "multiselect"].includes(type) &&
     fieldValue instanceof Array
