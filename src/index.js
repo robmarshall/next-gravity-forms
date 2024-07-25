@@ -61,7 +61,7 @@ const GravityFormForm = ({
     // immediately recognize and apply them, ensuring conditional fields behave as expected from the start.
     defaultValues: getDefaultValues(formFields?.nodes, presetValues),
   });
-  const { handleSubmit, setError, reset, getValues, trigger } = methods;
+  const { handleSubmit, setError, reset, getValues } = methods;
 
   const [generalError, setGeneralError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -203,11 +203,7 @@ const GravityFormForm = ({
               noValidate // needed to skip the built in form validation, as we use custom one
             >
               {generalError && <FormGeneralError errorCode={generalError} />}
-              <FormBuilder
-                nodes={formFieldNodes}
-                preOnSubmit={preOnSubmit}
-                trigger={trigger}
-              />
+              <FormBuilder nodes={formFieldNodes} preOnSubmit={preOnSubmit} />
             </form>
           </FormProvider>
         </SettingsProvider>

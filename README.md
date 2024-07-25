@@ -199,7 +199,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Captcha
 - [x] Add masking to inputs
 - [x] Section
-- [ ] Page
+- [ ] Page (half done, need to save values so that when the user refreshes the page, they are preserved)
 - [x] Date
 - [x] File upload
 - [ ] Post Fields

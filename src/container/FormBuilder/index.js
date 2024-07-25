@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { array, func } from "prop-types";
 import classnames from "classnames";
 import { useSettings } from "../../providers/SettingsContext";
 import FieldBuilder from "../FieldBuilder";
@@ -6,12 +7,19 @@ import PageNav from "./PageNav";
 import SubmitButton from "../../components/Submit";
 import { valueToLowerCase, groupFields } from "../../utils/helpers";
 import { ConditionalWrapper } from "../../components/General";
-import { array, func } from "prop-types";
+import ProgressBar from "./ProgressBar";
 
-const FormBuilder = ({ nodes, preOnSubmit, trigger }) => {
+const FormBuilder = ({ nodes, preOnSubmit }) => {
   const { databaseId, settings, loading, form } = useSettings();
   const [page, setPage] = useState(1);
-  const { subLabelPlacement, descriptionPlacement, labelPlacement } = form;
+  const {
+    subLabelPlacement,
+    descriptionPlacement,
+    labelPlacement,
+    pagination,
+  } = form;
+
+  const { lastPageButton, type } = pagination || {};
 
   if (!nodes?.length) return null;
 
@@ -36,7 +44,10 @@ const FormBuilder = ({ nodes, preOnSubmit, trigger }) => {
               setPage={setPage}
               isLastPage={Object.keys(pages).length - 1 == pageNumber}
               labelPlacement={labelPlacement}
-              trigger={trigger}
+              databaseId={databaseId}
+              loading={loading}
+              nodes={nodes}
+              lastPageButton={lastPageButton}
             />
           </div>
         )}
@@ -72,6 +83,14 @@ const FormBuilder = ({ nodes, preOnSubmit, trigger }) => {
 
   return (
     <>
+      {type && type !== "NONE" && (
+        <ProgressBar
+          currentPage={page}
+          totalPages={Object.keys(pages).length - 1}
+          databaseId={databaseId}
+          {...pagination}
+        />
+      )}
       <div className="gform-body gform_body">
         {Object.entries(pages).map(([pageNumber, fields]) =>
           renderPage(pageNumber, fields)
