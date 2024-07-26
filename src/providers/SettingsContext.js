@@ -12,6 +12,7 @@ export const SettingsProvider = ({
   databaseId,
   helperFieldsSettings,
   children,
+  ...props
 }) => {
   // Override custom strings with helperText object, allowing users to modify hardcoded strings
   const mergedStrings = mergeDeep(strings, helperText);
@@ -23,6 +24,7 @@ export const SettingsProvider = ({
         strings: mergedStrings,
         fieldsSettings: mergedSettings,
         databaseId,
+        ...props,
       }}
     >
       {children}
