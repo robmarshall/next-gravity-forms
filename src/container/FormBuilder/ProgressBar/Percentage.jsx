@@ -2,7 +2,7 @@ import React from "react";
 import { interpolateString, valueToLowerCase } from "../../../utils/helpers";
 import { useSettings } from "../../../providers/SettingsContext";
 import classNames from "classnames";
-import { array, number, string } from "prop-types";
+import { array, bool, number, string } from "prop-types";
 
 const renderInterpolatedHtml = (template, values) => {
   const interpolatedString = interpolateString(template, values);
@@ -39,9 +39,13 @@ const Percentage = ({
   totalPages,
   pageNames = [],
   style = "",
+  isCompleted = false,
+  progressbarCompletionText = "",
 }) => {
   const { strings } = useSettings();
-  const progress = Math.floor((currentPage / totalPages) * 100);
+  const progress = isCompleted
+    ? 100
+    : Math.floor((currentPage / totalPages) * 100);
 
   return (
     <div
@@ -49,12 +53,19 @@ const Percentage = ({
       className="gf_progressbar_wrapper"
     >
       <p className="gf_progressbar_title">
-        {renderInterpolatedHtml(strings.step, {
-          step: currentPage,
-          total: totalPages,
-        })}
-        {pageNames?.[currentPage - 1] && (
-          <>{` - ${pageNames[currentPage - 1]}`}</>
+        {isCompleted ? (
+          <>{progressbarCompletionText ? progressbarCompletionText : ""}</>
+        ) : (
+          <>
+            {" "}
+            {renderInterpolatedHtml(strings.step, {
+              step: currentPage,
+              total: totalPages,
+            })}
+            {pageNames?.[currentPage - 1] && (
+              <>{` - ${pageNames[currentPage - 1]}`}</>
+            )}
+          </>
         )}
       </p>
       <div
@@ -84,6 +95,8 @@ Percentage.propTypes = {
   totalPages: number.isRequired,
   pageNames: array,
   style: string,
+  isCompleted: bool,
+  progressbarCompletionText: string,
 };
 
 export default Percentage;

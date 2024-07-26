@@ -12,6 +12,7 @@ import FormBuilder from "./container/FormBuilder";
 import { isInternalLink } from "./utils/helpers";
 import { submitGravityForm } from "./fetch";
 import { SettingsProvider } from "./providers/SettingsContext";
+import ProgressBar from "./container/FormBuilder/ProgressBar";
 
 /**
  * Component to take Gravity Form graphQL data and turn into
@@ -43,6 +44,7 @@ const GravityFormForm = ({
     labelPlacement,
     subLabelPlacement,
     hasHoneypot,
+    pagination,
   } = form;
 
   const redirect = navigate
@@ -133,9 +135,9 @@ const GravityFormForm = ({
       }
     }
   };
-
+  let confirmation;
   if (success) {
-    const confirmation = confirmations?.find((el) => {
+    confirmation = confirmations?.find((el) => {
       // First check if there is a custom confirmation
       // that is not the default.
       if (el.isActive && !el.isDefault) {
@@ -163,33 +165,37 @@ const GravityFormForm = ({
 
       window.location.href = confirmation.url;
     }
-
-    if (confirmation.type === "MESSAGE") {
-      return (
-        <div className="gform_confirmation_wrapper">
-          <div
-            className="gform_confirmation_message"
-            /* eslint-disable react/no-danger */
-            dangerouslySetInnerHTML={{ __html: confirmation?.message }}
-          />
-        </div>
-      );
-    }
   }
+  const showConfirmation = success && confirmation.type === "MESSAGE";
 
   return (
     <div className="gform_wrapper" id={`gform_wrapper_${databaseId}`}>
-      <div className="gform_anchor" id={`gf_${databaseId}`} />
+      <SettingsProvider
+        helperText={helperText}
+        databaseId={databaseId}
+        helperFieldsSettings={helperFieldsSettings}
+        settings={settings}
+        form={form}
+        loading={loading}
+      >
+        {showConfirmation &&
+          pagination?.hasProgressbarOnConfirmation &&
+          pagination?.type === "PERCENTAGE" && (
+            <ProgressBar isCompleted {...pagination} />
+          )}
 
-      {formFields && (
-        <SettingsProvider
-          helperText={helperText}
-          databaseId={databaseId}
-          helperFieldsSettings={helperFieldsSettings}
-          settings={settings}
-          form={form}
-          loading={loading}
-        >
+        <div className="gform_anchor" id={`gf_${databaseId}`} />
+
+        {showConfirmation && (
+          <div className="gform_confirmation_wrapper">
+            <div
+              className="gform_confirmation_message"
+              /* eslint-disable react/no-danger */
+              dangerouslySetInnerHTML={{ __html: confirmation?.message }}
+            />
+          </div>
+        )}
+        {!success && formFields && (
           <FormProvider {...methods} formFields={formFields}>
             <form
               className={
@@ -206,8 +212,8 @@ const GravityFormForm = ({
               <FormBuilder nodes={formFieldNodes} preOnSubmit={preOnSubmit} />
             </form>
           </FormProvider>
-        </SettingsProvider>
-      )}
+        )}
+      </SettingsProvider>
     </div>
   );
 };
