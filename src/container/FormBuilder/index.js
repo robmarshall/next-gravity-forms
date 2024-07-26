@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { array, func } from "prop-types";
+import { array, object } from "prop-types";
 import classnames from "classnames";
 import { useSettings } from "../../providers/SettingsContext";
 import FieldBuilder from "../FieldBuilder";
@@ -9,7 +9,7 @@ import { valueToLowerCase, groupFields } from "../../utils/helpers";
 import { ConditionalWrapper } from "../../components/General";
 import ProgressBar from "./ProgressBar";
 
-const FormBuilder = ({ nodes, preOnSubmit }) => {
+const FormBuilder = ({ nodes, preOnSubmit = {} }) => {
   const { databaseId, settings, loading, form } = useSettings();
   const [page, setPage] = useState(1);
   const {
@@ -24,7 +24,7 @@ const FormBuilder = ({ nodes, preOnSubmit }) => {
   if (!nodes?.length) return null;
 
   const pages = groupFields(nodes);
-  const hasPages = Object.keys(pages).length > 2;
+  const hasPages = Object.keys(pages).length >= 2;
 
   const renderPage = (pageNumber, fields) => {
     if (pageNumber === "default" || pageNumber != page) return null;
@@ -42,7 +42,7 @@ const FormBuilder = ({ nodes, preOnSubmit }) => {
             <PageNav
               currentPage={page}
               setPage={setPage}
-              isLastPage={Object.keys(pages).length - 1 == pageNumber}
+              isLastPage={Object.keys(pages).length == pageNumber}
               labelPlacement={labelPlacement}
               databaseId={databaseId}
               loading={loading}
@@ -86,7 +86,7 @@ const FormBuilder = ({ nodes, preOnSubmit }) => {
       {type && type !== "NONE" && (
         <ProgressBar
           currentPage={page}
-          totalPages={Object.keys(pages).length - 1}
+          totalPages={Object.keys(pages).length}
           databaseId={databaseId}
           {...pagination}
         />
@@ -107,8 +107,7 @@ const FormBuilder = ({ nodes, preOnSubmit }) => {
 
 FormBuilder.propTypes = {
   nodes: array,
-  preOnSubmit: func.isRequired,
-  trigger: func.isRequired,
+  preOnSubmit: object,
 };
 
 export default FormBuilder;
