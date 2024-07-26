@@ -6,6 +6,7 @@ const checkValues = (values) => {
     if (value instanceof File) {
       return true;
     }
+
     if (value instanceof Date) {
       return true;
     }
