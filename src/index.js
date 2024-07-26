@@ -1,19 +1,18 @@
 // https://github.com/codifytools/react-npm-package-boilerplate/blob/master/package.json
 
-import classnames from "classnames";
 import PropTypes from "prop-types";
 import React, { useState, useRef } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import FormGeneralError from "./components/FormGeneralError";
-import FieldBuilder from "./container/FieldBuilder";
 import { handleGravityFormsValidationErrors } from "./utils/manageErrors";
 import getDefaultValues from "./utils/getDefaultVlaues";
 import { submissionHasOneFieldEntry } from "./utils/manageFormData";
 import formatPayload from "./utils/formatPayload";
-import { valueToLowerCase, isInternalLink } from "./utils/helpers";
+import FormBuilder from "./container/FormBuilder";
+import { isInternalLink } from "./utils/helpers";
 import { submitGravityForm } from "./fetch";
 import { SettingsProvider } from "./providers/SettingsContext";
-import SubmitButton from "./components/SubmitButton";
+import ProgressBar from "./container/FormBuilder/ProgressBar";
 
 /**
  * Component to take Gravity Form graphQL data and turn into
@@ -38,7 +37,6 @@ const GravityFormForm = ({
   const settings = data?.gfSettings || {};
 
   const {
-    submitButton,
     confirmations,
     databaseId,
     descriptionPlacement,
@@ -46,6 +44,7 @@ const GravityFormForm = ({
     labelPlacement,
     subLabelPlacement,
     hasHoneypot,
+    pagination,
   } = form;
 
   const redirect = navigate
@@ -136,9 +135,9 @@ const GravityFormForm = ({
       }
     }
   };
-
+  let confirmation;
   if (success) {
-    const confirmation = confirmations?.find((el) => {
+    confirmation = confirmations?.find((el) => {
       // First check if there is a custom confirmation
       // that is not the default.
       if (el.isActive && !el.isDefault) {
@@ -166,30 +165,37 @@ const GravityFormForm = ({
 
       window.location.href = confirmation.url;
     }
-
-    if (confirmation.type === "MESSAGE") {
-      return (
-        <div className="gform_confirmation_wrapper">
-          <div
-            className="gform_confirmation_message"
-            /* eslint-disable react/no-danger */
-            dangerouslySetInnerHTML={{ __html: confirmation?.message }}
-          />
-        </div>
-      );
-    }
   }
+  const showConfirmation = success && confirmation.type === "MESSAGE";
 
   return (
     <div className="gform_wrapper" id={`gform_wrapper_${databaseId}`}>
-      <div className="gform_anchor" id={`gf_${databaseId}`} />
+      <SettingsProvider
+        helperText={helperText}
+        databaseId={databaseId}
+        helperFieldsSettings={helperFieldsSettings}
+        settings={settings}
+        form={form}
+        loading={loading}
+      >
+        {showConfirmation &&
+          pagination?.hasProgressbarOnConfirmation &&
+          pagination?.type === "PERCENTAGE" && (
+            <ProgressBar isCompleted {...pagination} />
+          )}
 
-      {formFields && (
-        <SettingsProvider
-          helperText={helperText}
-          databaseId={databaseId}
-          helperFieldsSettings={helperFieldsSettings}
-        >
+        <div className="gform_anchor" id={`gf_${databaseId}`} />
+
+        {showConfirmation && (
+          <div className="gform_confirmation_wrapper">
+            <div
+              className="gform_confirmation_message"
+              /* eslint-disable react/no-danger */
+              dangerouslySetInnerHTML={{ __html: confirmation?.message }}
+            />
+          </div>
+        )}
+        {!success && formFields && (
           <FormProvider {...methods} formFields={formFields}>
             <form
               className={
@@ -203,44 +209,11 @@ const GravityFormForm = ({
               noValidate // needed to skip the built in form validation, as we use custom one
             >
               {generalError && <FormGeneralError errorCode={generalError} />}
-              <div className="gform-body gform_body">
-                <div
-                  className={classnames(
-                    "gform_fields",
-                    {
-                      [`form_sublabel_${valueToLowerCase(subLabelPlacement)}`]:
-                        valueToLowerCase(subLabelPlacement),
-                    },
-                    `description_${valueToLowerCase(descriptionPlacement)}`,
-                    `${valueToLowerCase(labelPlacement)}_label`
-                  )}
-                  id={`gform_fields_${databaseId}`}
-                >
-                  <FieldBuilder
-                    databaseId={databaseId}
-                    formLoading={loading}
-                    formFields={formFieldNodes}
-                    labelPlacement={labelPlacement}
-                    preOnSubmit={preOnSubmit}
-                    settings={settings}
-                    formLayoutProps={form}
-                  />
-                </div>
-              </div>
-
-              <div
-                className={`gform_footer ${valueToLowerCase(labelPlacement)}`}
-              >
-                <SubmitButton
-                  databaseId={databaseId}
-                  loading={loading}
-                  submitButton={submitButton}
-                />
-              </div>
+              <FormBuilder nodes={formFieldNodes} preOnSubmit={preOnSubmit} />
             </form>
           </FormProvider>
-        </SettingsProvider>
-      )}
+        )}
+      </SettingsProvider>
     </div>
   );
 };

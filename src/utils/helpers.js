@@ -44,6 +44,16 @@ export const isNonEmptyObject = (obj) => {
   return obj !== null && typeof obj === "object" && Object.keys(obj).length > 0;
 };
 
+export const groupFields = (nodes) => {
+  return nodes.reduce((acc, field) => {
+    const pageNumber = field.pageNumber || "default";
+    const page = acc[pageNumber] || [];
+    page.push(field);
+    acc[pageNumber] = page;
+    return acc;
+  }, {});
+};
+
 export const interpolateString = (template, values) => {
   return template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => {
     return values[key] || placeholder;

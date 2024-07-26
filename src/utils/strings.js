@@ -88,6 +88,7 @@ const strings = {
   },
   loading: "Loading...",
   submit: "Submit",
+  step: "Step {{step}} of {{total}}",
 };
 
 export default strings;

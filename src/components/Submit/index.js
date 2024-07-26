@@ -1,9 +1,13 @@
-import { bool, number, object } from "prop-types";
 import React from "react";
 import { useSettings } from "../../providers/SettingsContext";
 
-const SubmitButton = ({ databaseId, loading, submitButton }) => {
-  const { strings } = useSettings();
+const SubmitButton = () => {
+  const {
+    loading,
+    databaseId,
+    form: { submitButton } = {},
+    strings,
+  } = useSettings();
   return (
     <button
       className="gravityform__button gform_button button"
@@ -20,12 +24,6 @@ const SubmitButton = ({ databaseId, loading, submitButton }) => {
       )}
     </button>
   );
-};
-
-SubmitButton.propTypes = {
-  databaseId: number,
-  loading: bool,
-  submitButton: object,
 };
 
 export default SubmitButton;
