@@ -90,9 +90,9 @@ const Percentage = ({
 };
 
 Percentage.propTypes = {
-  databaseId: number.isRequired,
-  currentPage: number.isRequired,
-  totalPages: number.isRequired,
+  databaseId: number,
+  currentPage: number,
+  totalPages: number,
   pageNames: array,
   style: string,
   isCompleted: bool,

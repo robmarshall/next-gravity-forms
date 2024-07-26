@@ -46,7 +46,7 @@ export const isNonEmptyObject = (obj) => {
 
 export const groupFields = (nodes) => {
   return nodes.reduce((acc, field) => {
-    const pageNumber = field.pageNumber || "default";
+    const pageNumber = field.pageNumber || 1;
     const page = acc[pageNumber] || [];
     page.push(field);
     acc[pageNumber] = page;
