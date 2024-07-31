@@ -104,6 +104,9 @@ Since package uses some hardcoded strings, we implemented the way how to transla
         phone: "This is an invalid phone",
       },
     },
+    radio: {
+      otherChoice: "Other", // alternatively you can override only specific field, .i.e. otherChoice_3
+    },
   }}
 />
 ```
@@ -192,7 +195,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Select
 - [x] Multiselect
 - [ ] Number (range and number format is not working yet)
-- [ ] Checkbox (need to add select all)
+- [x] Checkbox
 - [x] Radio
 - [x] Hidden
 - [x] HTML
