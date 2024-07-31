@@ -68,6 +68,11 @@ const strings = {
     selectAll: "Select All",
     deselectAll: "Deselect All",
   },
+  radio: {
+    otherChoiceLabel: "Other Choice, please specify",
+    // add the field ID, i.e., otherChoice_3, to override it for the specific field only.
+    otherChoice: "Other",
+  },
   honeypot:
     "This field is for validation purposes and should be left unchanged.",
   multiselect: {

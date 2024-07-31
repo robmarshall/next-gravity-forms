@@ -23,6 +23,7 @@ function getDefaultValues(fields, presetValues) {
       inputName: presetName,
       dateFormat: dateFormatUpper,
       dateType,
+      hasOtherChoice,
     }) => {
       const inputName = `input_${id}`;
 
@@ -79,6 +80,12 @@ function getDefaultValues(fields, presetValues) {
           choices,
           presetValue,
         });
+
+        // handle other choice if enabled
+        if (type === "RADIO" && hasOtherChoice && !values[inputName]) {
+          values[inputName] = "gf_other_choice";
+          values[`${inputName}_other`] = presetValue;
+        }
       }
 
       // Handling for NAME type

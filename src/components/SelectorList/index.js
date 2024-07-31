@@ -6,10 +6,10 @@ import InputWrapper from "../InputWrapper";
 import { valueToLowerCase } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
 import SelectDeselectButton from "./SelectDeselectButton";
+import OtherChoice from "./OtherChoice";
 
-// TODO: Enable Select All Choice
 const SelectorList = ({ fieldData, name, labelFor, ...wrapProps }) => {
-  const { strings } = useSettings();
+  const { strings, databaseId } = useSettings();
   const {
     id,
     choices,
@@ -17,6 +17,7 @@ const SelectorList = ({ fieldData, name, labelFor, ...wrapProps }) => {
     errorMessage,
     hasSelectAll,
     isRequired,
+    hasOtherChoice,
     size,
     type: typeUpper,
   } = fieldData;
@@ -31,25 +32,29 @@ const SelectorList = ({ fieldData, name, labelFor, ...wrapProps }) => {
 
   return (
     <InputWrapper
-      errors={errors?.[name]}
+      errors={errors?.[name] || (hasOtherChoice && errors?.[`${name}_other`])}
       inputData={fieldData}
       labelFor={labelFor}
       {...wrapProps}
     >
-      <div className={`gfield_${type}`} id={name}>
+      <div className={`gfield_${type}`} id={`input_${databaseId}_${id}`}>
         {choices.map(({ text, value }, index) => {
-          const choiceID = index + 1;
-          // const defaultChecked = getDefaultChecked(value, isSelected);
+          const choiceID = type === "checkbox" ? index + 1 : index;
           return (
-            <div key={`${name}-${index + 1}`}>
+            <div
+              className={classnames(
+                "gchoice",
+                `gchoice_${databaseId}_${id}_${choiceID}`
+              )}
+              key={`${name}-${index + 1}`}
+            >
               <input
                 className={classnames(
-                  `gravityform__field__input__${type}`,
-                  `gravityform__field__input__${type}--` + choiceID,
+                  `gfield-choice-input`,
                   cssClass,
                   valueToLowerCase(size)
                 )}
-                id={`${name}_${choiceID}`}
+                id={`choice_${databaseId}_${id}_${choiceID}`}
                 name={`${name}${type === "checkbox" ? `.${choiceID}` : ""}`}
                 {...register(name, {
                   required:
@@ -60,12 +65,25 @@ const SelectorList = ({ fieldData, name, labelFor, ...wrapProps }) => {
               />
               &nbsp;
               <label
-                htmlFor={`${name}_${choiceID}`}
+                className="gform-field-label gform-field-label--type-inline"
+                htmlFor={`choice_${databaseId}_${id}_${choiceID}`}
                 dangerouslySetInnerHTML={{ __html: text }}
               />
             </div>
           );
         })}
+        {hasOtherChoice && (
+          <OtherChoice
+            strings={strings}
+            databaseId={databaseId}
+            id={id}
+            register={register}
+            name={name}
+            errorMessage={errorMessage}
+            isRequired
+            index={choices.length}
+          />
+        )}
         {hasSelectAll && (
           <SelectDeselectButton
             id={id}
@@ -91,6 +109,7 @@ SelectorList.propTypes = {
     type: PropTypes.string,
     errorMessage: PropTypes.string,
     hasSelectAll: PropTypes.bool,
+    hasOtherChoice: PropTypes.bool,
   }),
   name: PropTypes.string,
   labelFor: PropTypes.string,
