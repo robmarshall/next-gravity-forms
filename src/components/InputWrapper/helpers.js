@@ -127,7 +127,7 @@ export function checkConditionalRendering(conditionalLogic, watch, fields) {
   const formattedValues = values.map((value, index) => {
     const field = fieldsWorkWith[index];
     // if we check Name field we need to check each sub field separately
-    if (field.type === "NAME") {
+    if (field?.type === "NAME") {
       const id = fieldsToBeWatched[index];
       const name = field.inputs.find((i) => i.id == id)?.name;
 
