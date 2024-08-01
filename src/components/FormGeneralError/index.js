@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSettings } from "../../providers/SettingsContext";
 
-const FormGeneralError = ({ errorCode }) => {
+const FormGeneralError = ({ errorCode, databaseId }) => {
   const { strings } = useSettings();
   let errorMessage = "";
 
@@ -20,8 +20,11 @@ const FormGeneralError = ({ errorCode }) => {
 
   if (errorMessage) {
     return (
-      <div className="gravityform__error_inform validation_error">
-        <p>{errorMessage}</p>
+      <div
+        className="gform_validation_errors validation_error"
+        id={`gform_${databaseId}_validation_container`}
+      >
+        <p dangerouslySetInnerHTML={{ __html: errorMessage }} />
       </div>
     );
   } else {
@@ -31,6 +34,7 @@ const FormGeneralError = ({ errorCode }) => {
 
 FormGeneralError.propTypes = {
   errorCode: PropTypes.string.isRequired,
+  databaseId: PropTypes.number.isRequired,
 };
 
 export default FormGeneralError;

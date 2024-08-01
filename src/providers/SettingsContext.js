@@ -9,9 +9,9 @@ const SettingsContext = createContext();
 
 export const SettingsProvider = ({
   helperText,
-  databaseId,
   helperFieldsSettings,
   children,
+  form,
   ...props
 }) => {
   // Override custom strings with helperText object, allowing users to modify hardcoded strings
@@ -23,7 +23,8 @@ export const SettingsProvider = ({
       value={{
         strings: mergedStrings,
         fieldsSettings: mergedSettings,
-        databaseId,
+        databaseId: form.databaseId,
+        form,
         ...props,
       }}
     >
@@ -36,7 +37,7 @@ export const useSettings = () => useContext(SettingsContext);
 
 SettingsProvider.propTypes = {
   helperText: PropTypes.object,
-  databaseId: PropTypes.number,
+  form: PropTypes.object.isRequired,
   helperFieldsSettings: PropTypes.object,
   children: PropTypes.node.isRequired,
 };
