@@ -193,52 +193,92 @@ describe("Conditional logic", () => {
   ];
   const checkboxTestCases = generateTestCases(baseCheckboxTestCases);
 
-  checkboxTestCases.forEach(
-    ({ conditionalLogic, inputValue, expectedDisplay }) => {
-      it(`${conditionalLogic.actionType} checkbox field if value ${conditionalLogic.rules[0].operator}`, async () => {
-        renderGravityForm({
-          data: {
-            gfForm: {
-              formFields: {
-                nodes: [
-                  {
-                    ...fields[0],
-                    conditionalLogic,
-                  },
-                  {
-                    ...fields[1],
-                    type: "CHECKBOX",
-                    label: "",
-                    choices: [
-                      {
-                        isSelected: false,
-                        text: "First Choice",
-                        value: "first",
-                      },
-                      {
-                        isSelected: true,
-                        text: "Third Choice",
-                        value: "second",
-                      },
-                      {
-                        isSelected: false,
-                        text: "Fouthh",
-                        value: "fourth",
-                      },
-                    ],
-                  },
-                ],
-              },
+  checkboxTestCases.forEach(({ conditionalLogic, expectedDisplay }) => {
+    it(`${conditionalLogic.actionType} checkbox field if value ${conditionalLogic.rules[0].operator}`, async () => {
+      renderGravityForm({
+        data: {
+          gfForm: {
+            formFields: {
+              nodes: [
+                {
+                  ...fields[0],
+                  conditionalLogic,
+                },
+                {
+                  ...fields[1],
+                  type: "CHECKBOX",
+                  label: "",
+                  choices: [
+                    {
+                      isSelected: false,
+                      text: "First Choice",
+                      value: "first",
+                    },
+                    {
+                      isSelected: true,
+                      text: "Third Choice",
+                      value: "second",
+                    },
+                    {
+                      isSelected: false,
+                      text: "Fouthh",
+                      value: "fourth",
+                    },
+                  ],
+                },
+              ],
             },
           },
-        });
-
-        await act(async () => {
-          const target = screen.getByLabelText(/Single/i).closest(".gfield");
-          const style = window.getComputedStyle(target);
-          expect(style.display).toBe(expectedDisplay);
-        });
+        },
       });
-    }
-  );
+
+      await act(async () => {
+        const target = screen.getByLabelText(/Single/i).closest(".gfield");
+        const style = window.getComputedStyle(target);
+        expect(style.display).toBe(expectedDisplay);
+      });
+    });
+  });
+
+  it("submit button is hidden", async () => {
+    renderGravityForm({
+      data: {
+        gfForm: {
+          formFields: {
+            nodes: [
+              {
+                id: 1,
+                type: "TEXT",
+                label: "Single",
+              },
+            ],
+          },
+          submitButton: {
+            conditionalLogic: {
+              rules: [
+                {
+                  fieldId: 1,
+                  operator: "IS",
+                  value: "second",
+                },
+              ],
+              logicType: "ANY",
+              actionType: "SHOW",
+            },
+          },
+        },
+      },
+    });
+
+    fireEvent.input(screen.getByLabelText(/Single/i), {
+      target: {
+        value: "test",
+      },
+    });
+
+    const target = screen.getByText("Submit1");
+    const style = window.getComputedStyle(target);
+
+    expect(style.display).toBe("none");
+  });
 });
