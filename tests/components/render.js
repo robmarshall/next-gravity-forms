@@ -7,10 +7,7 @@ import mergeDeep from "../../src/utils/mergeDeep";
 
 function renderGravityForm({ data = {}, presetValues = {}, helperText = {} }) {
   return render(
-    <SettingsProvider
-      helperText={helperText}
-      databaseId={mockFormData.gfForm.databaseId}
-    >
+    <SettingsProvider helperText={helperText} form={mockFormData}>
       <GravityFormForm
         data={mergeDeep(mockFormData, data)}
         presetValues={presetValues}
