@@ -23,6 +23,170 @@ describe("Form content + confirmation", () => {
     },
   ];
 
+  // needed to check query string
+  const nodes = [
+    {
+      id: 1,
+      type: "TEXT",
+      label: "Single",
+      defaultValue: "Preset test",
+    },
+    {
+      id: 2,
+      type: "EMAIL",
+      label: "Email",
+      defaultValue: "presettest@gmail.com",
+    },
+    {
+      id: 3,
+      type: "TEXTAREA",
+      label: "Textarea",
+      defaultValue: "Preset textarea",
+    },
+    {
+      id: 4,
+      type: "SELECT",
+      label: "Select",
+      choices: [
+        {
+          isSelected: false,
+          text: "First Choice",
+          value: "First Choice",
+        },
+        {
+          isSelected: true,
+          text: "Third Choice",
+          value: "third",
+        },
+      ],
+    },
+    {
+      id: 5,
+      type: "MULTISELECT",
+      isMultiselectField: true,
+      label: "Multiselect",
+      choices: [
+        {
+          isSelected: false,
+          text: "Test",
+          value: "test",
+        },
+        {
+          isSelected: true,
+          text: "First Choice",
+          value: "first",
+        },
+        {
+          isSelected: true,
+          text: "Third Choice",
+          value: "third",
+        },
+      ],
+    },
+    {
+      id: 6,
+      type: "CHECKBOX",
+      label: "Checkbox",
+      choices: [
+        {
+          isSelected: true,
+          text: "First Choice",
+          value: "first",
+        },
+        {
+          isSelected: true,
+          text: "Third Choice",
+          value: "third",
+        },
+        {
+          isSelected: false,
+          text: "Fouthh",
+          value: "Fouthh",
+        },
+      ],
+      inputs: [
+        {
+          id: 6.1,
+          name: "",
+          label: "First Choice",
+        },
+        {
+          id: 6.2,
+          name: "",
+          label: "Third Choice",
+        },
+        {
+          id: 6.3,
+          name: "",
+          label: "Fouthh",
+        },
+      ],
+    },
+    {
+      id: 7,
+      type: "RADIO",
+      label: "Radio",
+      choices: [
+        {
+          isSelected: true,
+          text: "Second Choice",
+          value: "second",
+        },
+        {
+          isSelected: false,
+          text: "Third Choice",
+          value: "Third Choice",
+        },
+      ],
+    },
+    {
+      type: "NAME",
+      label: "Name",
+      id: 8,
+      inputs: [
+        {
+          label: "Prefix",
+          id: 8.2,
+          name: "prefix",
+          defaultValue: "prefix",
+          key: "prefix",
+        },
+        {
+          label: "First",
+          id: 8.3,
+          name: "first",
+          defaultValue: "first",
+          key: "first",
+        },
+      ],
+    },
+    {
+      id: 9,
+      type: "DATE",
+      dateFormat: "DMY_DASH",
+      dateType: "FIELD",
+      descriptionPlacement: "INHERIT",
+      label: "Date",
+      inputs: [
+        {
+          id: 9.1,
+          label: "Month",
+          defaultValue: "10",
+        },
+        {
+          id: 9.2,
+          label: "Day",
+          defaultValue: "30",
+        },
+        {
+          id: 9.3,
+          label: "Year",
+          defaultValue: "2024",
+        },
+      ],
+    },
+  ];
+
   beforeAll(() => {
     delete window.location;
     window.location = { href: "" };
@@ -167,17 +331,6 @@ describe("Form content + confirmation", () => {
   it("redirects with form values", async () => {
     const link = "https://example.com/redirection";
 
-    const presetValues = {
-      text: "Preset test",
-      email: "presettest@gmail.com",
-      textarea: "Preset textarea",
-      select: "third",
-      multiselect: ["first", "third"],
-      radio: "third",
-      checkbox: ["first", "third"],
-      name: "",
-    };
-
     renderGravityForm({
       data: {
         gfForm: {
@@ -191,168 +344,7 @@ describe("Form content + confirmation", () => {
             },
           ],
           formFields: {
-            nodes: [
-              {
-                id: 1,
-                type: "TEXT",
-                label: "Single",
-                defaultValue: presetValues["text"],
-              },
-              {
-                id: 2,
-                type: "EMAIL",
-                label: "Email",
-                defaultValue: presetValues["email"],
-              },
-              {
-                id: 3,
-                type: "TEXTAREA",
-                label: "Textarea",
-                defaultValue: presetValues["textarea"],
-              },
-              {
-                id: 4,
-                type: "SELECT",
-                label: "Select",
-                choices: [
-                  {
-                    isSelected: false,
-                    text: "First Choice",
-                    value: "First Choice",
-                  },
-                  {
-                    isSelected: true,
-                    text: "Third Choice",
-                    value: "third",
-                  },
-                ],
-              },
-              {
-                id: 5,
-                type: "MULTISELECT",
-                isMultiselectField: true,
-                label: "Multiselect",
-                choices: [
-                  {
-                    isSelected: false,
-                    text: "Test",
-                    value: "test",
-                  },
-                  {
-                    isSelected: true,
-                    text: "First Choice",
-                    value: "first",
-                  },
-                  {
-                    isSelected: true,
-                    text: "Third Choice",
-                    value: "third",
-                  },
-                ],
-              },
-              {
-                id: 6,
-                type: "CHECKBOX",
-                label: "Checkbox",
-                choices: [
-                  {
-                    isSelected: true,
-                    text: "First Choice",
-                    value: "first",
-                  },
-                  {
-                    isSelected: true,
-                    text: "Third Choice",
-                    value: "third",
-                  },
-                  {
-                    isSelected: false,
-                    text: "Fouthh",
-                    value: "Fouthh",
-                  },
-                ],
-                inputs: [
-                  {
-                    id: 6.1,
-                    name: "",
-                    label: "First Choice",
-                  },
-                  {
-                    id: 6.2,
-                    name: "",
-                    label: "Third Choice",
-                  },
-                  {
-                    id: 6.3,
-                    name: "",
-                    label: "Fouthh",
-                  },
-                ],
-              },
-              {
-                id: 7,
-                type: "RADIO",
-                label: "Radio",
-                choices: [
-                  {
-                    isSelected: true,
-                    text: "Second Choice",
-                    value: "second",
-                  },
-                  {
-                    isSelected: false,
-                    text: "Third Choice",
-                    value: "Third Choice",
-                  },
-                ],
-              },
-              {
-                type: "NAME",
-                label: "Name",
-                id: 8,
-                inputs: [
-                  {
-                    label: "Prefix",
-                    id: 8.2,
-                    name: "prefix",
-                    defaultValue: "prefix",
-                    key: "prefix",
-                  },
-                  {
-                    label: "First",
-                    id: 8.3,
-                    name: "first",
-                    defaultValue: "first",
-                    key: "first",
-                  },
-                ],
-              },
-              {
-                id: 9,
-                type: "DATE",
-                dateFormat: "DMY_DASH",
-                dateType: "FIELD",
-                descriptionPlacement: "INHERIT",
-                label: "Date",
-                inputs: [
-                  {
-                    id: 9.1,
-                    label: "Month",
-                    defaultValue: "10",
-                  },
-                  {
-                    id: 9.2,
-                    label: "Day",
-                    defaultValue: "30",
-                  },
-                  {
-                    id: 9.3,
-                    label: "Year",
-                    defaultValue: "2024",
-                  },
-                ],
-              },
-            ],
+            nodes,
           },
         },
       },
@@ -363,7 +355,37 @@ describe("Form content + confirmation", () => {
     });
 
     expect(window.location.href).toBe(
-      "https://example.com/redirection?text=Preset+test&email=presettest%40gmail.com&textarea=Preset+textarea&select=third&multi=First+Choice&checkbox=First+Choice%2CThird+Choice&checkbox1=First+Choice&radio=second&name=first&date=30-10-2024"
+      "https://example.com/redirection?text=Preset+test&email=presettest%40gmail.com&textarea=Preset+textarea&select=third&multi=First+Choice&checkbox=First+Choice%2C+Third+Choice&checkbox1=First+Choice&radio=second&name=first&date=30-10-2024"
+    );
+  });
+
+  it("renders TEXT confirmation with form values", async () => {
+    const { container } = renderGravityForm({
+      data: {
+        gfForm: {
+          confirmations: [
+            {
+              type: "MESSAGE",
+              isActive: true,
+              message:
+                "Thanks for contacting us! We will get in touch with you shortly.\r\n\\n\r\n{Text:1}\r\n\r\n{Radiobuttons:7}\r\n\r\n{Multiselect:5}\r\n\r\n{Checkboxes:6}",
+            },
+          ],
+          formFields: {
+            nodes,
+          },
+        },
+      },
+    });
+
+    await act(async () => {
+      fireEvent.submit(screen.getByRole("button"));
+    });
+
+    expect(
+      container.querySelector(".gform_confirmation_message").innerHTML
+    ).toBe(
+      "Thanks for contacting us! We will get in touch with you shortly.<br>\\n<br>Preset test<br><br>second<br><br>First Choice<br><br>First Choice, Third Choice"
     );
   });
 });
