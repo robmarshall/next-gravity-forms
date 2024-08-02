@@ -14,7 +14,7 @@ const formatQueryString = (queryString, formRes) => {
 
     if (!formField) return "";
 
-    switch (formField.field.inputType) {
+    switch (formField.field.type) {
       case "EMAIL":
         return formField.emailValues.value;
 
