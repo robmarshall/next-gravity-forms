@@ -10,7 +10,8 @@ import { ConditionalWrapper } from "../../components/General";
 import ProgressBar from "./ProgressBar";
 
 const FormBuilder = ({ nodes, preOnSubmit = {} }) => {
-  const { databaseId, settings, loading, form } = useSettings();
+  const { databaseId, settings, loading, form, customFormFields } =
+    useSettings();
   const [page, setPage] = useState(1);
   const {
     subLabelPlacement,
@@ -70,6 +71,7 @@ const FormBuilder = ({ nodes, preOnSubmit = {} }) => {
             formFields={fields}
             preOnSubmit={preOnSubmit}
             settings={settings}
+            customFormFields={customFormFields}
             formLayoutProps={{
               labelPlacement,
               descriptionPlacement,

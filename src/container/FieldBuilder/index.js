@@ -16,6 +16,7 @@ import Name from "../../components/Name";
 import { valueToLowerCase } from "../../utils/helpers";
 import { islabelHidden } from "../../utils/inputSettings";
 import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
+import CustomField from "../../components/CustomField";
 
 const FieldBuilder = ({
   databaseId,
@@ -23,6 +24,7 @@ const FieldBuilder = ({
   preOnSubmit,
   settings,
   formLayoutProps,
+  customFormFields,
 }) => {
   // Loop through fields and create
   return formFields.map((field) => {
@@ -71,6 +73,22 @@ const FieldBuilder = ({
     const wrapId = `field_${databaseId}_${id}`;
     const name = `input_${id}`;
     const labelFor = `input_${databaseId}_${id}`;
+
+    // check if there is custom filed to be rendered instead
+    if (customFormFields[id])
+      return (
+        <CustomField
+          fieldData={field}
+          key={id}
+          gfId={id}
+          name={name}
+          labelFor={labelFor}
+          wrapClassName={inputWrapperClass}
+          wrapId={wrapId}
+        >
+          {customFormFields[id]}
+        </CustomField>
+      );
 
     switch (field.type) {
       // Add note for unsupported captcha field
