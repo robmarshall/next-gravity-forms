@@ -25,7 +25,7 @@ const formatQueryString = (queryString, formRes) => {
           return formField.field.choices
             ?.filter((i) => values.includes(i.value))
             ?.map((i) => i.text)
-            .join(",");
+            .join(", ");
         } else {
           // specific one only (:1.2)
           const checkboxValue = formField.checkboxValues.find(
@@ -53,7 +53,7 @@ const formatQueryString = (queryString, formRes) => {
           formField.field?.choices
             .filter((i) => formField.values.includes(i.value))
             .map((i) => i.text)
-            .join(",")
+            .join(", ")
         );
       default:
         return formField.value || "";
