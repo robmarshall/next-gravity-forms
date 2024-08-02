@@ -1,49 +1,76 @@
+/* eslint-disable no-case-declarations */
 import { useEffect } from "react";
 import { isInternalLink } from "../utils/helpers";
+import formatPayload from "../utils/formatPayload";
+import formatQueryString from "../utils/formatQueryString";
+import addQueryParamsToUrl from "../utils/addQueryParamsToUrl";
 
-function useConfirmation({ success, confirmations, navigate }) {
-  const findConfirmation = (confirmations) => {
-    return confirmations?.find((el) => {
-      // First check if there is a custom confirmation
-      // that is not the default.
-      if (el.isActive && !el.isDefault) {
-        return true;
-      }
+const findConfirmation = (confirmations) => {
+  return confirmations?.find((el) => {
+    // First check if there is a custom confirmation
+    // that is not the default.
+    if (el.isActive && !el.isDefault) {
+      return true;
+    }
 
-      // If not, revert back to the default one.
-      if (el.isDefault) {
-        return true;
-      }
-    });
+    // If not, revert back to the default one.
+    if (el.isDefault) {
+      return true;
+    }
+  });
+};
+
+function useConfirmation({
+  success,
+  confirmations,
+  navigate,
+  formFieldNodes,
+  getValues,
+}) {
+  const getQueryString = (queryString) => {
+    try {
+      if (!queryString) return "";
+      const values = getValues();
+
+      const formRes = formatPayload({
+        serverData: formFieldNodes,
+        clientData: values,
+      }).map((item) => ({
+        ...item,
+        field: formFieldNodes.find((i) => i.id === item.id),
+      }));
+
+      return formatQueryString(queryString, formRes);
+    } catch (e) {
+      return "";
+    }
   };
 
   const confirmation = findConfirmation(confirmations);
 
   const handleRedirect = (confirmation) => {
-    // TODO add fields values into link, i.e. phone={Phone:1}&email={Email:2}
-    if (confirmation.type === "PAGE") {
-      redirect(confirmation?.page?.node?.link);
+    const { queryString, type } = confirmation;
+
+    let url;
+
+    if (type === "PAGE" && confirmation?.page?.node?.link) {
+      url = confirmation.page.node.link;
+    } else if (type === "REDIRECT" && confirmation?.url) {
+      url = confirmation?.url;
     }
 
-    if (confirmation.type === "REDIRECT") {
-      if (!confirmation?.url) return;
+    if (!url) return;
 
-      // TODO add fields values into link, i.e. phone={Phone:1}&email={Email:2}
-      if (isInternalLink(confirmation.url)) {
-        redirect(confirmation.url);
-      } else {
-        window.location.href = confirmation.url;
-      }
+    const queryStr = getQueryString(queryString);
+    const redirectUrl = queryStr ? addQueryParamsToUrl(url, queryStr) : url;
+
+    // actual redirection
+    if (isInternalLink(url)) {
+      navigate ? navigate(redirectUrl) : (window.location.href = redirectUrl);
+    } else {
+      window.location.href = redirectUrl;
     }
   };
-
-  const redirect = navigate
-    ? (url) => {
-        navigate(url);
-      }
-    : (url) => {
-        return (window.location.href = url);
-      };
 
   useEffect(() => {
     if (success && confirmation) {
