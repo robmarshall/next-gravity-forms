@@ -54,7 +54,7 @@ describe("Form content + confirmation", () => {
     expect(descElement).toHaveClass("gform_description");
   });
 
-  it("renders error at least one field must be filled it error", async () => {
+  it("renders error: at least one field must be filled in", async () => {
     renderGravityForm({
       data: {
         gfForm: {
@@ -162,5 +162,208 @@ describe("Form content + confirmation", () => {
     });
 
     expect(window.location.href).toBe(link);
+  });
+
+  it("redirects with form values", async () => {
+    const link = "https://example.com/redirection";
+
+    const presetValues = {
+      text: "Preset test",
+      email: "presettest@gmail.com",
+      textarea: "Preset textarea",
+      select: "third",
+      multiselect: ["first", "third"],
+      radio: "third",
+      checkbox: ["first", "third"],
+      name: "",
+    };
+
+    renderGravityForm({
+      data: {
+        gfForm: {
+          confirmations: [
+            {
+              type: "REDIRECT",
+              isActive: true,
+              url: link,
+              queryString:
+                "text={Text:1}&email={Email:2}&textarea={Textar:3}&select={Select:4}&multi={Multi:5}&checkbox={Check:6}&checkbox1={Check:6.1}&radio={Radio:7}&name={Name (First):8.3}&date={Date:9}",
+            },
+          ],
+          formFields: {
+            nodes: [
+              {
+                id: 1,
+                type: "TEXT",
+                label: "Single",
+                defaultValue: presetValues["text"],
+              },
+              {
+                id: 2,
+                type: "EMAIL",
+                label: "Email",
+                defaultValue: presetValues["email"],
+              },
+              {
+                id: 3,
+                type: "TEXTAREA",
+                label: "Textarea",
+                defaultValue: presetValues["textarea"],
+              },
+              {
+                id: 4,
+                type: "SELECT",
+                label: "Select",
+                choices: [
+                  {
+                    isSelected: false,
+                    text: "First Choice",
+                    value: "First Choice",
+                  },
+                  {
+                    isSelected: true,
+                    text: "Third Choice",
+                    value: "third",
+                  },
+                ],
+              },
+              {
+                id: 5,
+                type: "MULTISELECT",
+                isMultiselectField: true,
+                label: "Multiselect",
+                choices: [
+                  {
+                    isSelected: false,
+                    text: "Test",
+                    value: "test",
+                  },
+                  {
+                    isSelected: true,
+                    text: "First Choice",
+                    value: "first",
+                  },
+                  {
+                    isSelected: true,
+                    text: "Third Choice",
+                    value: "third",
+                  },
+                ],
+              },
+              {
+                id: 6,
+                type: "CHECKBOX",
+                label: "Checkbox",
+                choices: [
+                  {
+                    isSelected: true,
+                    text: "First Choice",
+                    value: "first",
+                  },
+                  {
+                    isSelected: true,
+                    text: "Third Choice",
+                    value: "third",
+                  },
+                  {
+                    isSelected: false,
+                    text: "Fouthh",
+                    value: "Fouthh",
+                  },
+                ],
+                inputs: [
+                  {
+                    id: 6.1,
+                    name: "",
+                    label: "First Choice",
+                  },
+                  {
+                    id: 6.2,
+                    name: "",
+                    label: "Third Choice",
+                  },
+                  {
+                    id: 6.3,
+                    name: "",
+                    label: "Fouthh",
+                  },
+                ],
+              },
+              {
+                id: 7,
+                type: "RADIO",
+                label: "Radio",
+                choices: [
+                  {
+                    isSelected: true,
+                    text: "Second Choice",
+                    value: "second",
+                  },
+                  {
+                    isSelected: false,
+                    text: "Third Choice",
+                    value: "Third Choice",
+                  },
+                ],
+              },
+              {
+                type: "NAME",
+                label: "Name",
+                id: 8,
+                inputs: [
+                  {
+                    label: "Prefix",
+                    id: 8.2,
+                    name: "prefix",
+                    defaultValue: "prefix",
+                    key: "prefix",
+                  },
+                  {
+                    label: "First",
+                    id: 8.3,
+                    name: "first",
+                    defaultValue: "first",
+                    key: "first",
+                  },
+                ],
+              },
+              {
+                id: 9,
+                type: "DATE",
+                dateFormat: "DMY_DASH",
+                dateType: "FIELD",
+                descriptionPlacement: "INHERIT",
+                label: "Date",
+                inputs: [
+                  {
+                    id: 9.1,
+                    label: "Month",
+                    defaultValue: "10",
+                  },
+                  {
+                    id: 9.2,
+                    label: "Day",
+                    defaultValue: "30",
+                  },
+                  {
+                    id: 9.3,
+                    label: "Year",
+                    defaultValue: "2024",
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      },
+    });
+
+    await act(async () => {
+      fireEvent.submit(screen.getByRole("button"));
+    });
+
+    expect(window.location.href).toBe(
+      "https://example.com/redirection?text=Preset+test&email=presettest%40gmail.com&textarea=Preset+textarea&select=third&multi=First+Choice&checkbox=First+Choice%2CThird+Choice&checkbox1=First+Choice&radio=second&name=first&date=30-10-2024"
+    );
   });
 });
