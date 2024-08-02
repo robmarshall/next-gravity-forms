@@ -145,6 +145,8 @@ const GravityFormForm = ({
     success,
     confirmations,
     navigate,
+    formFieldNodes,
+    getValues,
   });
 
   return (
