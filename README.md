@@ -233,10 +233,10 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 
 ## Confirmations
 
-- [x] Text Confirmation
+- [x] Text Confirmation (`{all_fields}` is not supported)
 - [ ] Page Change
-- [ ] Redirect
-- [ ] Redirect query strings
+- [x] Redirect
+- [x] Redirect query strings support only form fields (excluding file uploads) and do not support user/entry-related fields (e.g., User IP, entry ID)
 - [x] Conditional Logic
 
 ## Known Issues

@@ -5,13 +5,16 @@ const Confirmation = ({ databaseId, confirmation }) => {
   return (
     <>
       <div className="gform_anchor" id={`gf_${databaseId}`} />
-      <div className="gform_confirmation_wrapper">
-        <div
-          className="gform_confirmation_message"
-          /* eslint-disable react/no-danger */
-          dangerouslySetInnerHTML={{ __html: confirmation?.message }}
-        />
-      </div>
+      {confirmation?.message && (
+        <div className="gform_confirmation_wrapper">
+          <div
+            className="gform_confirmation_message"
+            dangerouslySetInnerHTML={{
+              __html: confirmation.message.replace(/\r?\n/g, "<br />"),
+            }}
+          />
+        </div>
+      )}
     </>
   );
 };
