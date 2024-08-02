@@ -55,6 +55,7 @@ const GravityFormForm = ({
   errorCallback = {},
   navigate,
   helperText = {}
+  customFormFields = {}
 })
 
 ```
@@ -64,7 +65,8 @@ const GravityFormForm = ({
 - successCallback: Function that is called when form is successul.
 - errorCallback: Function that is called when the form errors.
 - navigate: Function that is called with URL for redirecting the user.
-- helperText: Object with values to override strings - see Translation section
+- helperText: Object with values to override strings - see the [Translation](#translation) section.
+- customFormFields: Object that allows you to override form fields. See the [Custom Form Fields](#custom-form-fields) section.
 
 ### Caching
 
@@ -164,6 +166,66 @@ Additionally, our component allows you to customize the settings of the DatePick
 
 For a complete list of customizable options for the DatePicker, refer to the fieldsSettings.js file available in our repository: [fieldsSettings.js](https://github.com/robmarshall/next-gravity-forms/blob/main/src/utils/fieldsSettings.js).
 
+## Exposed methods
+
+We expose several `react-hook-form` methods for flexible form management.
+
+- `setError(name, error)` - Set an error for a field.
+- `reset()` - Reset the form.
+- `getValues(name)` - Get the value of a field or all values.
+- `setValue(name, value)` - Set the value of a field.
+- `watch(name)` - Watch for changes to a field.
+
+```jsx
+const GravityForm = ({ data }) => {
+  const formRef = useRef();
+
+  const handleReset = () => formRef.current.reset();
+  const handleSetValue = () =>
+    formRef.current.setValue("exampleField", "new value");
+
+  return (
+    <div>
+      <GravityFormForm ref={formRef} data={data} />
+      <button onClick={handleReset}>Reset Form</button>
+      <button onClick={handleSetValue}>Set Field Value</button>
+    </div>
+  );
+};
+
+export default GravityForm;
+```
+
+## Custom Form Fields
+
+Sometimes you may need to render custom markup for specific fields. You can achieve this by using the `customFormFields` property. See the example below:
+
+```jsx
+<GravityFormForm data={form} customFormFields={{ 1: CustomInputComponent }} />
+```
+
+By specifying the field ID that you want to override, you can pass your custom component. Note that your custom component must utilize the methods provided by react-hook-form, as it is registered using the [Controller](https://react-hook-form.com/docs/usecontroller/controller) component.
+
+Example of your custom component:
+
+```jsx
+const CustomInputComponent = ({ value, onChange, onBlur, ...rest }) => {
+  return (
+    <div className="example">
+      <input
+        type="text"
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        {...rest}
+      />
+    </div>
+  );
+};
+```
+
+Take into account that your field must return the value in the same format as a default field.
+
 ## Testing & Developing
 
 Firstly, yes please! Any help would be great.
@@ -242,3 +304,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 ## Known Issues
 
 - [ ] Invalid phone number results in failed submission w/ non-descript general error message.
+
+```
+
+```
