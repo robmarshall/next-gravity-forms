@@ -78,6 +78,13 @@ function useConfirmation({
     }
   }, [success]);
 
+  if (confirmation?.type === "MESSAGE" && confirmation?.message) {
+    const queryStr = getQueryString(confirmation.message);
+    if (queryStr) {
+      return { confirmation: { ...confirmation, message: queryStr } };
+    }
+  }
+
   return { confirmation };
 }
 
