@@ -104,6 +104,9 @@ Since package uses some hardcoded strings, we implemented the way how to transla
         phone: "This is an invalid phone",
       },
     },
+    radio: {
+      otherChoice: "Other", // alternatively you can override only specific field, .i.e. otherChoice_3
+    },
   }}
 />
 ```
@@ -192,14 +195,14 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Select
 - [x] Multiselect
 - [ ] Number (range and number format is not working yet)
-- [ ] Checkbox (need to add select all)
+- [x] Checkbox
 - [x] Radio
 - [x] Hidden
 - [x] HTML
 - [x] Captcha
 - [x] Add masking to inputs
 - [x] Section
-- [ ] Page
+- [ ] Page (half done, need to save values so that when the user refreshes the page, they are preserved)
 - [x] Date
 - [x] File upload
 - [ ] Post Fields
@@ -230,10 +233,10 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 
 ## Confirmations
 
-- [x] Text Confirmation
+- [x] Text Confirmation (`{all_fields}` is not supported)
 - [ ] Page Change
-- [ ] Redirect
-- [ ] Redirect query strings
+- [x] Redirect
+- [x] Redirect query strings support only form fields (excluding file uploads) and do not support user/entry-related fields (e.g., User IP, entry ID)
 - [x] Conditional Logic
 
 ## Known Issues

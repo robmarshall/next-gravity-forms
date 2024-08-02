@@ -68,7 +68,6 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
     case "POSTCONTENT":
     case "POSTEXCERPT":
     case "POSTTITLE":
-    case "RADIO":
     case "SELECT":
     case "SIGNATURE":
     case "TEXTAREA":
@@ -77,6 +76,15 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
     case "HONEYPOT":
       return {
         value: fieldResponse,
+      };
+    case "RADIO":
+      // eslint-disable-next-line no-case-declarations
+      const value =
+        fieldResponse === "gf_other_choice"
+          ? clientData[`input_${id}_other`]
+          : fieldResponse;
+      return {
+        value,
       };
     case "DATE":
       // eslint-disable-next-line no-case-declarations

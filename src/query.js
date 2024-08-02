@@ -14,6 +14,7 @@ import {
   radioFieldFragment,
   checkboxFieldFragment,
 } from "./components/SelectorList/query";
+
 import { dateFieldFragment } from "./components/Date/query";
 import { sectionFieldFragment } from "./components/Section/query";
 import { textareaFieldFragment } from "./components/Textarea/query";
@@ -21,6 +22,7 @@ import { formConfirmationFragment, submitButtonFragment } from "./fragments";
 import { emailFieldFragment } from "./components/Email/query";
 import { fileuploadFieldFragment } from "./components/Fileupload/query";
 import { nameFieldFragment } from "./components/Name/query";
+import { pageFieldFragment } from "./container/FormBuilder/PageNav/query";
 
 export const submitMutationQuery = /* GraphQL */ `
   mutation submitForm($id: ID!, $fieldValues: [FormFieldValuesInput]!) {
@@ -75,7 +77,22 @@ export const gravityFormQuery = /* GraphQL */ `
           ${sectionFieldFragment}
           ${fileuploadFieldFragment}
           ${nameFieldFragment}
+          ${pageFieldFragment}
         }
+      }
+      pagination {
+        pageNames
+        lastPageButton {
+          text
+          type
+          imageUrl
+        }
+        hasProgressbarOnConfirmation
+        progressbarCompletionText
+        style
+        type
+        color
+        backgroundColor
       }
     }
     gfSettings {

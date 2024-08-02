@@ -31,7 +31,8 @@ const InputWrapper = ({
 
   const { watch, formFields } = useFormContext();
 
-  const options = inputs || choices;
+  const isSelectList = ["SELECT", "MULTISELECT"].includes(type);
+  const options = inputs || (choices && !isSelectList ? choices : undefined);
   const compareValue = type === "EMAIL" ? 1 : 0; // for email field inputs consist of 1 input by default, and 2 in case of confirmation email
 
   const checkForChildren = options?.length > compareValue;

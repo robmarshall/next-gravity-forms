@@ -1,7 +1,7 @@
 const strings = {
   errors: {
     general:
-      "There was a problem with your submission. Errors have been highlighted below.",
+      "There was a problem with your submission. Please review the fields below.",
     leastOneField: "At least one field must be filled out.",
     unknownError: "An unknown error occured.",
     required: "This field is required.",
@@ -68,6 +68,11 @@ const strings = {
     selectAll: "Select All",
     deselectAll: "Deselect All",
   },
+  radio: {
+    otherChoiceLabel: "Other Choice, please specify",
+    // add the field ID, i.e., otherChoice_3, to override it for the specific field only.
+    otherChoice: "Other",
+  },
   honeypot:
     "This field is for validation purposes and should be left unchanged.",
   multiselect: {
@@ -85,6 +90,7 @@ const strings = {
   },
   loading: "Loading...",
   submit: "Submit",
+  step: "Step {{step}} of {{total}}",
 };
 
 export default strings;
