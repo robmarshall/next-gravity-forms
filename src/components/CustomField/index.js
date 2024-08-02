@@ -31,7 +31,7 @@ const CustomField = ({
       <Controller
         name={name}
         control={control}
-        render={({ field }) => <CustomComponent {...field} />}
+        render={({ field }) => <CustomComponent {...field} ref={null} />}
       />
     </InputWrapper>
   );
@@ -48,5 +48,5 @@ CustomField.propTypes = {
   name: PropTypes.string,
   labelFor: PropTypes.string,
   wrapProps: PropTypes.object,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
