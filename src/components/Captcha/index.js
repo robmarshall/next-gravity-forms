@@ -97,6 +97,8 @@ const Captcha = forwardRef(
   }
 );
 
+Captcha.displayName = "Captcha";
+
 Captcha.propTypes = {
   captchaTheme: PropTypes.string,
   fieldData: PropTypes.object,

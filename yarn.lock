@@ -1243,6 +1243,18 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
+"@react-input/core@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@react-input/core/-/core-1.0.12.tgz#b76e2474ad544a02e476baa9184ee7ff788c3c3c"
+  integrity sha512-lZDQjphsJenWCD0mcflsyneLnb2a7bFAgAVzih9diEcUjKopcK+QOXhz0a0PHEp8k5LEKpYadjwyltAGOOhL2g==
+
+"@react-input/mask@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@react-input/mask/-/mask-1.2.5.tgz#0ce9c48e36dfcb56705eda811b0143454e146e55"
+  integrity sha512-xouBATnitQqhgKLgu6/J2IZRu7kzqm/tFw2ToFnk6EkRzWs5dawlcF8asASMu7LCDrCqSkjwN+/sscEMG7IXog==
+  dependencies:
+    "@react-input/core" "^1.0.12"
+
 "@rollup/plugin-babel@^6.0.4":
   version "6.0.4"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-6.0.4.tgz#bd698e351fa9aa9619fcae780aea2a603d98e4c4"

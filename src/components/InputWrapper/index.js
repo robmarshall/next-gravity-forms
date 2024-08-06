@@ -5,6 +5,7 @@ import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
 import { useFormContext } from "react-hook-form";
 import { checkConditionalRendering } from "./helpers";
+import { useSettings } from "../../providers/SettingsContext";
 
 const InputWrapper = ({
   children,
@@ -30,6 +31,10 @@ const InputWrapper = ({
   }`;
 
   const { watch, formFields } = useFormContext();
+  const { form } = useSettings();
+  const { descriptionPlacement: globalPlacement } = form || {};
+  const descPlacement =
+    descriptionPlacement !== "INHERIT" ? descriptionPlacement : globalPlacement;
 
   const isSelectList = ["SELECT", "MULTISELECT"].includes(type);
   const options = inputs || (choices && !isSelectList ? choices : undefined);
@@ -62,7 +67,7 @@ const InputWrapper = ({
         />
       )}
       {description &&
-        valueToLowerCase(descriptionPlacement) == "above" &&
+        valueToLowerCase(descPlacement) == "above" &&
         outputDescription(description, wrapId)}
       <div
         id={checkForChildren ? labelFor : undefined} // only set an id when there are child elements like options
@@ -86,8 +91,7 @@ const InputWrapper = ({
       </div>
 
       {description &&
-        (valueToLowerCase(descriptionPlacement) == "below" ||
-          valueToLowerCase(descriptionPlacement) == "inherit") &&
+        valueToLowerCase(descPlacement) == "below" &&
         outputDescription(description, wrapId)}
 
       {isNonEmptyObject(errors) && (

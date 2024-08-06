@@ -5,10 +5,10 @@
 import classNames from "classnames";
 import React from "react";
 
-export function outputDescription(description, wrapId, className = "") {
+export function outputDescription(description, wrapId = "", className = "") {
   return (
     <div
-      id={`gfield_description_${wrapId.replace(/^field_/, "")}`}
+      id={`gfield_description_${wrapId?.replace(/^field_/, "")}`}
       className={classNames("gfield_description", className)}
       dangerouslySetInnerHTML={{ __html: description }}
     />

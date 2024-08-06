@@ -13,6 +13,7 @@ import Fileupload from "../../components/Fileupload";
 import DateField from "../../components/Date";
 import Honeypot from "../../components/Honeypot";
 import Name from "../../components/Name";
+import Phone from "../../components/Phone";
 import { valueToLowerCase } from "../../utils/helpers";
 import { islabelHidden } from "../../utils/inputSettings";
 import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
@@ -104,6 +105,7 @@ const FieldBuilder = ({
             ref={preOnSubmit}
             settings={settings?.recaptcha}
             wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
           />
         );
       case "HTML":
@@ -122,9 +124,20 @@ const FieldBuilder = ({
       case "TEXT":
       case "NUMBER":
       case "HIDDEN":
-      case "PHONE":
         return (
           <Input
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={name}
+            labelFor={labelFor}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "PHONE":
+        return (
+          <Phone
             fieldData={field}
             key={id}
             gfId={id}
