@@ -3,13 +3,13 @@ import {
   textFieldFragment,
   hiddenFieldFragment,
   numberFieldFragment,
-  phoneFieldFragment,
 } from "./components/Input/query";
 import { htmlFieldFragment } from "./components/Html/query";
 import {
   selectFieldFragment,
   multiSelectFieldFragment,
 } from "./components/Select/query";
+import { phoneFieldFragment } from "./components/Phone/query";
 import {
   radioFieldFragment,
   checkboxFieldFragment,
