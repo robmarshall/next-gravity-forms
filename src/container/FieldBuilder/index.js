@@ -104,6 +104,7 @@ const FieldBuilder = ({
             ref={preOnSubmit}
             settings={settings?.recaptcha}
             wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
           />
         );
       case "HTML":

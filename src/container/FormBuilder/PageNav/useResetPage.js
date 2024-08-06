@@ -17,7 +17,7 @@ function useResetPage({ errors, setPage, nodes, loading }) {
     // don't run the hook when page has opened already
     // it prevents opening other pages if there are more errors
     if (inputKeyError && !hasRun.current) {
-      const id = inputKeyError.replace("input_", "");
+      const id = inputKeyError?.replace("input_", "");
 
       const page = nodes.find((i) => i.id == id)?.pageNumber;
       if (page) setPage(page);
