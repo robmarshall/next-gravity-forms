@@ -55,6 +55,7 @@ export const groupFields = (nodes) => {
 };
 
 export const interpolateString = (template, values) => {
+  if (!template) return "";
   return template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => {
     return values[key] || placeholder;
   });
