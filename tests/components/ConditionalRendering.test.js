@@ -1,5 +1,6 @@
 import { screen, fireEvent, act } from "@testing-library/react";
 import renderGravityForm from "./render";
+import mockFormData from "../mocks/formData";
 
 describe("Conditional logic", () => {
   const fields = [
@@ -115,7 +116,7 @@ describe("Conditional logic", () => {
 
   testCases.forEach(({ conditionalLogic, inputValue, expectedDisplay }) => {
     it(`${conditionalLogic.actionType} text field if value ${conditionalLogic.rules[0].operator}`, async () => {
-      renderGravityForm({
+      const { container } = renderGravityForm({
         data: {
           gfForm: {
             formFields: {
@@ -137,9 +138,14 @@ describe("Conditional logic", () => {
         },
       });
 
-      const target = screen.getByLabelText(/Single/i).closest(".gfield");
-      const style = window.getComputedStyle(target);
-      expect(style.display).toBe(expectedDisplay);
+      const fieldId = `field_${mockFormData.gfForm.databaseId}_1`;
+      const target = container.querySelector(`#${fieldId}`);
+
+      if (expectedDisplay === "none") {
+        expect(target).not.toBeInTheDocument();
+      } else {
+        expect(target).toBeInTheDocument();
+      }
     });
   });
 
@@ -195,7 +201,7 @@ describe("Conditional logic", () => {
 
   checkboxTestCases.forEach(({ conditionalLogic, expectedDisplay }) => {
     it(`${conditionalLogic.actionType} checkbox field if value ${conditionalLogic.rules[0].operator}`, async () => {
-      renderGravityForm({
+      const { container } = renderGravityForm({
         data: {
           gfForm: {
             formFields: {
@@ -233,9 +239,14 @@ describe("Conditional logic", () => {
       });
 
       await act(async () => {
-        const target = screen.getByLabelText(/Single/i).closest(".gfield");
-        const style = window.getComputedStyle(target);
-        expect(style.display).toBe(expectedDisplay);
+        const fieldId = `field_${mockFormData.gfForm.databaseId}_1`;
+        const target = container.querySelector(`#${fieldId}`);
+
+        if (expectedDisplay === "none") {
+          expect(target).not.toBeInTheDocument();
+        } else {
+          expect(target).toBeInTheDocument();
+        }
       });
     });
   });
