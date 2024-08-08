@@ -10,6 +10,7 @@ const presetValues = {
   multiselectField: "third",
   radioField: "third",
   checkboxField: "third",
+  input_11: "test value",
 };
 
 describe("Text field", () => {
@@ -61,6 +62,18 @@ describe("Text field", () => {
       test.each([
         ["TEXT", "Hello there", "textField"],
         ["TEXTAREA", "Hello there", "textAreaField"],
+      ])("preset value for type %s", (fieldType, defaultValue, inputName) => {
+        configureAndRenderForm({ fieldType, defaultValue, inputName });
+
+        const inputElement = screen.getByLabelText(label);
+        expect(inputElement.value).toBe(presetValues[inputName]);
+      });
+    });
+
+    describe("Input contains preset value specified by name", () => {
+      test.each([
+        ["TEXT", "Hello there", "input_11"],
+        ["TEXTAREA", "Hello there", "input_11"],
       ])("preset value for type %s", (fieldType, defaultValue, inputName) => {
         configureAndRenderForm({ fieldType, defaultValue, inputName });
 
