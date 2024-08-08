@@ -65,7 +65,8 @@ const GravityFormForm = forwardRef(
       // and the form state starts empty. By setting these defaults upfront, we enable `react-hook-form` to
       // immediately recognize and apply them, ensuring conditional fields behave as expected from the start.
       defaultValues: getDefaultValues(formFields?.nodes, presetValues),
-      shouldUnregister: true, // necessary to clear the field value when the component unmounts (conditional rendering)
+      // necessary to clear the field value when the component unmounts (for conditional rendering)
+      shouldUnregister: true,
     });
     const { handleSubmit, setError, reset, getValues, setValue, watch } =
       methods;
@@ -81,7 +82,7 @@ const GravityFormForm = forwardRef(
 
     const [generalError, setGeneralError] = useState("");
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+
     // add honeypot fake field if enabled to list of fields
     const formFieldNodes = formFields?.nodes?.length > 0 && [
       ...formFields.nodes,
@@ -129,7 +130,7 @@ const GravityFormForm = forwardRef(
               !submitRes?.errors?.length &&
               !submitRes?.submitGfForm?.errors
             ) {
-              setSuccess(true);
+              handleConfirmation(values);
               setLoading(false);
               successCallback({
                 data: formRes,
@@ -164,12 +165,10 @@ const GravityFormForm = forwardRef(
     };
 
     // handle confirmations
-    const { confirmation } = useConfirmation({
-      success,
+    const { confirmation, handleConfirmation } = useConfirmation({
       confirmations,
       navigate,
       formFieldNodes,
-      getValues,
     });
 
     return (
@@ -193,10 +192,9 @@ const GravityFormForm = forwardRef(
             generalError={generalError}
             confirmation={confirmation}
             form={form}
-            success={success}
           />
 
-          {!success && formFields && (
+          {!confirmation && formFields && (
             <FormProvider {...methods} formFields={formFields}>
               <form
                 className={

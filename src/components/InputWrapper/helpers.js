@@ -39,7 +39,7 @@ function compareStartsWith(ruleValue, fieldValue, type) {
     ["checkbox", "multiselect"].includes(type) &&
     fieldValue instanceof Array
   ) {
-    return fieldValue.some((val) => val.startsWith(ruleValue));
+    return fieldValue.some((val) => val?.startsWith(ruleValue));
   }
   return fieldValue?.startsWith(ruleValue);
 }
@@ -119,7 +119,7 @@ export function checkConditionalRendering(conditionalLogic, watch, fields) {
   const values = watch(fieldsToBeWatched.map((i) => `input_${parseInt(i)}`));
 
   const fieldsWorkWith = fieldsToBeWatched.map((id) =>
-    fields?.nodes?.find((y) => {
+    fields?.find((y) => {
       return y.id == parseInt(id); // if it's name field for example 1.3 we need to get ID of
     })
   );
