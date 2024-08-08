@@ -81,9 +81,13 @@ Note: If `NEXT_PUBLIC_WORDPRESS_FORM_SUBMIT_URL` is not passed in, it will fall 
 Sometimes you will want to conditionally set default values, or pass in data to hidden fields. This could be values for a user ID, or a current page.
 
 This is handled by the `presetValues` prop.
+In addition, you need to pass your query parameters within this prop to make [dynamically populating](https://docs.gravityforms.com/using-dynamic-population/#h-query-string) field work. Good to know that the query string takes priority over the field name parameter.
 
 ```js
-<GravityFormForm data={form} presetValues={{ input_2: "My preset value" }} />
+<GravityFormForm
+  data={form}
+  presetValues={{ ...queryParams, input_2: "My preset value" }}
+/>
 ```
 
 In the above example `input_2` corresponds to the 2nd field added in the WordPress Gravity Forms edit page. This value can be found by clicking on the field and looking at the top right just under Field Settings.
