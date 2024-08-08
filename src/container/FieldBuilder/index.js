@@ -18,6 +18,8 @@ import { valueToLowerCase } from "../../utils/helpers";
 import { islabelHidden } from "../../utils/inputSettings";
 import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
 import CustomField from "../../components/CustomField";
+import { useFormContext } from "react-hook-form";
+import { checkConditionalRendering } from "../../components/InputWrapper/helpers";
 
 const FieldBuilder = ({
   databaseId,
@@ -27,6 +29,8 @@ const FieldBuilder = ({
   formLayoutProps,
   customFormFields,
 }) => {
+  const { watch } = useFormContext();
+
   // Loop through fields and create
   return formFields.map((field) => {
     // Set the wrapper classes
@@ -41,7 +45,16 @@ const FieldBuilder = ({
       layoutGridColumnSpan,
       type,
       visibility,
+      conditionalLogic,
     } = field;
+
+    const isHidden = checkConditionalRendering(
+      conditionalLogic,
+      watch,
+      formFields
+    );
+
+    if (isHidden) return "";
 
     const inputWrapperClass = classnames(
       "gfield",

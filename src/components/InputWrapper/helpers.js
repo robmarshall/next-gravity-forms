@@ -68,7 +68,7 @@ function compareGreateLessThan(ruleValue, fieldValue) {
 function parseOperator(operator, ruleValue, fieldValue, field) {
   if (!fieldValue) return false;
 
-  const { type: typeUpper, numberFormat } = field;
+  const { type: typeUpper, numberFormat } = field || {};
   const type = valueToLowerCase(typeUpper);
 
   switch (operator) {
