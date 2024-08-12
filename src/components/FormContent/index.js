@@ -1,12 +1,12 @@
-import { bool, object, string } from "prop-types";
+import { bool, object, oneOfType, string } from "prop-types";
 import React from "react";
 import FormGeneralError from "../FormGeneralError";
 import FormHeading from "../FormHeading";
 import ProgressBar from "../../container/FormBuilder/ProgressBar";
 import Confirmation from "../Confirmation";
 
-const FormContent = ({ generalError, form, confirmation, success }) => {
-  const showConfirmation = success && confirmation.type === "MESSAGE";
+const FormContent = ({ generalError, form, confirmation }) => {
+  const showConfirmation = !!confirmation && confirmation?.type === "MESSAGE";
 
   const { databaseId, pagination, title, description } = form;
 
@@ -18,7 +18,7 @@ const FormContent = ({ generalError, form, confirmation, success }) => {
         <FormGeneralError errorCode={generalError} databaseId={databaseId} />
       )}
 
-      {!success && (title || description) && (
+      {!confirmation && (title || description) && (
         <FormHeading title={title} description={description} />
       )}
 
@@ -36,8 +36,7 @@ const FormContent = ({ generalError, form, confirmation, success }) => {
 FormContent.propTypes = {
   generalError: string.isRequired,
   form: object.isRequired,
-  confirmation: object,
-  success: bool.isRequired,
+  confirmation: oneOfType([bool, object]),
 };
 
 export default FormContent;

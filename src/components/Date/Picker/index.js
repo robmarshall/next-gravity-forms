@@ -7,7 +7,7 @@ import { valueToLowerCase, interpolateString } from "../../../utils/helpers";
 import CalendarIconComponent from "./CalendarIconComponent";
 import { isValidDate } from "./helpers";
 
-const DatePicker = lazy(() => import("react-datepicker"));
+const DatePicker = lazy(() => import("./LazyPicker"));
 
 // import "react-datepicker/dist/react-datepicker.css";
 
@@ -64,7 +64,7 @@ const Picker = ({ fieldData, name, inputId, labelFor, control, errors }) => {
       name={name}
       control={control}
       render={({ field: { onChange, value } }) => (
-        <Suspense>
+        <Suspense fallback="">
           <DatePicker
             selected={value}
             id={labelFor}

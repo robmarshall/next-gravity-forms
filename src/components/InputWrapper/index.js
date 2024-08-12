@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
-import { useFormContext } from "react-hook-form";
-import { checkConditionalRendering } from "./helpers";
 import { useSettings } from "../../providers/SettingsContext";
 
 const InputWrapper = ({
@@ -18,7 +16,6 @@ const InputWrapper = ({
     maxLength,
     type,
     inputs,
-    conditionalLogic,
     choices,
   },
   labelFor,
@@ -30,7 +27,6 @@ const InputWrapper = ({
     isRequired ? '<span className="gfield_required">*</span>' : ""
   }`;
 
-  const { watch, formFields } = useFormContext();
   const { form } = useSettings();
   const { descriptionPlacement: globalPlacement } = form || {};
   const descPlacement =
@@ -44,12 +40,6 @@ const InputWrapper = ({
   const Label = checkForChildren ? "legend" : "label"; // if field has inputs, we render label as <legend>
   const Wrapper = checkForChildren ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
 
-  const isHidden = checkConditionalRendering(
-    conditionalLogic,
-    watch,
-    formFields
-  );
-
   return (
     <Wrapper
       className={classnames(
@@ -57,7 +47,6 @@ const InputWrapper = ({
         errors?.type && "gravityform__field--error"
       )}
       id={wrapId}
-      style={isHidden ? { display: "none" } : undefined}
     >
       {labelFor && (
         <Label

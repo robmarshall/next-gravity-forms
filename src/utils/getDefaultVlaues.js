@@ -27,7 +27,8 @@ function getDefaultValues(fields, presetValues) {
     }) => {
       const inputName = `input_${id}`;
 
-      const presetValue = presetValues?.[presetName];
+      const presetValue =
+        presetValues?.[presetName] || presetValues?.[inputName];
 
       const defaultValue = presetValue ?? defaultVal;
 

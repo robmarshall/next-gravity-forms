@@ -19,7 +19,7 @@ const SubmitButton = () => {
   const isHidden = checkConditionalRendering(
     conditionalLogic,
     watch,
-    formFields
+    formFields?.nodes
   );
 
   return (

@@ -58,7 +58,11 @@ const PageNav = ({
   // check if we need to show next button based on conditional rendering rules
   const isNextBtmHidden =
     nextButton?.conditionalLogic &&
-    checkConditionalRendering(nextButton.conditionalLogic, watch, formFields);
+    checkConditionalRendering(
+      nextButton.conditionalLogic,
+      watch,
+      formFields?.nodes
+    );
 
   // check if we need to show prev button based on conditional rendering rules
   const isPrevBtmHidden =
@@ -66,7 +70,7 @@ const PageNav = ({
     checkConditionalRendering(
       previousButton.conditionalLogic,
       watch,
-      formFields
+      formFields?.nodes
     );
 
   return (
