@@ -20,6 +20,7 @@ import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
 import CustomField from "../../components/CustomField";
 import { useFormContext } from "react-hook-form";
 import { checkConditionalRendering } from "../../components/InputWrapper/helpers";
+import NumberField from "../../components/Number";
 
 const FieldBuilder = ({
   databaseId,
@@ -135,10 +136,21 @@ const FieldBuilder = ({
         );
       // Start with the standard fields
       case "TEXT":
-      case "NUMBER":
       case "HIDDEN":
         return (
           <Input
+            fieldData={field}
+            key={id}
+            gfId={id}
+            name={name}
+            labelFor={labelFor}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+          />
+        );
+      case "NUMBER":
+        return (
+          <NumberField
             fieldData={field}
             key={id}
             gfId={id}

@@ -260,7 +260,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Textarea
 - [x] Select
 - [x] Multiselect
-- [ ] Number (range and number format is not working yet)
+- [ ] Number (currency is not working yet)
 - [x] Checkbox
 - [x] Radio
 - [x] Hidden
@@ -273,7 +273,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] File upload
 - [ ] Post Fields
 - [ ] Pricing Fields
-- [ ] Phone (missing the international mask)
+- [x] Phone (doesn't support custom phone type)
 - [x] Email
 - [ ] Configure error message (currently just 'An Unknown Error Occurred')
 - [ ] Integrate Success/Failure Handler from previous plugin
