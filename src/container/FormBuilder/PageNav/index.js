@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useEffect } from "react";
 import SubmitButton from "../../../components/Submit";
 import { array, bool, func, number, object, string } from "prop-types";
 import useResetPage from "./useResetPage";
@@ -32,6 +32,7 @@ const PageNav = ({
     trigger,
     watch,
     formFields,
+    clearErrors,
   } = useFormContext();
 
   const pageNodes = nodes.filter((i) => i.inputType === "PAGE");
@@ -40,12 +41,14 @@ const PageNav = ({
   const { nextButton, previousButton, id } = node || {};
 
   const handleNextPage = async () => {
-    if (await trigger()) {
+    // setFocus is needed to set a focus on the first field with error
+    if (await trigger(false, { shouldFocus: true })) {
       setPage(currentPage + 1);
     }
   };
 
   const handlePrevPage = () => {
+    clearErrors(); // needed in order to allow go to prev pages even when there are errors
     setPage(currentPage - 1);
   };
 

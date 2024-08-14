@@ -68,8 +68,6 @@ const GravityFormForm = forwardRef(
         helperFieldsSettings,
         settings,
       }),
-      // necessary to clear the field value when the component unmounts (for conditional rendering)
-      shouldUnregister: true,
     });
     const { handleSubmit, setError, reset, getValues, setValue, watch } =
       methods;

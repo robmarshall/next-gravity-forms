@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { Controller, useFormContext } from "react-hook-form";
@@ -52,7 +52,7 @@ const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
                 aria-describedby={describedBy}
                 type={"text"}
                 {...mask}
-                showMask
+                showMask={!!value}
               />
             ) : (
               <Input
