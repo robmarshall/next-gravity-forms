@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import React from "react";
+import React, { useEffect } from "react";
 
 import Captcha from "../../components/Captcha";
 import Html from "../../components/Html";
@@ -20,6 +20,7 @@ import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
 import CustomField from "../../components/CustomField";
 import { useFormContext } from "react-hook-form";
 import { checkConditionalRendering } from "../../components/InputWrapper/helpers";
+import NumberField from "../../components/Number";
 
 const FieldBuilder = ({
   databaseId,
@@ -29,7 +30,7 @@ const FieldBuilder = ({
   formLayoutProps,
   customFormFields,
 }) => {
-  const { watch } = useFormContext();
+  const { watch, setValue } = useFormContext();
 
   // Loop through fields and create
   return formFields.map((field) => {
@@ -54,7 +55,11 @@ const FieldBuilder = ({
       formFields
     );
 
-    if (isHidden) return "";
+    const fieldData = {
+      ...field,
+      isRequired: field.isRequired && !isHidden,
+      isHidden,
+    };
 
     const inputWrapperClass = classnames(
       "gfield",
@@ -88,11 +93,19 @@ const FieldBuilder = ({
     const name = `input_${id}`;
     const labelFor = `input_${databaseId}_${id}`;
 
+    // this is needed in order to clear the field value once it gets hidden
+    // otherwise conditional rendering won't working properly
+    useEffect(() => {
+      if (isHidden) {
+        setValue(name, "");
+      }
+    }, [isHidden]);
+
     // check if there is custom filed to be rendered instead
     if (customFormFields[id])
       return (
         <CustomField
-          fieldData={field}
+          fieldData={fieldData}
           key={id}
           gfId={id}
           name={name}
@@ -110,7 +123,7 @@ const FieldBuilder = ({
         return (
           <Captcha
             captchaTheme={captchaTheme}
-            fieldData={field}
+            fieldData={fieldData}
             gfId={id}
             key={id}
             name={name}
@@ -124,7 +137,7 @@ const FieldBuilder = ({
       case "HTML":
         return (
           <Html
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={name}
@@ -135,11 +148,23 @@ const FieldBuilder = ({
         );
       // Start with the standard fields
       case "TEXT":
-      case "NUMBER":
       case "HIDDEN":
         return (
           <Input
-            fieldData={field}
+            fieldData={fieldData}
+            key={id}
+            gfId={id}
+            name={name}
+            labelFor={labelFor}
+            wrapClassName={inputWrapperClass}
+            wrapId={wrapId}
+            isHidden={isHidden}
+          />
+        );
+      case "NUMBER":
+        return (
+          <NumberField
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={name}
@@ -151,7 +176,7 @@ const FieldBuilder = ({
       case "PHONE":
         return (
           <Phone
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={name}
@@ -163,7 +188,7 @@ const FieldBuilder = ({
       case "DATE":
         return (
           <DateField
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={name}
@@ -175,7 +200,7 @@ const FieldBuilder = ({
       case "NAME":
         return (
           <Name
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={name}
@@ -187,7 +212,7 @@ const FieldBuilder = ({
       case "EMAIL":
         return (
           <Email
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={name}
@@ -199,7 +224,7 @@ const FieldBuilder = ({
       case "FILEUPLOAD":
         return (
           <Fileupload
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={name}
@@ -211,7 +236,7 @@ const FieldBuilder = ({
       case "TEXTAREA":
         return (
           <Textarea
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={name}
@@ -224,7 +249,7 @@ const FieldBuilder = ({
       case "MULTISELECT":
         return (
           <Select
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={name}
@@ -237,7 +262,7 @@ const FieldBuilder = ({
       case "CHECKBOX":
         return (
           <SelectorList
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={name}
@@ -249,7 +274,7 @@ const FieldBuilder = ({
       case "SECTION":
         return (
           <Section
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={name}
@@ -260,7 +285,7 @@ const FieldBuilder = ({
       case "HONEYPOT":
         return (
           <Honeypot
-            fieldData={field}
+            fieldData={fieldData}
             key={id}
             gfId={id}
             name={name}

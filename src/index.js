@@ -64,9 +64,10 @@ const GravityFormForm = forwardRef(
       // This is needed because `react-hook-form` doesn't automatically detect `defaultValue` attributes in fields,
       // and the form state starts empty. By setting these defaults upfront, we enable `react-hook-form` to
       // immediately recognize and apply them, ensuring conditional fields behave as expected from the start.
-      defaultValues: getDefaultValues(formFields?.nodes, presetValues),
-      // necessary to clear the field value when the component unmounts (for conditional rendering)
-      shouldUnregister: true,
+      defaultValues: getDefaultValues(formFields?.nodes, presetValues, {
+        helperFieldsSettings,
+        settings,
+      }),
     });
     const { handleSubmit, setError, reset, getValues, setValue, watch } =
       methods;

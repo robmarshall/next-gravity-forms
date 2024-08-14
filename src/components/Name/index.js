@@ -31,9 +31,13 @@ const Name = ({ fieldData, name, labelFor, ...wrapProps }) => {
       <Controller
         name={name}
         control={control}
-        render={({ field: { onChange, value } }) => {
+        render={({ field: { onChange, value, ref } }) => {
+          const indexWithoutValue = fieldInputs.findIndex(
+            ({ key }) => !value?.[key]
+          );
+
           return fieldInputs.map(
-            ({ key, id, choices, placeholder, ...rest }) => {
+            ({ key, id, choices, placeholder, ...rest }, i) => {
               const fieldId = `input_${gfId}_${id}`;
               return (
                 <SubLabelWrapper
@@ -52,6 +56,7 @@ const Name = ({ fieldData, name, labelFor, ...wrapProps }) => {
                       onChange={(e) =>
                         onChange({ ...value, [key]: e.target.value })
                       }
+                      ref={i === indexWithoutValue ? ref : undefined}
                     >
                       <option value></option>
                       {choices.map(({ text, value }, index) => {
@@ -76,6 +81,7 @@ const Name = ({ fieldData, name, labelFor, ...wrapProps }) => {
                       onChange={(e) =>
                         onChange({ ...value, [key]: e.target.value })
                       }
+                      ref={i === indexWithoutValue ? ref : undefined}
                     />
                   )}
                 </SubLabelWrapper>

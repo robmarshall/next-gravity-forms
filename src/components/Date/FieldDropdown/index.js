@@ -71,17 +71,23 @@ const FieldDropdown = ({ fieldData, name, control, type, labelFor }) => {
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange, value } }) => {
+      render={({ field: { onChange, value, ref } }) => {
+        const indexWithoutValue = elements.findIndex(
+          ({ name: fieldName }) => !value?.[fieldName]
+        );
         return elements.map(
-          ({
-            id,
-            placeholder,
-            name: fieldName,
-            defaultPlaceholder,
-            index,
-            name,
-            ...rest
-          }) => {
+          (
+            {
+              id,
+              placeholder,
+              name: fieldName,
+              defaultPlaceholder,
+              index,
+              name,
+              ...rest
+            },
+            i
+          ) => {
             return (
               <InputField
                 key={id}
@@ -96,6 +102,7 @@ const FieldDropdown = ({ fieldData, name, control, type, labelFor }) => {
                 }
                 fieldName={fieldName}
                 isRequired={isRequired}
+                ref={i === indexWithoutValue ? ref : undefined}
               />
             );
           }

@@ -1,9 +1,12 @@
 import { conditionalLogicFragment } from "../../fragments";
 
-export const textFieldFragment = /* GraphQL */ `
-  ... on TextField {
+
+export const numberFieldFragment = /* GraphQL */ `
+  ... on NumberField {
     adminLabel
     autocompleteAttribute
+    calculationFormula
+    calculationRounding
     canPrepopulate
     conditionalLogic {
       ${conditionalLogicFragment}
@@ -14,27 +17,17 @@ export const textFieldFragment = /* GraphQL */ `
     descriptionPlacement
     errorMessage
     hasAutocomplete
-    inputMaskValue
     inputName
-    isPasswordInput
+    isCalculation
     isRequired
     label
-    labelPlacement
-    layoutGridColumnSpan
-    maxLength
+    numberFormat
     placeholder
+    rangeMax
+    rangeMin
     shouldAllowDuplicates
     size
     value
   }
 `;
 
-export const hiddenFieldFragment = /* GraphQL */ `
-  ... on HiddenField {
-    canPrepopulate
-    defaultValue
-    inputName
-    label
-    value
-  }
-`;

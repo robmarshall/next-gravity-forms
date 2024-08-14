@@ -17,11 +17,14 @@ const InputWrapper = ({
     type,
     inputs,
     choices,
+    id,
+    isHidden,
   },
   labelFor,
   wrapClassName,
   ginputClassName,
   wrapId,
+  errorMessage,
 }) => {
   const joinedLabel = `${label}${
     isRequired ? '<span className="gfield_required">*</span>' : ""
@@ -47,6 +50,7 @@ const InputWrapper = ({
         errors?.type && "gravityform__field--error"
       )}
       id={wrapId}
+      style={isHidden ? { display: "none" } : undefined}
     >
       {labelFor && (
         <Label
@@ -86,10 +90,13 @@ const InputWrapper = ({
       {isNonEmptyObject(errors) && (
         <div
           aria-live="polite"
-          className="gravityform__error_message gfield_description validation_message"
-        >
-          {errors.message}
-        </div>
+          id={`validation_message_${id}`}
+          className="gfield_description validation_message gfield_validation_message"
+          /* @OTODO: i changed this so it checks for custom errorMessages first, is it enough? */
+          dangerouslySetInnerHTML={{
+            __html: errorMessage ? errorMessage : errors.message,
+          }}
+        />
       )}
     </Wrapper>
   );
@@ -116,6 +123,8 @@ InputWrapper.propTypes = {
     conditionalLogic: PropTypes.object,
     inputs: PropTypes.array,
     choices: PropTypes.array,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    isHidden: PropTypes.bool,
   }),
   ginputClassName: PropTypes.string,
   labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
