@@ -63,9 +63,12 @@ const Picker = ({ fieldData, name, inputId, labelFor, control, errors }) => {
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange, value } }) => (
+      render={({ field: { onChange, value, ref } }) => (
         <Suspense fallback="">
           <DatePicker
+            ref={(elem) => {
+              elem && ref(elem.input);
+            }}
             selected={value}
             id={labelFor}
             name={`input_${inputId}`}

@@ -78,7 +78,7 @@ const FileUpload = ({ fieldData, name, labelFor, ...wrapProps }) => {
           <Controller
             name={name}
             control={control}
-            render={({ field: { onChange } }) => (
+            render={({ field: { onChange, ref } }) => (
               <LazyMultiFileupload
                 name={name}
                 databaseId={databaseId}
@@ -90,6 +90,7 @@ const FileUpload = ({ fieldData, name, labelFor, ...wrapProps }) => {
                 strings={strings}
                 rulesMessages={rulesMessagesComponent()}
                 setValue={setValue}
+                ref={ref}
               />
             )}
             rules={{
