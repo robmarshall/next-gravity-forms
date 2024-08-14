@@ -121,7 +121,7 @@ InputWrapper.propTypes = {
     conditionalLogic: PropTypes.object,
     inputs: PropTypes.array,
     choices: PropTypes.array,
-    id: PropTypes.number,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }),
   ginputClassName: PropTypes.string,
   labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),

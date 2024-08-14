@@ -7,6 +7,10 @@ import mergeDeep from "../utils/mergeDeep";
 
 const SettingsContext = createContext();
 
+export const getSettings = (helperFieldsSettings) => {
+  return mergeDeep(fieldsSettings, helperFieldsSettings);
+};
+
 export const SettingsProvider = ({
   helperText,
   helperFieldsSettings,
@@ -16,7 +20,7 @@ export const SettingsProvider = ({
 }) => {
   // Override custom strings with helperText object, allowing users to modify hardcoded strings
   const mergedStrings = mergeDeep(strings, helperText);
-  const mergedSettings = mergeDeep(fieldsSettings, helperFieldsSettings);
+  const mergedSettings = getSettings(helperFieldsSettings);
 
   return (
     <SettingsContext.Provider
