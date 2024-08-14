@@ -144,14 +144,9 @@ describe("Conditional logic", () => {
         },
       });
 
-      const fieldId = `field_${mockFormData.gfForm.databaseId}_1`;
-      const target = container.querySelector(`#${fieldId}`);
-
-      if (expectedDisplay === "none") {
-        expect(target).not.toBeInTheDocument();
-      } else {
-        expect(target).toBeInTheDocument();
-      }
+      const target = screen.getByLabelText(/Single/i).closest(".gfield");
+      const style = window.getComputedStyle(target);
+      expect(style.display).toBe(expectedDisplay);
     });
   });
 
@@ -245,14 +240,9 @@ describe("Conditional logic", () => {
       });
 
       await act(async () => {
-        const fieldId = `field_${mockFormData.gfForm.databaseId}_1`;
-        const target = container.querySelector(`#${fieldId}`);
-
-        if (expectedDisplay === "none") {
-          expect(target).not.toBeInTheDocument();
-        } else {
-          expect(target).toBeInTheDocument();
-        }
+        const target = screen.getByLabelText(/Single/i).closest(".gfield");
+        const style = window.getComputedStyle(target);
+        expect(style.display).toBe(expectedDisplay);
       });
     });
   });
