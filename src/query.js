@@ -100,6 +100,7 @@ export const gravityFormQuery = /* GraphQL */ `
         publicKey
         type
       }
+      currency
     }
   }
 `;

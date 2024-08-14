@@ -6,15 +6,28 @@ import { valueToLowerCase } from "../../utils/helpers";
 import InputWrapper from "../InputWrapper";
 import { Input } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
-import { getRangeUtilities } from "./helpers";
+import { formatValue, getRangeUtilities } from "./helpers";
 
 const NumberField = ({ fieldData, name, labelFor, ...wrapProps }) => {
-  const { strings } = useSettings();
-  const { isRequired, type, size, errorMessage, rangeMin, rangeMax, id } =
-    fieldData;
+  const {
+    strings,
+    fieldsSettings: { number: { currencies } = {} } = {},
+    settings: { currency } = {},
+  } = useSettings();
+  const {
+    isRequired,
+    type,
+    size,
+    errorMessage,
+    rangeMin,
+    rangeMax,
+    id,
+    numberFormat,
+  } = fieldData;
 
   const {
     register,
+    setValue,
     formState: { errors },
   } = useFormContext();
 
@@ -26,6 +39,8 @@ const NumberField = ({ fieldData, name, labelFor, ...wrapProps }) => {
       customErrorText: errorMessage,
     });
 
+  const format = valueToLowerCase(numberFormat);
+
   return (
     <InputWrapper
       errors={errors?.[name] || {}}
@@ -34,7 +49,10 @@ const NumberField = ({ fieldData, name, labelFor, ...wrapProps }) => {
       {...wrapProps}
     >
       <Input
-        fieldData={{ ...fieldData, type: valueToLowerCase(type) }}
+        fieldData={{
+          ...fieldData,
+          type: format === "decimal_dot" ? "number" : "text",
+        }}
         className={classnames(valueToLowerCase(size), {
           gform_hidden: type === "HIDDEN",
         })}
@@ -45,8 +63,21 @@ const NumberField = ({ fieldData, name, labelFor, ...wrapProps }) => {
         step="any"
         {...register(name, {
           required: isRequired && (errorMessage || strings.errors.required),
+          pattern: format === "decimal_comma" && {
+            value: /^(?:\d+(?:\.\d+)?|\d{1,3}(?:\.\d{3})*,\d+)$/,
+            message: errorMessage || strings.errors.number.invalid,
+          },
           ...rangeValidation,
         })}
+        onBlur={(e) => {
+          if ("currency" !== format) return;
+          // convert number to money
+          if (e.target.value)
+            setValue(
+              name,
+              formatValue(e.target.value, format, currencies, currency)
+            );
+        }}
       />
       {showInstruction && (
         <div
@@ -76,6 +107,7 @@ NumberField.propTypes = {
     errorMessage: PropTypes.string,
     rangeMax: PropTypes.number,
     rangeMin: PropTypes.number,
+    numberFormat: PropTypes.string,
   }),
   value: PropTypes.string,
   name: PropTypes.string,

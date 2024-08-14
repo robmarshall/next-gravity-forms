@@ -60,7 +60,7 @@ const GravityFormForm = ({
 
 ```
 
-- date: The form data needed to create the form. Got via `getGravityForm` query.
+- data: The form data needed to create the form. Got via `getGravityForm` query.
 - presetValues: Any preset values needed to pass in - see below.
 - successCallback: Function that is called when form is successul.
 - errorCallback: Function that is called when the form errors.
@@ -155,7 +155,7 @@ The `Date Picker` functionality in our form utilizes the `react-datepicker` pack
 import "react-datepicker/dist/react-datepicker.css";
 ```
 
-Additionally, our component allows you to customize the settings of the DatePicker through the helperFieldsSettings prop. This is particularly useful for setting constraints like the maximum year. For instance, to set the maximum year to `2024`, you would configure the prop as follows:
+Additionally, our component allows you to customize the settings of the DatePicker through the `helperFieldsSettings` prop. This is particularly useful for setting constraints like the maximum year. For instance, to set the maximum year to `2024`, you would configure the prop as follows:
 
 ```
 <GravityFormForm
@@ -169,6 +169,30 @@ Additionally, our component allows you to customize the settings of the DatePick
 ```
 
 For a complete list of customizable options for the DatePicker, refer to the fieldsSettings.js file available in our repository: [fieldsSettings.js](https://github.com/robmarshall/next-gravity-forms/blob/main/src/utils/fieldsSettings.js).
+
+## Number field
+
+As you probably know, the Number field has an option to set the currency format. By default, we support only EUR, USD, and GBP currencies. If you would like to add a custom currency, other than set it by `gform_currency` filter, you also need to pass it as a prop using the `helperFieldsSettings` prop, as follows:
+
+```
+<GravityFormForm
+  data={form}
+  helperFieldsSettings={{
+    number: {
+     currencies: {
+      HKD: {
+        symbol_left: "HK$",
+        symbol_right: "",
+        symbol_padding: "",
+        thousand_separator: ",",
+        decimal_separator: ".",
+        decimals: 2,
+      }
+     }
+    },
+  }}
+/>
+```
 
 ## Exposed methods
 
@@ -260,7 +284,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Textarea
 - [x] Select
 - [x] Multiselect
-- [ ] Number (currency is not working yet)
+- [x] Number
 - [x] Checkbox
 - [x] Radio
 - [x] Hidden

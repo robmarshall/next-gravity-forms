@@ -56,7 +56,7 @@ const MultiSelectEnhancedUI = ({
               ? choices.filter((i) => i.value === dropdownDefaultValue)
               : dropdownDefaultValue
           }
-          inputRef={ref}
+          ref={ref}
           unstyled
           isMulti={isMulti}
           placeholder={isMulti ? strings.multiselect.placeholder : ""}

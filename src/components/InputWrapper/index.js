@@ -18,6 +18,7 @@ const InputWrapper = ({
     inputs,
     choices,
     id,
+    isHidden,
   },
   labelFor,
   wrapClassName,
@@ -49,6 +50,7 @@ const InputWrapper = ({
         errors?.type && "gravityform__field--error"
       )}
       id={wrapId}
+      style={isHidden ? { display: "none" } : undefined}
     >
       {labelFor && (
         <Label
@@ -121,7 +123,8 @@ InputWrapper.propTypes = {
     conditionalLogic: PropTypes.object,
     inputs: PropTypes.array,
     choices: PropTypes.array,
-    id: PropTypes.number,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    isHidden: PropTypes.bool,
   }),
   ginputClassName: PropTypes.string,
   labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
