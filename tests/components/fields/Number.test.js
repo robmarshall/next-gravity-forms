@@ -136,6 +136,41 @@ describe("Number field", () => {
     expect(container.querySelector(".gfield_description")).toBeNull();
   });
 
+  it("invalid number field is displayed when string is entered", async () => {
+    const { container, getByLabelText, getByRole } = renderGravityForm({
+      data: {
+        gfForm: {
+          formFields: {
+            nodes: [
+              {
+                id: 9,
+                type: "NUMBER",
+                label: "Number",
+                numberFormat: "DECIMAL_COMMA",
+              },
+            ],
+          },
+        },
+      },
+    });
+
+    fireEvent.input(getByLabelText("Number"), {
+      target: { value: "test" },
+    });
+
+    await act(async () => {
+      fireEvent.submit(getByRole("button"));
+    });
+
+    await waitFor(() => {
+      expect(container.querySelector(".gfield_description")).toHaveTextContent(
+        "Please enter a valid number"
+      );
+    });
+
+    expect(submitGravityForm).not.toBeCalled();
+  });
+
   it("custom validation message is displayed if number range validation is failed", async () => {
     const { container, getByLabelText, getByRole } = renderGravityForm({
       data: {
@@ -173,15 +208,48 @@ describe("Number field", () => {
     expect(submitGravityForm).not.toBeCalled();
   });
 
+  it("converts number to money format on blur", async () => {
+    const { getByLabelText } = renderGravityForm({
+      data: {
+        gfForm: {
+          formFields: {
+            nodes: [
+              {
+                id: 9,
+                type: "NUMBER",
+                label: "Number",
+                numberFormat: "CURRENCY",
+              },
+            ],
+          },
+        },
+        gfSettings: {
+          currency: "USD",
+        },
+      },
+    });
+
+    const input = getByLabelText("Number");
+
+    fireEvent.input(input, {
+      target: { value: "10,000.50" },
+    });
+
+    // Trigger blur event
+    fireEvent.blur(input);
+
+    expect(input.value).toBe("$10,000.50");
+  });
+
   describe("submits form with different number formats", () => {
     test.each([
       // type, value
-      ["DECIMAL_DOT", "11.5"],
-      ["DECIMAL_COMMA", "11,5"],
-      ["CURRENCY", "11.50"],
-      ["CURRENCY", "11,50"],
-    ])("formatType %s", async (formatType, inputValue) => {
-      const { container, getByLabelText, getByRole } = renderGravityForm({
+      ["DECIMAL_DOT", "11.4", "11.4"],
+      ["DECIMAL_COMMA", "9.999,99", "9.999,99"],
+      ["CURRENCY", "$11.50", "$11.50"],
+      ["CURRENCY", "$11,50", "$1,150.00"],
+    ])("formatType %s", async (formatType, inputValue, formattedValue) => {
+      const { container, getByRole } = renderGravityForm({
         data: {
           gfForm: {
             formFields: {
@@ -191,23 +259,36 @@ describe("Number field", () => {
                   label: "Number",
                   type: "NUMBER",
                   numberFormat: formatType,
+                  defaultValue: inputValue,
                 },
               ],
             },
           },
+          gfSettings: {
+            currency: "USD",
+          },
         },
-      });
-
-      fireEvent.input(getByLabelText("Number"), {
-        target: { value: inputValue },
       });
 
       await act(async () => {
         fireEvent.submit(getByRole("button"));
       });
 
-      const formElement = container.querySelector("form");
-      expect(formElement).not.toBeInTheDocument();
+      await waitFor(() => {
+        const formElement = container.querySelector("form");
+        expect(formElement).not.toBeInTheDocument();
+      });
+
+      // check values
+      expect(submitGravityForm).toBeCalledWith({
+        id: mockFormData.gfForm.databaseId,
+        fieldValues: [
+          {
+            value: formattedValue,
+            id: 11,
+          },
+        ],
+      });
     });
   });
 });
