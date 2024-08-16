@@ -112,10 +112,8 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
       };
     case "CONSENT":
       return {
-        value:
-          fieldResponse?.[0] && fieldResponse?.[1]
-            ? fieldResponse[1]
-            : undefined,
+        // we need to pass any string if consent is set
+        value: fieldResponse ? "value" : undefined,
       };
     default:
       return {};

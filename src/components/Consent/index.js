@@ -17,7 +17,7 @@ const ConsentField = ({ fieldData, name, labelFor, ...wrapProps }) => {
 
   return (
     <InputWrapper
-      errors={errors?.[`${name}`]?.[0] || {}}
+      errors={errors?.[`${name}`] || {}}
       inputData={fieldData}
       labelFor={labelFor}
       {...wrapProps}
@@ -29,18 +29,12 @@ const ConsentField = ({ fieldData, name, labelFor, ...wrapProps }) => {
         })}
         errors={errors}
         labelFor={`${labelFor}_1`}
-        {...register(`${name}.0`, {
+        {...register(name, {
           required: isRequired && (errorMessage || strings.errors.required),
         })}
       />
       {checkboxLabel && (
         <>
-          <input
-            type="hidden"
-            value={checkboxLabel}
-            className="gform_hidden"
-            {...register(`${name}.1`)}
-          />
           <label
             className="gform-field-label gform-field-label--type-inline gfield_consent_label"
             htmlFor={`${labelFor}_1`}
