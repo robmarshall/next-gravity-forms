@@ -341,7 +341,7 @@ const mockFormData = {
   },
   gfSettings: {
     recaptcha: {
-      publicKey: "6Ld6hTAUAAAAAB74k8hB37_L6GCXG3B7ahx-GhS4",
+      publicKey: "testKey",
       type: "CHECKBOX",
     },
   },
