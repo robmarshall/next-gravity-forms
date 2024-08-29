@@ -299,6 +299,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [ ] Pricing Fields
 - [x] Phone (doesn't support custom phone type)
 - [x] Email
+- [x] Consent
 - [ ] Configure error message (currently just 'An Unknown Error Occurred')
 - [ ] Integrate Success/Failure Handler from previous plugin
 
@@ -310,16 +311,17 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 
 ### Add Tests to Inputs
 
-- [ ] Input
-- [ ] Textarea
-- [ ] Select (half done, need to add default values)
-- [ ] Multiselect
-- [ ] Number
-- [ ] Checkbox (half done, need to add default values)
-- [ ] Radio (half done, need to add default values)
+- [x] Input
+- [x] Textarea
+- [x] Select (half done, need to add default values)
+- [x] Multiselect
+- [x] Number
+- [x] Checkbox (half done, need to add default values)
+- [x] Radio (half done, need to add default values)
 - [ ] Hidden
-- [ ] HTML
+- [x] HTML
 - [ ] Captcha
+- [x] Consent
 
 ## Confirmations
 
