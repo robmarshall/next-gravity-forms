@@ -1,6 +1,5 @@
-import classnames from "classnames";
 import React, { useEffect } from "react";
-
+import classnames from "classnames";
 import Captcha from "../../components/Captcha";
 import Html from "../../components/Html";
 import Input from "../../components/Input";
@@ -20,7 +19,8 @@ import { getFieldWidthClass } from "../../utils/getFieldWidthClass";
 import CustomField from "../../components/CustomField";
 import { useFormContext } from "react-hook-form";
 import { checkConditionalRendering } from "../../components/InputWrapper/helpers";
-import NumberField from "../../components/Number";
+import Number from "../../components/Number";
+import Consent from "../../components/Consent";
 
 const FieldBuilder = ({
   databaseId,
@@ -93,6 +93,15 @@ const FieldBuilder = ({
     const name = `input_${id}`;
     const labelFor = `input_${databaseId}_${id}`;
 
+    const props = {
+      fieldData,
+      gfId: id,
+      name,
+      labelFor,
+      wrapClassName: inputWrapperClass,
+      wrapId,
+    };
+
     // this is needed in order to clear the field value once it gets hidden
     // otherwise conditional rendering won't working properly
     useEffect(() => {
@@ -104,15 +113,7 @@ const FieldBuilder = ({
     // check if there is custom filed to be rendered instead
     if (customFormFields[id])
       return (
-        <CustomField
-          fieldData={fieldData}
-          key={id}
-          gfId={id}
-          name={name}
-          labelFor={labelFor}
-          wrapClassName={inputWrapperClass}
-          wrapId={wrapId}
-        >
+        <CustomField key={id} {...props}>
           {customFormFields[id]}
         </CustomField>
       );
@@ -122,179 +123,45 @@ const FieldBuilder = ({
       case "CAPTCHA":
         return (
           <Captcha
-            captchaTheme={captchaTheme}
-            fieldData={fieldData}
-            gfId={id}
             key={id}
-            name={name}
-            labelFor={labelFor}
+            captchaTheme={captchaTheme}
             ref={preOnSubmit}
             settings={settings?.recaptcha}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
+            {...props}
           />
         );
       case "HTML":
-        return (
-          <Html
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            labelFor={labelFor}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
+        return <Html key={id} {...props} />;
       // Start with the standard fields
       case "TEXT":
       case "HIDDEN":
-        return (
-          <Input
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            labelFor={labelFor}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-            isHidden={isHidden}
-          />
-        );
+        return <Input key={id} {...props} />;
       case "NUMBER":
-        return (
-          <NumberField
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            labelFor={labelFor}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
+        return <Number key={id} {...props} />;
       case "PHONE":
-        return (
-          <Phone
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            labelFor={labelFor}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
+        return <Phone key={id} {...props} />;
       case "DATE":
-        return (
-          <DateField
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            labelFor={labelFor}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
+        return <DateField key={id} {...props} />;
       case "NAME":
-        return (
-          <Name
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            labelFor={labelFor}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
+        return <Name key={id} {...props} />;
       case "EMAIL":
-        return (
-          <Email
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            labelFor={labelFor}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
+        return <Email key={id} {...props} />;
       case "FILEUPLOAD":
-        return (
-          <Fileupload
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            labelFor={labelFor}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
+        return <Fileupload key={id} {...props} />;
       case "TEXTAREA":
-        return (
-          <Textarea
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            labelFor={labelFor}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
+        return <Textarea key={id} {...props} />;
       case "SELECT":
       case "MULTISELECT":
-        return (
-          <Select
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            labelFor={labelFor}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
+        return <Select key={id} {...props} />;
       case "RADIO":
       case "CHECKBOX":
-        return (
-          <SelectorList
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            labelFor={labelFor}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
+        return <SelectorList key={id} {...props} />;
       case "SECTION":
-        return (
-          <Section
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
+        return <Section key={id} {...props} />;
       case "HONEYPOT":
-        return (
-          <Honeypot
-            fieldData={fieldData}
-            key={id}
-            gfId={id}
-            name={name}
-            labelFor={labelFor}
-            wrapClassName={inputWrapperClass}
-            wrapId={wrapId}
-          />
-        );
-
+        return <Honeypot key={id} {...props} />;
+      case "CONSENT":
+        return <Consent key={id} {...props} />;
       default:
         return null;
     }

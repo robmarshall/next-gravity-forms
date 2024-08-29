@@ -47,6 +47,7 @@ function getDefaultValues(fields, presetValues, helpers) {
         "TEXT",
         "WEBSITE",
         "EMAIL",
+        "CONSENT",
       ];
 
       if (simpleFieldTypes.includes(type) && defaultValue) {

@@ -39,7 +39,7 @@ const InputWrapper = ({
   const options = inputs || (choices && !isSelectList ? choices : undefined);
   const compareValue = type === "EMAIL" ? 1 : 0; // for email field inputs consist of 1 input by default, and 2 in case of confirmation email
 
-  const checkForChildren = options?.length > compareValue;
+  const checkForChildren = options?.length > compareValue || type === "CONSENT";
   const Label = checkForChildren ? "legend" : "label"; // if field has inputs, we render label as <legend>
   const Wrapper = checkForChildren ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
 

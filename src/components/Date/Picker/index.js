@@ -6,6 +6,7 @@ import { useSettings } from "../../../providers/SettingsContext";
 import { valueToLowerCase, interpolateString } from "../../../utils/helpers";
 import CalendarIconComponent from "./CalendarIconComponent";
 import { isValidDate } from "./helpers";
+import { enUS as defaultLocale } from "date-fns/locale";
 
 const DatePicker = lazy(() => import("./LazyPicker"));
 
@@ -57,6 +58,7 @@ const Picker = ({ fieldData, name, inputId, labelFor, control, errors }) => {
     formatLong: {
       date: () => dateFormats[dateFormat],
     },
+    match: defaultLocale.match,
   };
 
   return (
