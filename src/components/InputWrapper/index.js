@@ -56,7 +56,7 @@ const InputWrapper = ({
         <Label
           className="gfield_label gform-field-label"
           htmlFor={checkForChildren ? undefined : labelFor}
-          dangerouslySetInnerHTML={{ __html: joinedLabel }}
+          dangerouslySetInnerHTML={{ __html: label && joinedLabel }}        
         />
       )}
       {description &&
