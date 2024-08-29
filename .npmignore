@@ -2,6 +2,7 @@
 node_modules
 .storybook
 src
+tests
 
 # Output of 'npm pack'
 *.tgz
