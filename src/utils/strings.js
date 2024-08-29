@@ -35,6 +35,12 @@ const strings = {
         "{{name}} - This type of file is not allowed. Must be one of the following: {{types}}",
       maxFiles: "Maximum number of files reached",
     },
+    number: {
+      invalid: "Please enter a valid number",
+      wrongRangeMin: "Please enter a number greater than or equal to {{min}}.",
+      wrongRangeMax: "Please enter a number less than or equal to {{max}}.",
+      wrongRangeBoth: "Please enter a number from {{min}} to {{max}}.",
+    },
   },
   datepicker: {
     days: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],

@@ -60,7 +60,7 @@ const GravityFormForm = ({
 
 ```
 
-- date: The form data needed to create the form. Got via `getGravityForm` query.
+- data: The form data needed to create the form. Got via `getGravityForm` query.
 - presetValues: Any preset values needed to pass in - see below.
 - successCallback: Function that is called when form is successul.
 - errorCallback: Function that is called when the form errors.
@@ -81,9 +81,13 @@ Note: If `NEXT_PUBLIC_WORDPRESS_FORM_SUBMIT_URL` is not passed in, it will fall 
 Sometimes you will want to conditionally set default values, or pass in data to hidden fields. This could be values for a user ID, or a current page.
 
 This is handled by the `presetValues` prop.
+In addition, you need to pass your query parameters within this prop to make [dynamically populating](https://docs.gravityforms.com/using-dynamic-population/#h-query-string) field work. Good to know that the query string takes priority over the field name parameter.
 
 ```js
-<GravityFormForm data={form} presetValues={{ input_2: "My preset value" }} />
+<GravityFormForm
+  data={form}
+  presetValues={{ ...queryParams, input_2: "My preset value" }}
+/>
 ```
 
 In the above example `input_2` corresponds to the 2nd field added in the WordPress Gravity Forms edit page. This value can be found by clicking on the field and looking at the top right just under Field Settings.
@@ -151,7 +155,7 @@ The `Date Picker` functionality in our form utilizes the `react-datepicker` pack
 import "react-datepicker/dist/react-datepicker.css";
 ```
 
-Additionally, our component allows you to customize the settings of the DatePicker through the helperFieldsSettings prop. This is particularly useful for setting constraints like the maximum year. For instance, to set the maximum year to `2024`, you would configure the prop as follows:
+Additionally, our component allows you to customize the settings of the DatePicker through the `helperFieldsSettings` prop. This is particularly useful for setting constraints like the maximum year. For instance, to set the maximum year to `2024`, you would configure the prop as follows:
 
 ```
 <GravityFormForm
@@ -165,6 +169,30 @@ Additionally, our component allows you to customize the settings of the DatePick
 ```
 
 For a complete list of customizable options for the DatePicker, refer to the fieldsSettings.js file available in our repository: [fieldsSettings.js](https://github.com/robmarshall/next-gravity-forms/blob/main/src/utils/fieldsSettings.js).
+
+## Number field
+
+As you probably know, the Number field has an option to set the currency format. By default, we support only EUR, USD, and GBP currencies. If you would like to add a custom currency, other than set it by `gform_currency` filter, you also need to pass it as a prop using the `helperFieldsSettings` prop, as follows:
+
+```
+<GravityFormForm
+  data={form}
+  helperFieldsSettings={{
+    number: {
+     currencies: {
+      HKD: {
+        symbol_left: "HK$",
+        symbol_right: "",
+        symbol_padding: "",
+        thousand_separator: ",",
+        decimal_separator: ".",
+        decimals: 2,
+      }
+     }
+    },
+  }}
+/>
+```
 
 ## Exposed methods
 
@@ -256,7 +284,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Textarea
 - [x] Select
 - [x] Multiselect
-- [ ] Number (range and number format is not working yet)
+- [x] Number
 - [x] Checkbox
 - [x] Radio
 - [x] Hidden
@@ -269,7 +297,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] File upload
 - [ ] Post Fields
 - [ ] Pricing Fields
-- [ ] Phone (missing the international mask)
+- [x] Phone (doesn't support custom phone type)
 - [x] Email
 - [ ] Configure error message (currently just 'An Unknown Error Occurred')
 - [ ] Integrate Success/Failure Handler from previous plugin

@@ -2,7 +2,6 @@ import { captchaFieldFragment } from "./components/Captcha/query";
 import {
   textFieldFragment,
   hiddenFieldFragment,
-  numberFieldFragment,
 } from "./components/Input/query";
 import { htmlFieldFragment } from "./components/Html/query";
 import {
@@ -10,6 +9,7 @@ import {
   multiSelectFieldFragment,
 } from "./components/Select/query";
 import { phoneFieldFragment } from "./components/Phone/query";
+import { numberFieldFragment } from "./components/Number/query";
 import {
   radioFieldFragment,
   checkboxFieldFragment,
@@ -100,6 +100,7 @@ export const gravityFormQuery = /* GraphQL */ `
         publicKey
         type
       }
+      currency
     }
   }
 `;

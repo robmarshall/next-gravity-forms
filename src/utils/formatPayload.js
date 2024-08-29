@@ -63,7 +63,6 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
     }
     case "CONSENT":
     case "HIDDEN":
-    case "NUMBER":
     case "PHONE":
     case "POSTCONTENT":
     case "POSTEXCERPT":
@@ -74,6 +73,10 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
     case "TEXT":
     case "WEBSITE":
     case "HONEYPOT":
+      return {
+        value: fieldResponse,
+      };
+    case "NUMBER":
       return {
         value: fieldResponse,
       };

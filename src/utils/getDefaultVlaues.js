@@ -1,14 +1,15 @@
 // set the default value for the field
-
 import { getDateDefaultValue } from "../components/Date/FieldDropdown";
 import { getDatePickerDefaultValue } from "../components/Date/Picker";
 import { getNameDefaultValue } from "../components/Name/helpers";
+import { formatValue as formatCurrencyValue } from "../components/Number/helpers";
 import { getSelectDefaultValue } from "../components/Select/helpers";
 import { getSelectionListDefaultValue } from "../components/SelectorList/helpers";
+import { getSettings } from "../providers/SettingsContext";
 import { valueToLowerCase } from "./helpers";
 
 // there are 2 possible options: presetValue, which has more priority and the defaultValue itself
-function getDefaultValues(fields, presetValues) {
+function getDefaultValues(fields, presetValues, helpers) {
   const values = {};
 
   if (!Array.isArray(fields)) return values;
@@ -24,10 +25,12 @@ function getDefaultValues(fields, presetValues) {
       dateFormat: dateFormatUpper,
       dateType,
       hasOtherChoice,
+      numberFormat,
     }) => {
       const inputName = `input_${id}`;
 
-      const presetValue = presetValues?.[presetName];
+      const presetValue =
+        presetValues?.[presetName] || presetValues?.[inputName];
 
       const defaultValue = presetValue ?? defaultVal;
 
@@ -35,7 +38,6 @@ function getDefaultValues(fields, presetValues) {
       const simpleFieldTypes = [
         "DATE",
         "HIDDEN",
-        "NUMBER",
         "PHONE",
         "POSTCONTENT",
         "POSTEXCERPT",
@@ -91,6 +93,28 @@ function getDefaultValues(fields, presetValues) {
       // Handling for NAME type
       if (type === "NAME" && inputs?.length > 0) {
         values[inputName] = getNameDefaultValue(inputs, presetValues);
+      }
+
+      if (type === "NUMBER") {
+        const format = valueToLowerCase(numberFormat);
+        if (format === "currency") {
+          // a bit ugly, is that possible to refactor?
+          const {
+            settings: { currency: globalCUrrency } = {},
+            helperFieldsSettings = {},
+          } = helpers || {};
+          const fieldSettings = getSettings(helperFieldsSettings);
+          const { number: { currencies } = {} } = fieldSettings || {};
+
+          values[inputName] = formatCurrencyValue(
+            defaultValue,
+            format,
+            currencies,
+            globalCUrrency
+          );
+        } else {
+          values[inputName] = defaultValue;
+        }
       }
 
       if (type === "DATE") {

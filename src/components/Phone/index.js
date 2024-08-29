@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { Controller, useFormContext } from "react-hook-form";
@@ -6,7 +6,7 @@ import { valueToLowerCase } from "../../utils/helpers";
 import InputWrapper from "../InputWrapper";
 import { Input } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
-import { useMask, format } from "@react-input/mask";
+import { InputMask, format } from "@react-input/mask";
 
 const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
@@ -18,12 +18,12 @@ const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
     replacement: { _: /\d/ },
   };
 
-  const inputRef = useMask(mask);
-
   const {
     control,
     formState: { errors },
   } = useFormContext();
+
+  const describedBy = name?.replace("input_", "gfield_description_");
 
   return (
     <InputWrapper
@@ -35,18 +35,39 @@ const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
       <Controller
         name={name}
         control={control}
-        render={({ field: { onChange, value } }) => (
-          <Input
-            fieldData={{ ...fieldData, type: isStandard ? "text" : "tel" }}
-            className={classnames(valueToLowerCase(size), {
-              gform_hidden: type === "HIDDEN",
-            })}
-            onChange={onChange}
-            defaultValue={value && isStandard ? format(value, mask) : value}
-            errors={errors}
-            labelFor={labelFor}
-            ref={isStandard ? inputRef : undefined}
-          />
+        render={({ field: { onChange, value, ref } }) => (
+          <>
+            {isStandard ? (
+              <InputMask
+                className={classnames(valueToLowerCase(size), {
+                  gform_hidden: type === "HIDDEN",
+                })}
+                onChange={onChange}
+                defaultValue={value && isStandard ? format(value, mask) : value}
+                id={labelFor}
+                ref={ref}
+                name={name}
+                aria-invalid={Boolean(errors?.[name])}
+                aria-required={isRequired}
+                aria-describedby={describedBy}
+                type={"text"}
+                {...mask}
+                showMask={!!value}
+              />
+            ) : (
+              <Input
+                fieldData={{ ...fieldData, type: "tel" }}
+                className={classnames(valueToLowerCase(size), {
+                  gform_hidden: type === "HIDDEN",
+                })}
+                onChange={onChange}
+                defaultValue={value && isStandard ? format(value, mask) : value}
+                errors={errors}
+                labelFor={labelFor}
+                ref={ref}
+              />
+            )}
+          </>
         )}
         rules={{
           required: isRequired && (errorMessage || strings.errors.required),

@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
-import { useFormContext } from "react-hook-form";
-import { checkConditionalRendering } from "./helpers";
 import { useSettings } from "../../providers/SettingsContext";
 
 const InputWrapper = ({
@@ -18,19 +16,20 @@ const InputWrapper = ({
     maxLength,
     type,
     inputs,
-    conditionalLogic,
     choices,
+    id,
+    isHidden,
   },
   labelFor,
   wrapClassName,
   ginputClassName,
   wrapId,
+  errorMessage,
 }) => {
   const joinedLabel = `${label}${
     isRequired ? '<span className="gfield_required">*</span>' : ""
   }`;
 
-  const { watch, formFields } = useFormContext();
   const { form } = useSettings();
   const { descriptionPlacement: globalPlacement } = form || {};
   const descPlacement =
@@ -43,12 +42,6 @@ const InputWrapper = ({
   const checkForChildren = options?.length > compareValue;
   const Label = checkForChildren ? "legend" : "label"; // if field has inputs, we render label as <legend>
   const Wrapper = checkForChildren ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
-
-  const isHidden = checkConditionalRendering(
-    conditionalLogic,
-    watch,
-    formFields
-  );
 
   return (
     <Wrapper
@@ -63,7 +56,7 @@ const InputWrapper = ({
         <Label
           className="gfield_label gform-field-label"
           htmlFor={checkForChildren ? undefined : labelFor}
-          dangerouslySetInnerHTML={{ __html: joinedLabel }}
+          dangerouslySetInnerHTML={{ __html: label && joinedLabel }}        
         />
       )}
       {description &&
@@ -97,10 +90,13 @@ const InputWrapper = ({
       {isNonEmptyObject(errors) && (
         <div
           aria-live="polite"
-          className="gravityform__error_message gfield_description validation_message"
-        >
-          {errors.message}
-        </div>
+          id={`validation_message_${id}`}
+          className="gfield_description validation_message gfield_validation_message"
+          /* @OTODO: i changed this so it checks for custom errorMessages first, is it enough? */
+          dangerouslySetInnerHTML={{
+            __html: errorMessage ? errorMessage : errors.message,
+          }}
+        />
       )}
     </Wrapper>
   );
@@ -127,6 +123,8 @@ InputWrapper.propTypes = {
     conditionalLogic: PropTypes.object,
     inputs: PropTypes.array,
     choices: PropTypes.array,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    isHidden: PropTypes.bool,
   }),
   ginputClassName: PropTypes.string,
   labelFor: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
