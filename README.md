@@ -34,7 +34,8 @@ This variable is called internally by the `getGravityForm` function.
 Import the component and use it with the API function. Select the required form using its `databaseId`.
 
 ```js
-import GravityFormForm, { getGravityForm } from "next-gravity-forms";
+import GravityFormForm from "next-gravity-forms";
+import { getGravityForm } from "next-gravity-forms/server";
 
 const data = await getGravityForm(1);
 
