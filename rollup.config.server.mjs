@@ -9,8 +9,8 @@ import pkg from "./package.json" assert { type: "json" };
 export default {
   input: ["src/server/index.js", "src/query.js"],
   output: [
-    { dir: "dist/server", format: "cjs", sourcemap: true },
-    { dir: "dist/server", format: "esm", sourcemap: true },
+    { dir: "dist/server/index.cjs.js", format: "cjs", sourcemap: true },
+    { dir: "dist/server/index.esm.js", format: "esm", sourcemap: true },
   ],
   plugins: [
     babel({
