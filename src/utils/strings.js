@@ -45,6 +45,7 @@ const strings = {
       wrongRangeBoth: "Please enter a number from {{min}} to {{max}}.",
     },
   },
+  counter: "{{value}} of {{max}} max characters",
   datepicker: {
     days: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
     months: [

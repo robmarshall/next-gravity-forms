@@ -6,6 +6,7 @@ import InputWrapper from "../../components/InputWrapper";
 import { valueToLowerCase } from "../../utils/helpers";
 import getFieldError from "../../utils/getFieldError";
 import { useSettings } from "../../providers/SettingsContext";
+import MaxLength from "../General/MaxLength";
 
 const Textarea = ({ fieldData, name, labelFor, wrapClassName, wrapId }) => {
   const { strings } = useSettings();
@@ -58,6 +59,7 @@ const Textarea = ({ fieldData, name, labelFor, wrapClassName, wrapId }) => {
         })}
         type={type}
       />
+      {maxLength > 0 && <MaxLength maxLength={maxLength} name={name} />}
     </InputWrapper>
   );
 };

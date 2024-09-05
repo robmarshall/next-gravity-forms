@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { Controller, useFormContext } from "react-hook-form";
@@ -83,7 +83,6 @@ PhoneField.propTypes = {
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
     inputMaskValue: PropTypes.string,
-    maxLength: PropTypes.number,
     placeholder: PropTypes.string,
     isRequired: PropTypes.bool,
     type: PropTypes.string,

@@ -13,7 +13,6 @@ const InputWrapper = ({
     descriptionPlacement,
     isRequired,
     label,
-    maxLength,
     type,
     inputs,
     choices,
@@ -56,7 +55,7 @@ const InputWrapper = ({
         <Label
           className="gfield_label gform-field-label"
           htmlFor={checkForChildren ? undefined : labelFor}
-          dangerouslySetInnerHTML={{ __html: label && joinedLabel }}        
+          dangerouslySetInnerHTML={{ __html: label && joinedLabel }}
         />
       )}
       {description &&
@@ -70,17 +69,6 @@ const InputWrapper = ({
         )}
       >
         {children}
-        {maxLength > 0 && (
-          <div className="charleft ginput_counter warningTextareaInfo">
-            {maxLengthSentence(maxLength, type)}
-          </div>
-        )}
-        {/* TODO: Implement number min/max, these currently aren't fetch by the source plugin
-            https://docs.gravityforms.com/field-object/#number
-            <div class="instruction ">
-              Please enter a number from <strong>1</strong> to <strong>15</strong>.
-            </div>
-        */}
       </div>
 
       {description &&
@@ -102,11 +90,6 @@ const InputWrapper = ({
   );
 };
 
-const maxLengthSentence = (length, type) => {
-  const word = type === "number" ? "numbers" : "characters";
-  return length && ` (maxiumum ${length} ${word})`;
-};
-
 export default InputWrapper;
 
 InputWrapper.propTypes = {
@@ -118,7 +101,6 @@ InputWrapper.propTypes = {
     descriptionPlacement: PropTypes.string,
     label: PropTypes.string,
     isRequired: PropTypes.bool,
-    maxLength: PropTypes.number,
     type: PropTypes.string,
     conditionalLogic: PropTypes.object,
     inputs: PropTypes.array,
