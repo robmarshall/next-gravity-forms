@@ -27,6 +27,11 @@ const checkValues = (values) => {
       return checkValues(value).length > 0;
     }
 
+    // Consent
+    if (typeof value === "boolean" && value === true) {
+      return true;
+    }
+
     return false;
   });
 

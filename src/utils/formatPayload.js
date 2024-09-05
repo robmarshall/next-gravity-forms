@@ -61,7 +61,6 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
     case "NAME": {
       return { nameValues: fieldResponse };
     }
-    case "CONSENT":
     case "HIDDEN":
     case "PHONE":
     case "POSTCONTENT":
@@ -110,6 +109,11 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
     case "POSTTAGS":
       return {
         values: fieldResponse,
+      };
+    case "CONSENT":
+      return {
+        // we need to pass any string if consent is set
+        value: fieldResponse ? "value" : undefined,
       };
     default:
       return {};
