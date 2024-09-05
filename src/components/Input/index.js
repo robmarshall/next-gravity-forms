@@ -7,17 +7,7 @@ import getFieldError from "../../utils/getFieldError";
 import InputWrapper from "../InputWrapper";
 import { Input } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
-
-const standardType = (type) => {
-  switch (type) {
-    case "phone":
-      return "tel";
-    case "fileupload":
-      return "file";
-    default:
-      return type;
-  }
-};
+import MaxLength from "../General/MaxLength";
 
 const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
@@ -25,7 +15,6 @@ const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
     fieldData;
 
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
-  const inputType = standardType(type);
 
   const {
     register,
@@ -40,7 +29,7 @@ const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
       {...wrapProps}
     >
       <Input
-        fieldData={{ ...fieldData, type: valueToLowerCase(inputType) }}
+        fieldData={{ ...fieldData, type: valueToLowerCase(type) }}
         className={classnames(valueToLowerCase(size), {
           gform_hidden: type === "HIDDEN",
         })}
@@ -59,6 +48,7 @@ const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
           },
         })}
       />
+      {maxLength > 0 && <MaxLength name={name} maxLength={maxLength} />}
     </InputWrapper>
   );
 };

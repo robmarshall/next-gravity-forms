@@ -10,7 +10,6 @@ import { useSettings } from "../../providers/SettingsContext";
 const Email = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const {
     isRequired,
-    maxLength,
     placeholder,
     inputs,
     subLabelPlacement,
@@ -55,10 +54,6 @@ const Email = ({ fieldData, name, labelFor, ...wrapProps }) => {
           className={valueToLowerCase(size)}
           {...register(name, {
             required: isRequired && (errorMessage || strings.errors.required),
-            maxLength: maxLength > 0 && {
-              value: maxLength,
-              message: `${strings.errors.maxChar.front}  ${maxLength} ${strings.errors.maxChar.back}`,
-            },
             pattern: {
               value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
               message: getFieldError(
@@ -107,7 +102,6 @@ export default Email;
 Email.propTypes = {
   fieldData: PropTypes.shape({
     cssClass: PropTypes.string,
-    maxLength: PropTypes.number,
     placeholder: PropTypes.string,
     isRequired: PropTypes.bool,
     type: PropTypes.string,
