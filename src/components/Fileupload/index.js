@@ -72,7 +72,7 @@ const FileUpload = ({ fieldData, name, labelFor, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name]}
       inputData={fieldData}
-      labelFor={hiddenFieldId}
+      labelFor={canAcceptMultipleFiles ? hiddenFieldId : labelFor}
       {...wrapProps}
     >
       {canAcceptMultipleFiles ? ( // multi files upload

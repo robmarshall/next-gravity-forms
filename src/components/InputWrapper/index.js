@@ -5,6 +5,7 @@ import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
 import { useSettings } from "../../providers/SettingsContext";
 import getLabelAndWrapperComponents from "../../utils/getLabelAndWrapperComponents";
+import classNames from "classnames";
 
 const InputWrapper = ({
   children,
@@ -31,15 +32,15 @@ const InputWrapper = ({
   }`;
 
   const { form } = useSettings();
-  const { descriptionPlacement: globalPlacement } = form || {};
-  const descPlacement =
-    descriptionPlacement !== "INHERIT" ? descriptionPlacement : globalPlacement;
-
   const { Label, Wrapper } = getLabelAndWrapperComponents(
     type,
     inputs,
     choices
   );
+
+  const { descriptionPlacement: globalPlacement } = form || {};
+  const descPlacement =
+    descriptionPlacement !== "INHERIT" ? descriptionPlacement : globalPlacement;
 
   return (
     <Wrapper
@@ -61,7 +62,7 @@ const InputWrapper = ({
         valueToLowerCase(descPlacement) == "above" &&
         outputDescription(description, wrapId)}
       <div
-        id={Label === "legend" ? `${labelFor}_container` : undefined} // only set an id when there are child elements like options
+        id={classNames(Label === "legend" && `${labelFor}_container`)} // only set an id when there are child elements like options
         className={classnames(
           `ginput_container ginput_container_${valueToLowerCase(type)}`,
           ginputClassName
