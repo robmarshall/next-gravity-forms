@@ -4,7 +4,7 @@ import React from "react";
 import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
 import { useSettings } from "../../providers/SettingsContext";
-import getLabelAndWrapperComponents from "../../utils/getLabelAndWrapperComponents";
+import { getLabelAndWrapperComponents } from "./helpers";
 import classNames from "classnames";
 
 const InputWrapper = ({
