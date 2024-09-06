@@ -7,6 +7,7 @@ import getFieldError from "../../utils/getFieldError";
 import InputWrapper from "../InputWrapper";
 import { Input } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
+import MaxLength from "../General/MaxLength";
 
 const standardType = (type) => {
   switch (type) {
@@ -24,8 +25,6 @@ const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
 
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
   const inputType = standardType(type);
-
-  console.log({ inputType });
 
   const {
     register,
@@ -59,7 +58,7 @@ const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
                   value:
                     // eslint-disable-next-line no-useless-escape
                     /[https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
-                  message: "Please enter a valid URL",
+                  message: strings.errors.url,
                 }
               : {
                   value: regex,
@@ -67,6 +66,7 @@ const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
                 },
         })}
       />
+      {maxLength > 0 && <MaxLength maxLength={maxLength} name={name} />}
     </InputWrapper>
   );
 };
