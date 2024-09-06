@@ -18,6 +18,7 @@ const MultiFileupload = forwardRef(
       setValue,
       maxFiles,
       maxFileSize,
+      hiddenFieldId,
     },
     ref
   ) => {
@@ -105,9 +106,24 @@ const MultiFileupload = forwardRef(
               isFileDialogActive && "is-file-dialog-active"
             )}
             {...getRootProps()}
+            tabIndex={-1}
             style={{}} // empty obj to remove styles
           >
-            <input {...getInputProps()} />
+            <input
+              {...getInputProps()}
+              id={hiddenFieldId}
+              style={{
+                border: "0",
+                clip: "rect(0, 0, 0, 0)",
+                clipPath: "inset(100%)",
+                height: "1px",
+                overflow: "hidden",
+                padding: "0",
+                position: "absolute",
+                whiteSpace: "nowrap",
+                width: "1px",
+              }}
+            />
             {/* use dangerouslySetInnerHTML so user is able to add custom html also */}
             {strings.fileupload.multiFileUpload.drop && (
               <span
@@ -170,6 +186,7 @@ MultiFileupload.propTypes = {
   maxFiles: PropTypes.number,
   rulesMessages: PropTypes.object,
   setValue: PropTypes.func,
+  hiddenFieldId: PropTypes.string,
 };
 
 export default MultiFileupload;
