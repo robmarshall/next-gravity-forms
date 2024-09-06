@@ -2,7 +2,6 @@ import { conditionalLogicFragment } from "../../fragments";
 
 export const checkboxFieldFragment = /* GraphQL */ `
   ... on CheckboxField {
-    adminLabel
     canPrepopulate
     checkboxValues {
       inputId
@@ -39,7 +38,6 @@ export const checkboxFieldFragment = /* GraphQL */ `
 
 export const radioFieldFragment = /* GraphQL */ `
   ... on RadioField {
-    adminLabel
     canPrepopulate
     choices {
       ... on RadioFieldChoice {

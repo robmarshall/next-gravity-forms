@@ -2,7 +2,6 @@ import { conditionalLogicFragment } from "../../fragments";
 
 export const dateFieldFragment = /* GraphQL */ `
   ... on DateField {
-    adminLabel
     calendarIconType
     calendarIconUrl
     canPrepopulate

@@ -2,7 +2,6 @@ import { conditionalLogicFragment } from "../../fragments";
 
 export const emailFieldFragment = /* GraphQL */ `
   ... on EmailField {
-    adminLabel
     canPrepopulate
     conditionalLogic {
       ${conditionalLogicFragment}

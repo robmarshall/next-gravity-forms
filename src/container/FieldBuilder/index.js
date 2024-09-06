@@ -135,6 +135,7 @@ const FieldBuilder = ({
       // Start with the standard fields
       case "TEXT":
       case "HIDDEN":
+      case "WEBSITE":
         return <Input key={id} {...props} />;
       case "NUMBER":
         return <Number key={id} {...props} />;

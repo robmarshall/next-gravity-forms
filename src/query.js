@@ -2,6 +2,7 @@ import { captchaFieldFragment } from "./components/Captcha/query";
 import {
   textFieldFragment,
   hiddenFieldFragment,
+  websiteFieldFragment,
 } from "./components/Input/query";
 import { htmlFieldFragment } from "./components/Html/query";
 import {
@@ -80,6 +81,7 @@ export const gravityFormQuery = /* GraphQL */ `
           ${nameFieldFragment}
           ${pageFieldFragment}
           ${consentFieldFragment}
+          ${websiteFieldFragment}
         }
       }
       pagination {

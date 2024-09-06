@@ -1,9 +1,7 @@
 import { conditionalLogicFragment } from "../../fragments";
 
-
 export const numberFieldFragment = /* GraphQL */ `
   ... on NumberField {
-    adminLabel
     autocompleteAttribute
     calculationFormula
     calculationRounding
@@ -30,4 +28,3 @@ export const numberFieldFragment = /* GraphQL */ `
     value
   }
 `;
-
