@@ -4,6 +4,8 @@ import React from "react";
 import { valueToLowerCase, isNonEmptyObject } from "../../utils/helpers";
 import { outputDescription } from "../../utils/inputSettings";
 import { useSettings } from "../../providers/SettingsContext";
+import { getLabelAndWrapperComponents } from "./helpers";
+import classNames from "classnames";
 
 const InputWrapper = ({
   children,
@@ -30,17 +32,15 @@ const InputWrapper = ({
   }`;
 
   const { form } = useSettings();
+  const { Label, Wrapper } = getLabelAndWrapperComponents(
+    type,
+    inputs,
+    choices
+  );
+
   const { descriptionPlacement: globalPlacement } = form || {};
   const descPlacement =
     descriptionPlacement !== "INHERIT" ? descriptionPlacement : globalPlacement;
-
-  const isSelectList = ["SELECT", "MULTISELECT"].includes(type);
-  const options = inputs || (choices && !isSelectList ? choices : undefined);
-  const compareValue = type === "EMAIL" ? 1 : 0; // for email field inputs consist of 1 input by default, and 2 in case of confirmation email
-
-  const checkForChildren = options?.length > compareValue || type === "CONSENT";
-  const Label = checkForChildren ? "legend" : "label"; // if field has inputs, we render label as <legend>
-  const Wrapper = checkForChildren ? "fieldset" : "div"; // if field has inputs, we render wrapper as <fieldset>
 
   return (
     <Wrapper
@@ -54,7 +54,7 @@ const InputWrapper = ({
       {labelFor && (
         <Label
           className="gfield_label gform-field-label"
-          htmlFor={checkForChildren ? undefined : labelFor}
+          htmlFor={Label === "legend" ? undefined : labelFor}
           dangerouslySetInnerHTML={{ __html: label && joinedLabel }}
         />
       )}
@@ -62,7 +62,7 @@ const InputWrapper = ({
         valueToLowerCase(descPlacement) == "above" &&
         outputDescription(description, wrapId)}
       <div
-        id={checkForChildren ? labelFor : undefined} // only set an id when there are child elements like options
+        id={classNames(Label === "legend" && `${labelFor}_container`)} // only set an id when there are child elements like options
         className={classnames(
           `ginput_container ginput_container_${valueToLowerCase(type)}`,
           ginputClassName
@@ -80,7 +80,6 @@ const InputWrapper = ({
           aria-live="polite"
           id={`validation_message_${id}`}
           className="gfield_description validation_message gfield_validation_message"
-          /* @OTODO: i changed this so it checks for custom errorMessages first, is it enough? */
           dangerouslySetInnerHTML={{
             __html: errorMessage ? errorMessage : errors.message,
           }}

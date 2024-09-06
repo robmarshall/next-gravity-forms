@@ -29,7 +29,7 @@ const Email = ({ fieldData, name, labelFor, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || errors?.[`${name}_2`] || {}}
       inputData={fieldData}
-      labelFor={!confirmEmailField ? labelFor : undefined}
+      labelFor={labelFor}
       {...wrapProps}
     >
       <ConditionalWrapper // render only when there is confirmation field added

@@ -66,11 +66,13 @@ const FileUpload = ({ fieldData, name, labelFor, ...wrapProps }) => {
     }
   };
 
+  const hiddenFieldId = `html5_${labelFor}`;
+
   return (
     <InputWrapper
       errors={errors?.[name]}
       inputData={fieldData}
-      labelFor={labelFor}
+      labelFor={canAcceptMultipleFiles ? hiddenFieldId : labelFor}
       {...wrapProps}
     >
       {canAcceptMultipleFiles ? ( // multi files upload
@@ -91,6 +93,7 @@ const FileUpload = ({ fieldData, name, labelFor, ...wrapProps }) => {
                 rulesMessages={rulesMessagesComponent()}
                 setValue={setValue}
                 ref={ref}
+                hiddenFieldId={hiddenFieldId}
               />
             )}
             rules={{
