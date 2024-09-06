@@ -2,7 +2,6 @@ import { conditionalLogicFragment } from "../../fragments";
 
 export const fileuploadFieldFragment = /* GraphQL */ `
   ... on FileUploadField {
-    adminLabel
     conditionalLogic {
       ${conditionalLogicFragment}
     }
@@ -15,9 +14,7 @@ export const fileuploadFieldFragment = /* GraphQL */ `
     value
     allowedExtensions
     canAcceptMultipleFiles
-    inputType
     maxFileSize
     maxFiles
-    type
   }
 `;

@@ -7,7 +7,15 @@ import getFieldError from "../../utils/getFieldError";
 import InputWrapper from "../InputWrapper";
 import { Input } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
-import MaxLength from "../General/MaxLength";
+
+const standardType = (type) => {
+  switch (type) {
+    case "WEBSITE":
+      return "url";
+    default:
+      return type;
+  }
+};
 
 const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
@@ -15,6 +23,9 @@ const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
     fieldData;
 
   const regex = inputMaskValue ? new RegExp(inputMaskValue) : false;
+  const inputType = standardType(type);
+
+  console.log({ inputType });
 
   const {
     register,
@@ -29,7 +40,7 @@ const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
       {...wrapProps}
     >
       <Input
-        fieldData={{ ...fieldData, type: valueToLowerCase(type) }}
+        fieldData={{ ...fieldData, type: valueToLowerCase(inputType) }}
         className={classnames(valueToLowerCase(size), {
           gform_hidden: type === "HIDDEN",
         })}
@@ -42,13 +53,20 @@ const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
             value: maxLength,
             message: `${strings.errors.maxChar.front}  ${maxLength} ${strings.errors.maxChar.back}`,
           },
-          pattern: {
-            value: regex,
-            message: regex && getFieldError(fieldData, strings),
-          },
+          pattern:
+            inputType === "url"
+              ? {
+                  value:
+                    // eslint-disable-next-line no-useless-escape
+                    /[https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+                  message: "Please enter a valid URL",
+                }
+              : {
+                  value: regex,
+                  message: regex && getFieldError(fieldData, strings),
+                },
         })}
       />
-      {maxLength > 0 && <MaxLength name={name} maxLength={maxLength} />}
     </InputWrapper>
   );
 };

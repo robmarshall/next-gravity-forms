@@ -9,7 +9,6 @@ export const consentFieldFragment = /* GraphQL */ `
     checkboxLabel
     consentValue
     cssClass
-    databaseId
     description
     descriptionPlacement
     errorMessage
@@ -19,4 +18,3 @@ export const consentFieldFragment = /* GraphQL */ `
     value
   }
 `;
-

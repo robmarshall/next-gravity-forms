@@ -2,7 +2,6 @@ import { conditionalLogicFragment } from "../../fragments";
 
 export const phoneFieldFragment = /* GraphQL */ `
   ... on PhoneField {
-    adminLabel
     autocompleteAttribute
     canPrepopulate
     conditionalLogic {

@@ -301,6 +301,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Phone (doesn't support custom phone type)
 - [x] Email
 - [x] Consent
+- [x] Website
 - [ ] Configure error message (currently just 'An Unknown Error Occurred')
 - [ ] Integrate Success/Failure Handler from previous plugin
 
@@ -323,6 +324,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] HTML
 - [ ] Captcha
 - [x] Consent
+- [x] Website
 
 ## Confirmations
 

@@ -2,7 +2,6 @@ import { conditionalLogicFragment } from "../../fragments";
 
 export const selectFieldFragment = /* GraphQL */ `
   ... on SelectField {
-    adminLabel
     autocompleteAttribute
     canPrepopulate
     choices {
@@ -35,7 +34,6 @@ export const selectFieldFragment = /* GraphQL */ `
 
 export const multiSelectFieldFragment = /* GraphQL */ `
   ... on MultiSelectField {
-    adminLabel
     canPrepopulate
     choices {
       ... on MultiSelectFieldChoice {
