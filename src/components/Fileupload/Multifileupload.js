@@ -55,7 +55,7 @@ const MultiFileupload = forwardRef(
             errors: [
               {
                 code: "too-many-files",
-                message: `File not accepted - exceeds limit of ${maxFiles}.`,
+                message: strings.errors.multiFileUpload.maxFiles,
               },
             ],
           }));
