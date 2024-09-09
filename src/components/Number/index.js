@@ -97,8 +97,6 @@ export default NumberField;
 NumberField.propTypes = {
   fieldData: PropTypes.shape({
     id: PropTypes.number,
-    cssClass: PropTypes.string,
-    inputMaskValue: PropTypes.string,
     placeholder: PropTypes.string,
     isRequired: PropTypes.bool,
     type: PropTypes.string,

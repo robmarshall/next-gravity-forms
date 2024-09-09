@@ -30,6 +30,7 @@ const Select = ({ fieldData, name, labelFor, ...wrapProps }) => {
     placeholder,
     hasEnhancedUI,
     type,
+    autoComplete,
     errorMessage,
   } = fieldData;
 
@@ -86,6 +87,7 @@ const Select = ({ fieldData, name, labelFor, ...wrapProps }) => {
           )}
           id={labelFor}
           name={name}
+          autoComplete={autoComplete}
           {...register(name, {
             required: isRequired && (errorMessage || strings.errors.required),
           })}
@@ -120,6 +122,7 @@ Select.propTypes = {
     hasEnhancedUI: PropTypes.bool,
     errorMessage: PropTypes.string,
     type: PropTypes.string,
+    autoComplete: PropTypes.string,
   }),
   register: PropTypes.func,
   wrapProps: PropTypes.object,

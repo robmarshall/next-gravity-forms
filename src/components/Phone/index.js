@@ -10,7 +10,8 @@ import { InputMask, format } from "@react-input/mask";
 
 const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
-  const { phoneFormat, isRequired, type, size, errorMessage } = fieldData;
+  const { phoneFormat, isRequired, type, size, errorMessage, autoComplete } =
+    fieldData;
 
   const isStandard = "standard" === valueToLowerCase(phoneFormat);
   const mask = {
@@ -53,6 +54,7 @@ const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
                 type={"text"}
                 {...mask}
                 showMask={!!value}
+                autoComplete={autoComplete}
               />
             ) : (
               <Input
@@ -90,6 +92,7 @@ PhoneField.propTypes = {
     defaultValue: PropTypes.string,
     errorMessage: PropTypes.string,
     phoneFormat: PropTypes.string,
+    autoComplete: PropTypes.string,
   }),
   value: PropTypes.string,
   name: PropTypes.string,

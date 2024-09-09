@@ -15,6 +15,7 @@ const Email = ({ fieldData, name, labelFor, ...wrapProps }) => {
     subLabelPlacement,
     size,
     errorMessage,
+    hasAutocomplete,
   } = fieldData;
   const [emailField, confirmEmailField] = inputs || [];
   const { strings } = useSettings();
@@ -64,6 +65,11 @@ const Email = ({ fieldData, name, labelFor, ...wrapProps }) => {
           })}
           labelFor={labelFor}
           placeholder={emailField?.placeholder || placeholder}
+          autoComplete={
+            hasAutocomplete && emailField?.autocompleteAttribute
+              ? emailField.autocompleteAttribute
+              : undefined
+          }
         />
       </ConditionalWrapper>
 
@@ -90,6 +96,11 @@ const Email = ({ fieldData, name, labelFor, ...wrapProps }) => {
               },
             })}
             placeholder={confirmEmailField?.placeholder || placeholder}
+            autoComplete={
+              hasAutocomplete && confirmEmailField?.autocompleteAttribute
+                ? confirmEmailField.autocompleteAttribute
+                : undefined
+            }
           />
         </SubLabelWrapper>
       )}
@@ -109,6 +120,7 @@ Email.propTypes = {
     subLabelPlacement: PropTypes.string,
     inputs: PropTypes.array,
     errorMessage: PropTypes.string,
+    hasAutocomplete: PropTypes.bool,
   }),
   value: PropTypes.string,
   name: PropTypes.string,
