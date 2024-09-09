@@ -24,7 +24,7 @@ const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
     formState: { errors },
   } = useFormContext();
 
-  const describedBy = name?.replace("input_", "gfield_description_");
+  const describedBy = `gfield_description_${labelFor?.replace("name_", "")}`;
 
   return (
     <InputWrapper
