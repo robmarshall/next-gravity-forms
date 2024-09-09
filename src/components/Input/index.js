@@ -35,7 +35,7 @@ const InputField = ({ fieldData, name, labelFor, ...wrapProps }) => {
     <InputWrapper
       errors={errors?.[name] || {}}
       inputData={fieldData}
-      labelFor={labelFor}
+      labelFor={type !== "HIDDEN" && labelFor}
       {...wrapProps}
     >
       <Input

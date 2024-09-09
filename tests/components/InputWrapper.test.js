@@ -174,4 +174,27 @@ describe("InputWrapper", () => {
       }
     });
   });
+
+  it("does not render label for the hidden field", async () => {
+    const { baseElement } = renderGravityForm({
+      data: {
+        gfForm: {
+          formFields: {
+            nodes: [
+              {
+                id: 9,
+                label: "Hidden",
+                type: "HIDDEN",
+                isRequired: true,
+              },
+            ],
+          },
+        },
+      },
+    });
+
+    const labelElements = baseElement.querySelectorAll("label");
+
+    expect(labelElements.length).toBe(0);
+  });
 });
