@@ -7,7 +7,7 @@ const Input = forwardRef(function Input(
   { fieldData, defaultValue, errors, name, labelFor, ...props },
   ref
 ) {
-  const { isRequired, maxLength, placeholder, type } = fieldData;
+  const { isRequired, maxLength, placeholder, type, autoComplete } = fieldData;
 
   // substr default value if there is maxLength set
   const defaultFieldValue =
@@ -29,6 +29,7 @@ const Input = forwardRef(function Input(
       name={name}
       placeholder={placeholder}
       type={valueToLowerCase(type)}
+      autoComplete={autoComplete}
       {...props}
     />
   );
@@ -44,6 +45,7 @@ Input.propTypes = {
     isRequired: PropTypes.bool,
     type: PropTypes.string,
     size: PropTypes.string,
+    autoComplete: PropTypes.string,
   }),
   name: PropTypes.string,
   labelFor: PropTypes.string,
