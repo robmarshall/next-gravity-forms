@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { Controller, useFormContext } from "react-hook-form";
@@ -10,7 +10,7 @@ import { InputMask, format } from "@react-input/mask";
 
 const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
-  const { phoneFormat, isRequired, type, size, errorMessage, autoComplete } =
+  const { phoneFormat, isRequired, size, errorMessage, autoComplete } =
     fieldData;
 
   const isStandard = "standard" === valueToLowerCase(phoneFormat);
@@ -22,6 +22,7 @@ const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const {
     control,
     formState: { errors },
+    resetField,
   } = useFormContext();
 
   const describedBy = `gfield_description_${labelFor?.replace("name_", "")}`;
@@ -36,41 +37,51 @@ const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
       <Controller
         name={name}
         control={control}
-        render={({ field: { onChange, value, ref } }) => (
-          <>
-            {isStandard ? (
-              <InputMask
-                className={classnames(valueToLowerCase(size), {
-                  gform_hidden: type === "HIDDEN",
-                })}
-                onChange={onChange}
-                defaultValue={value && isStandard ? format(value, mask) : value}
-                id={labelFor}
-                ref={ref}
-                name={name}
-                aria-invalid={Boolean(errors?.[name])}
-                aria-required={isRequired}
-                aria-describedby={describedBy}
-                type={"text"}
-                {...mask}
-                showMask={!!value}
-                autoComplete={autoComplete}
-              />
-            ) : (
-              <Input
-                fieldData={{ ...fieldData, type: "tel" }}
-                className={classnames(valueToLowerCase(size), {
-                  gform_hidden: type === "HIDDEN",
-                })}
-                onChange={onChange}
-                defaultValue={value && isStandard ? format(value, mask) : value}
-                errors={errors}
-                labelFor={labelFor}
-                ref={ref}
-              />
-            )}
-          </>
-        )}
+        render={({ field: { onChange, value, ref } }) => {
+          const [detail, setDetail] = useState(null);
+
+          return (
+            <>
+              {isStandard ? (
+                <InputMask
+                  className={classnames(valueToLowerCase(size))}
+                  defaultValue={
+                    value && isStandard ? format(value, mask) : value
+                  }
+                  id={labelFor}
+                  ref={ref}
+                  name={name}
+                  aria-invalid={Boolean(errors?.[name])}
+                  aria-required={isRequired}
+                  aria-describedby={describedBy}
+                  type="text"
+                  {...mask}
+                  showMask={!!value}
+                  autoComplete={autoComplete}
+                  onChange={onChange}
+                  onBlur={() => {
+                    if (detail?.input && !detail.isValid) {
+                      resetField(name);
+                    }
+                  }}
+                  onMask={(event) => setDetail(event.detail)}
+                />
+              ) : (
+                <Input
+                  fieldData={{ ...fieldData, type: "tel" }}
+                  className={classnames(valueToLowerCase(size))}
+                  onChange={onChange}
+                  defaultValue={
+                    value && isStandard ? format(value, mask) : value
+                  }
+                  errors={errors}
+                  labelFor={labelFor}
+                  ref={ref}
+                />
+              )}
+            </>
+          );
+        }}
         rules={{
           required: isRequired && (errorMessage || strings.errors.required),
         }}
