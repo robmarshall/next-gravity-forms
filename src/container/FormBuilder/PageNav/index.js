@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useEffect } from "react";
+import React from "react";
 import SubmitButton from "../../../components/Submit";
 import { array, bool, func, number, object, string } from "prop-types";
 import useResetPage from "./useResetPage";
