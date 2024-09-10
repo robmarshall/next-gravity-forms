@@ -2,6 +2,7 @@ import React from "react";
 import { useSettings } from "../../providers/SettingsContext";
 import { useFormContext } from "react-hook-form";
 import { checkConditionalRendering } from "../InputWrapper/helpers";
+import classNames from "classnames";
 
 const SubmitButton = () => {
   const {
@@ -11,7 +12,7 @@ const SubmitButton = () => {
     strings,
   } = useSettings();
 
-  const { text, conditionalLogic } = submitButton || {};
+  const { text, conditionalLogic, width } = submitButton || {};
 
   const { watch, formFields } = useFormContext();
 
@@ -24,7 +25,10 @@ const SubmitButton = () => {
 
   return (
     <button
-      className="gravityform__button gform_button button"
+      className={classNames(
+        "gravityform__button gform_button button",
+        width === "FULL" && "gform-button--width-full"
+      )}
       id={`gform_submit_button_${databaseId}`}
       type="submit"
       style={isHidden ? { display: "none" } : undefined}

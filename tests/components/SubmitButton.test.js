@@ -33,6 +33,22 @@ describe("Submit button", () => {
     expect(screen.getByText("Submit")).toBeInTheDocument();
   });
 
+  it("adds correct class names", async () => {
+    renderGravityForm({
+      data: {
+        gfForm: {
+          formFields: { nodes: fields },
+          submitButton: { width: "FULL" },
+        },
+      },
+    });
+
+    // submit button has correct text
+    expect(
+      screen.getByText("Submit").className.includes("gform-button--width-full")
+    );
+  });
+
   it("possible to override the default text", async () => {
     renderGravityForm({
       data: {

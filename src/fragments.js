@@ -35,4 +35,5 @@ export const submitButtonFragment = /* GraphQL */ `
   imageUrl
   text
   type
+  width
 `;
