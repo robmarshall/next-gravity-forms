@@ -6,7 +6,25 @@ import { valueToLowerCase } from "../../utils/helpers";
 import InputWrapper from "../InputWrapper";
 import { Input } from "../General";
 import { useSettings } from "../../providers/SettingsContext";
-import { InputMask, format } from "@react-input/mask";
+import { InputMask, format, generatePattern } from "@react-input/mask";
+
+const mask = {
+  mask: "(___) ___-____",
+  replacement: { _: /\d/ },
+};
+
+export const formatValue = (value) => {
+  const pattern = generatePattern(mask);
+
+  const val = format(value, mask);
+
+  // default value can be only set when value is complete and matches pattern
+  if (new RegExp(pattern).test(val)) {
+    return val;
+  }
+
+  return "";
+};
 
 const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { strings } = useSettings();
@@ -14,10 +32,6 @@ const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
     fieldData;
 
   const isStandard = "standard" === valueToLowerCase(phoneFormat);
-  const mask = {
-    mask: "(___) ___-____",
-    replacement: { _: /\d/ },
-  };
 
   const {
     control,
@@ -36,18 +50,17 @@ const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
     >
       <Controller
         name={name}
+        defaultValue=""
         control={control}
-        render={({ field: { onChange, value, ref } }) => {
+        render={({ field: { value, ref, ...rest } }) => {
           const [detail, setDetail] = useState(null);
+          const [showMask, setShowMask] = useState(false);
 
           return (
             <>
               {isStandard ? (
                 <InputMask
                   className={classnames(valueToLowerCase(size))}
-                  defaultValue={
-                    value && isStandard ? format(value, mask) : value
-                  }
                   id={labelFor}
                   ref={ref}
                   name={name}
@@ -56,12 +69,17 @@ const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
                   aria-describedby={describedBy}
                   type="text"
                   {...mask}
-                  showMask={!!value}
+                  showMask={showMask}
+                  value={value}
                   autoComplete={autoComplete}
-                  onChange={onChange}
+                  {...rest}
+                  onFocus={() => setShowMask(true)}
                   onBlur={() => {
+                    setShowMask(false);
+
                     if (detail?.input && !detail.isValid) {
-                      resetField(name);
+                      resetField(name, "");
+                      setDetail(null);
                     }
                   }}
                   onMask={(event) => setDetail(event.detail)}
@@ -70,13 +88,11 @@ const PhoneField = ({ fieldData, name, labelFor, ...wrapProps }) => {
                 <Input
                   fieldData={{ ...fieldData, type: "tel" }}
                   className={classnames(valueToLowerCase(size))}
-                  onChange={onChange}
-                  defaultValue={
-                    value && isStandard ? format(value, mask) : value
-                  }
+                  defaultValue={value}
                   errors={errors}
                   labelFor={labelFor}
                   ref={ref}
+                  {...rest}
                 />
               )}
             </>

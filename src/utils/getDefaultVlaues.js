@@ -3,6 +3,7 @@ import { getDateDefaultValue } from "../components/Date/FieldDropdown";
 import { getDatePickerDefaultValue } from "../components/Date/Picker";
 import { getNameDefaultValue } from "../components/Name/helpers";
 import { formatValue as formatCurrencyValue } from "../components/Number/helpers";
+import { formatValue } from "../components/Phone";
 import { getSelectDefaultValue } from "../components/Select/helpers";
 import { getSelectionListDefaultValue } from "../components/SelectorList/helpers";
 import { getSettings } from "../providers/SettingsContext";
@@ -26,6 +27,7 @@ function getDefaultValues(fields, presetValues, helpers) {
       dateType,
       hasOtherChoice,
       numberFormat,
+      phoneFormat,
     }) => {
       const inputName = `input_${id}`;
 
@@ -38,7 +40,6 @@ function getDefaultValues(fields, presetValues, helpers) {
       const simpleFieldTypes = [
         "DATE",
         "HIDDEN",
-        "PHONE",
         "POSTCONTENT",
         "POSTEXCERPT",
         "POSTTITLE",
@@ -52,6 +53,14 @@ function getDefaultValues(fields, presetValues, helpers) {
 
       if (simpleFieldTypes.includes(type) && defaultValue) {
         values[inputName] = defaultValue;
+      }
+
+      if (type === "PHONE" && defaultValue) {
+        if (phoneFormat === "STANDARD") {
+          values[inputName] = formatValue(defaultValue);
+        } else {
+          values[inputName] = defaultValue;
+        }
       }
 
       // Special handling for EMAIL type with inputs
