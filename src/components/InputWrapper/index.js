@@ -6,6 +6,7 @@ import { outputDescription } from "../../utils/inputSettings";
 import { useSettings } from "../../providers/SettingsContext";
 import { getLabelAndWrapperComponents } from "./helpers";
 import classNames from "classnames";
+import ErrorMessage from "../General/ErrorMessage";
 
 const InputWrapper = ({
   children,
@@ -61,6 +62,7 @@ const InputWrapper = ({
       {description &&
         valueToLowerCase(descPlacement) == "above" &&
         outputDescription(description, wrapId)}
+
       <div
         id={classNames(Label === "legend" && `${labelFor}_container`)} // only set an id when there are child elements like options
         className={classnames(
@@ -76,13 +78,9 @@ const InputWrapper = ({
         outputDescription(description, wrapId)}
 
       {isNonEmptyObject(errors) && (
-        <div
-          aria-live="polite"
-          id={`validation_message_${id}`}
-          className="gfield_description validation_message gfield_validation_message"
-          dangerouslySetInnerHTML={{
-            __html: errorMessage ? errorMessage : errors.message,
-          }}
+        <ErrorMessage
+          errorMessage={errorMessage ? errorMessage : errors.message}
+          id={id}
         />
       )}
     </Wrapper>

@@ -47,6 +47,8 @@ const FieldBuilder = ({
       type,
       visibility,
       conditionalLogic,
+      hasAutocomplete,
+      autocompleteAttribute,
     } = field;
 
     const isHidden = checkConditionalRendering(
@@ -55,10 +57,16 @@ const FieldBuilder = ({
       formFields
     );
 
+    const autoComplete =
+      hasAutocomplete && autocompleteAttribute
+        ? autocompleteAttribute
+        : undefined;
+
     const fieldData = {
       ...field,
       isRequired: field.isRequired && !isHidden,
       isHidden,
+      autoComplete,
     };
 
     const inputWrapperClass = classnames(

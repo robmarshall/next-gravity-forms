@@ -8,7 +8,13 @@ import { interpolateString } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
 
 const Name = ({ fieldData, name, labelFor, ...wrapProps }) => {
-  const { inputs, subLabelPlacement, errorMessage, isRequired } = fieldData;
+  const {
+    inputs,
+    subLabelPlacement,
+    errorMessage,
+    isRequired,
+    hasAutocomplete,
+  } = fieldData;
   const { gfId } = wrapProps;
 
   const { strings } = useSettings();
@@ -37,8 +43,16 @@ const Name = ({ fieldData, name, labelFor, ...wrapProps }) => {
           );
 
           return fieldInputs.map(
-            ({ key, id, choices, placeholder, ...rest }, i) => {
+            (
+              { key, id, choices, placeholder, autocompleteAttribute, ...rest },
+              i
+            ) => {
               const fieldId = `input_${gfId}_${id}`;
+              const autoComplete =
+                hasAutocomplete && autocompleteAttribute
+                  ? autocompleteAttribute
+                  : undefined;
+
               return (
                 <SubLabelWrapper
                   key={key}
@@ -57,6 +71,7 @@ const Name = ({ fieldData, name, labelFor, ...wrapProps }) => {
                         onChange({ ...value, [key]: e.target.value })
                       }
                       ref={i === indexWithoutValue ? ref : undefined}
+                      autoComplete={autoComplete}
                     >
                       <option value></option>
                       {choices.map(({ text, value }, index) => {
@@ -82,6 +97,7 @@ const Name = ({ fieldData, name, labelFor, ...wrapProps }) => {
                         onChange({ ...value, [key]: e.target.value })
                       }
                       ref={i === indexWithoutValue ? ref : undefined}
+                      autoComplete={autoComplete}
                     />
                   )}
                 </SubLabelWrapper>
@@ -121,6 +137,7 @@ Name.propTypes = {
     inputs: PropTypes.array,
     subLabelPlacement: PropTypes.string,
     errorMessage: PropTypes.string,
+    hasAutocomplete: PropTypes.bool,
   }),
   name: PropTypes.string,
   labelFor: PropTypes.string,

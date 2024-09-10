@@ -325,6 +325,9 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [ ] Captcha
 - [x] Consent
 - [x] Website
+- [x] Phone
+- [x] Page
+- [x] Date
 
 ## Confirmations
 
@@ -337,6 +340,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 ## Known Issues
 
 - [ ] Invalid phone number results in failed submission w/ non-descript general error message.
+- [ ] Setting the Submit Button Location to 'End of the Last Row' causes a fetch API error, as GraphQL doesn't support it yet.
 
 ```
 
