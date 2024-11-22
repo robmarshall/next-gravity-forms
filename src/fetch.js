@@ -24,7 +24,7 @@ async function fetchAPI(body, { baseUrl, isMultipart } = {}) {
   return json.data;
 }
 
-export async function submitGravityForm({ id, fieldValues }) {
+export async function submitGravityForm({ id, fieldValues, baseUrl }) {
   const isFileUpload = fieldValues.some((field) =>
     field.hasOwnProperty("fileUploadValues")
   );
@@ -38,13 +38,13 @@ export async function submitGravityForm({ id, fieldValues }) {
         variables: { id, fieldValues },
       },
       {
-        baseUrl: process?.env?.NEXT_PUBLIC_WORDPRESS_FORM_SUBMIT_URL,
+        baseUrl: baseUrl || process?.env?.NEXT_PUBLIC_WORDPRESS_FORM_SUBMIT_URL,
       }
     );
   }
 }
 
-async function submitFormWithFile({ id, fieldValues }) {
+async function submitFormWithFile({ id, fieldValues, baseUrl }) {
   const formData = new FormData();
   const operations = {
     query: submitMutationQuery,
@@ -79,7 +79,7 @@ async function submitFormWithFile({ id, fieldValues }) {
   formData.append("map", JSON.stringify(fileMap));
 
   return fetchAPI(formData, {
-    baseUrl: process?.env?.NEXT_PUBLIC_WORDPRESS_FORM_SUBMIT_URL,
+    baseUrl: baseUrl || process?.env?.NEXT_PUBLIC_WORDPRESS_FORM_SUBMIT_URL,
     isMultipart: true,
   });
 }

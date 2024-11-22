@@ -36,6 +36,7 @@ const GravityFormForm = forwardRef(
       helperText = {},
       helperFieldsSettings = {},
       customFormFields = {},
+      baseUrl,
     },
     ref
   ) => {
@@ -125,6 +126,7 @@ const GravityFormForm = forwardRef(
             const submitRes = await submitGravityForm({
               id: databaseId,
               fieldValues: formRes,
+              baseUrl
             });
 
             if (

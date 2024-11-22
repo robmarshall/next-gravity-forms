@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import { gravityFormQuery } from "../query";
 export * from "../query";
 
@@ -27,8 +26,8 @@ async function fetchAPI(query, { baseUrl, variables } = {}) {
   return json.data;
 }
 
-export async function getGravityForm(id) {
-  const data = await fetchAPI(gravityFormQuery, { variables: { id } });
+export async function getGravityForm(id, baseUrl) {
+  const data = await fetchAPI(gravityFormQuery, { baseUrl, variables: { id } });
 
   return data;
 }
