@@ -7,6 +7,7 @@ import generatePackageJson from "@lomray/rollup-plugin-generate-package-json-v2"
 import copy from "rollup-plugin-copy";
 import pkg from "./package.json" assert { type: "json" };
 import polyfills from 'rollup-plugin-node-polyfills'
+import globals from 'rollup-plugin-node-globals'
 
 export default {
   input: "src/index.js",
@@ -38,6 +39,7 @@ export default {
     resolve({ preferBuiltins: false }),
     commonjs({ preferBuiltins: false }),
     polyfills(),
+    globals(),
     terser(),
     copy({
       targets: [{ src: "README.md", dest: "dist" }],
