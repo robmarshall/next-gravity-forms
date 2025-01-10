@@ -7,7 +7,7 @@ export * from "../query";
  */
 async function fetchAPI(query, { baseUrl, variables } = {}) {
   const res = await fetch(
-    baseUrl || process.env?.NEXT_PUBLIC_WORDPRESS_API_URL,
+    baseUrl || process.env.NEXT_PUBLIC_WORDPRESS_API_URL,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
