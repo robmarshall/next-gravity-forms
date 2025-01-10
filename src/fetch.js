@@ -12,7 +12,7 @@ async function fetchAPI(body, { baseUrl, isMultipart } = {}) {
   };
 
   const res = await fetch(
-    baseUrl || process?.env?.NEXT_PUBLIC_WORDPRESS_API_URL,
+    baseUrl || process.env?.NEXT_PUBLIC_WORDPRESS_API_URL,
     requestOptions
   );
   const json = await res.json();
@@ -38,7 +38,7 @@ export async function submitGravityForm({ id, fieldValues }) {
         variables: { id, fieldValues },
       },
       {
-        baseUrl: process?.env?.NEXT_PUBLIC_WORDPRESS_FORM_SUBMIT_URL,
+        baseUrl: process.env?.NEXT_PUBLIC_WORDPRESS_FORM_SUBMIT_URL,
       }
     );
   }
@@ -79,7 +79,7 @@ async function submitFormWithFile({ id, fieldValues }) {
   formData.append("map", JSON.stringify(fileMap));
 
   return fetchAPI(formData, {
-    baseUrl: process?.env?.NEXT_PUBLIC_WORDPRESS_FORM_SUBMIT_URL,
+    baseUrl: process.env?.NEXT_PUBLIC_WORDPRESS_FORM_SUBMIT_URL,
     isMultipart: true,
   });
 }
