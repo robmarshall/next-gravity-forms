@@ -21,6 +21,7 @@ import { useFormContext } from "react-hook-form";
 import { checkConditionalRendering } from "../../components/InputWrapper/helpers";
 import Number from "../../components/Number";
 import Consent from "../../components/Consent";
+import Password from "../../components/Password";
 
 const FieldBuilder = ({
   databaseId,
@@ -171,6 +172,8 @@ const FieldBuilder = ({
         return <Honeypot key={id} {...props} />;
       case "CONSENT":
         return <Consent key={id} {...props} />;
+      case "PASSWORD":
+        return <Password key={id} {...props} />;
       default:
         return null;
     }

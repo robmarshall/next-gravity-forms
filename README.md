@@ -302,6 +302,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Email
 - [x] Consent
 - [x] Website
+- [x] Password
 - [ ] Configure error message (currently just 'An Unknown Error Occurred')
 - [ ] Integrate Success/Failure Handler from previous plugin
 
@@ -328,6 +329,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Phone
 - [x] Page
 - [x] Date
+- [] Password (almost done, test can be tweaked)
 
 ## Confirmations
 
@@ -341,6 +343,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 
 - [ ] Invalid phone number results in failed submission w/ non-descript general error message.
 - [ ] Setting the Submit Button Location to 'End of the Last Row' causes a fetch API error, as GraphQL doesn't support it yet.
+- [ ] Password confirmation doesn't work with `wp-graphql-gravity-forms` version `0.13.0.1` and earlier. To fix this, add a copy of the general password value as the `input_2` value in the $\_POST submission.
 
 ```
 

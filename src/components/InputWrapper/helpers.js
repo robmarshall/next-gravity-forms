@@ -163,6 +163,11 @@ export const getLabelAndWrapperComponents = (type, inputs, choices) => {
       Label: childLength > 1 ? "legend" : "label",
       Wrapper: childLength > 1 ? "fieldset" : "div",
     },
+    PASSWORD: {
+      Label: inputs?.filter((i) => !i.isHidden).length > 1 ? "legend" : "label",
+      Wrapper:
+        inputs?.filter((i) => !i.isHidden).length > 1 ? "fieldset" : "div",
+    },
   };
 
   return (
