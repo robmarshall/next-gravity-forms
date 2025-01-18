@@ -6,6 +6,7 @@ const strings = {
     unknownError: "An unknown error occured.",
     required: "This field is required.",
     emailsDontmatch: "Your emails do not match.",
+    passwordsDontmatch: "Your passwords do not match.",
     wrongRangeMin: "Please enter a number greater than or equal to {{min}}.",
     wrongRangeMax: "Please enter a number less than or equal to {{max}}.",
     wrongRangeBoth: "Please enter a number from {{min}} to {{max}}.",
@@ -98,6 +99,21 @@ const strings = {
       drop: "Drop files here or ",
       select: "Select files",
     },
+  },
+  password: {
+    strength: {
+      blank: "Strength indicator",
+      short: "Very weak",
+      bad: "Weak",
+      good: "Medium",
+      strong: "Strong",
+    },
+    visibilityToggle: {
+      show: "Show Password",
+      hide: "Hide Password",
+    },
+    minStrength:
+      'Your password does not meet the required strength. </br> Hint: To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ %% ^ & ).',
   },
   loading: "Loading...",
   submit: "Submit",

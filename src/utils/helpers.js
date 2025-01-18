@@ -65,3 +65,7 @@ export const isInternalLink = (url) => {
   const currentOrigin = window.location.origin;
   return url.startsWith(currentOrigin) || url.startsWith("/");
 };
+
+export function getKeyByValue(object, value) {
+  return Object.keys(object).find((key) => object[key] === value);
+}
