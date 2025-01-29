@@ -65,17 +65,18 @@ const Password = ({ fieldData, name, labelFor, ...wrapProps }) => {
         control={control}
         rules={{
           required: isRequired && (errorMessage || strings.errors.required),
-          ...(hasPasswordStrengthIndicator && {
-            validate: (value) => {
-              const result = zxcvbn(value || "");
-              const requiredScore =
-                strengthLevels[valueToLowerCase(minPasswordStrength)] || 0;
+          ...(hasPasswordStrengthIndicator &&
+            isRequired && {
+              validate: (value) => {
+                const result = zxcvbn(value || "");
+                const requiredScore =
+                  strengthLevels[valueToLowerCase(minPasswordStrength)] || 0;
 
-              return (
-                result.score >= requiredScore || strings.password.minStrength
-              );
-            },
-          }),
+                return (
+                  result.score >= requiredScore || strings.password.minStrength
+                );
+              },
+            }),
         }}
         render={({ field: { onChange, value, ref } }) => {
           const [eyeVisibility, setEyeVisibility] = useState({
@@ -148,8 +149,10 @@ const Password = ({ fieldData, name, labelFor, ...wrapProps }) => {
                     labelFor={`${labelFor}_2`}
                     {...register(`${name}_2`, {
                       validate: (val) => {
+                        const pass1 = watch(name);
                         return (
-                          watch(name) === val ||
+                          !pass1 ||
+                          pass1 === val ||
                           strings.errors.passwordsDontmatch
                         );
                       },
