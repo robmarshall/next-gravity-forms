@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import InputWrapper from "../InputWrapper";
@@ -6,12 +6,18 @@ import classnames from "classnames";
 import { useSettings } from "../../providers/SettingsContext";
 
 const Honeypot = ({ gfId, wrapClassName, fieldData, labelFor }) => {
-  const labels = ["Name", "Email", "Phone", "Comments"];
-  const label = labels[Math.floor(Math.random() * Math.floor(4))];
   const name = `input_${gfId}`;
 
   const { register } = useFormContext();
   const { databaseId, strings } = useSettings();
+
+  const [label, setLabel] = useState(""); // Empty by default
+
+  useEffect(() => {
+    const labels = ["Name", "Email", "Phone", "Comments"];
+    const randomIndex = Math.floor(Math.random() * labels.length);
+    setLabel(labels[randomIndex]);
+  }, []);
 
   return (
     <InputWrapper
