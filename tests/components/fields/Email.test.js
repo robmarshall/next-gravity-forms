@@ -52,37 +52,48 @@ describe("Email field", () => {
     expect(element).toBeInTheDocument();
   });
 
-  it("submits form when value is correct", async () => {
-    const { container } = renderGravityForm({
-      data: {
-        gfForm: { formFields: { nodes: [field] } },
-      },
-    });
+  const emailCases = [
+    "test@test.com",
+    "test+plus@test.com",
+    "hello@my.kitchen",
+    "test@abc.de",
+    "test@business.online",
+    "test+test@example.info",
+  ];
 
-    fireEvent.input(screen.getByLabelText(/Email/i), {
-      target: {
-        value: "test@test.com",
-      },
-    });
-    await act(async () => {
-      fireEvent.submit(screen.getByRole("button"));
-    });
-
-    expect(submitGravityForm).toBeCalledWith({
-      id: mockFormData.gfForm.databaseId,
-      fieldValues: [
-        {
-          emailValues: {
-            value: "test@test.com",
-          },
-          id: field.id,
+  describe("submits form when value is correct", () => {
+    test.each(emailCases)("given %p", async (email) => {
+      const { container } = renderGravityForm({
+        data: {
+          gfForm: { formFields: { nodes: [field] } },
         },
-      ],
-    });
+      });
 
-    expect(
-      container.querySelector(`.gravityform__error_message`)
-    ).not.toBeInTheDocument();
+      fireEvent.input(screen.getByLabelText(/Email/i), {
+        target: {
+          value: email,
+        },
+      });
+      await act(async () => {
+        fireEvent.submit(screen.getByRole("button"));
+      });
+
+      expect(submitGravityForm).toBeCalledWith({
+        id: mockFormData.gfForm.databaseId,
+        fieldValues: [
+          {
+            emailValues: {
+              value: email,
+            },
+            id: field.id,
+          },
+        ],
+      });
+
+      expect(
+        container.querySelector(`.gravityform__error_message`)
+      ).not.toBeInTheDocument();
+    });
   });
 
   describe("render errors", () => {
@@ -108,11 +119,27 @@ describe("Email field", () => {
 
       expect(submitGravityForm).not.toBeCalled();
     });
+  });
 
-    it("should display invalid email error when value is not valid", async () => {
+  const invalidEmails = ["test", "test@a.b"];
+
+  describe("should display invalid email error when value is not valid", () => {
+    let container;
+    let element;
+    beforeEach(() => {
+      const rendered = renderGravityForm({
+        data: {
+          gfForm: { formFields: { nodes: [field] } },
+        },
+      });
+      container = rendered.container;
+
+      element = container.querySelector(`#${fieldId}`);
+    });
+    test.each(invalidEmails)("given %p", async (email) => {
       fireEvent.input(screen.getByLabelText(/Email/i), {
         target: {
-          value: "test",
+          value: email,
         },
       });
 
@@ -126,8 +153,6 @@ describe("Email field", () => {
 
       expect(submitGravityForm).not.toBeCalled();
     });
-
-    // it("should display error when confirmation email is set and emails don't match", async () => {});
   });
 
   // renders confirmation email

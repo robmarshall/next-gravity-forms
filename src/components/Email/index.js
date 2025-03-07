@@ -56,7 +56,8 @@ const Email = ({ fieldData, name, labelFor, ...wrapProps }) => {
           {...register(name, {
             required: isRequired && (errorMessage || strings.errors.required),
             pattern: {
-              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              value:
+                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
               message: getFieldError(
                 { ...fieldData, inputMaskValue: true },
                 strings
