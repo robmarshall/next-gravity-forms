@@ -195,15 +195,17 @@ As you probably know, the Number field has an option to set the currency format.
 />
 ```
 
-## Exposed methods
+## 🔧 Exposed Methods
 
-We expose several `react-hook-form` methods for flexible form management.
+This component exposes several `react-hook-form` methods via a `ref` to allow advanced and flexible form management:
 
-- `setError(name, error)` - Set an error for a field.
-- `reset()` - Reset the form.
-- `getValues(name)` - Get the value of a field or all values.
-- `setValue(name, value)` - Set the value of a field.
-- `watch(name)` - Watch for changes to a field.
+- `setError(name, error)` — Set an error for a specific field.
+- `reset()` — Reset the form to its initial state.
+- `getValues(name?)` — Get the current value of a specific field or all form values.
+- `setValue(name, value)` — Programmatically set the value of a field.
+- `watch(name?)` — Get the current value of a specific field or all values.
+- `resetField(name)` — Reset field value.
+  ⚠️ **Note:** `watch()` is not reactive when used via ref. See subscriptions below to react to changes.
 
 ```jsx
 const GravityForm = ({ data }) => {
@@ -221,8 +223,43 @@ const GravityForm = ({ data }) => {
     </div>
   );
 };
-
 export default GravityForm;
+```
+
+---
+
+## 📡 Subscriptions
+
+To **reactively track field changes**, we provide subscription methods that allow parent components to listen for updates.
+
+> 🧠 **Why use subscriptions?**
+> Calling `watch()` via a `ref` only gives you the current value **once** and does **not** update when the form changes.
+> To react to value changes, you need to **subscribe** using the form's internal observer.
+
+### ✅ `subscribeToField(name, callback)`
+
+Subscribes to changes of a **specific field** and calls the `callback` when that field's value changes.
+
+```jsx
+useEffect(() => {
+  const unsubscribe = formRef.current.subscribeToField(
+    "input_1",
+    (newValue) => {
+      console.log(newValue);
+    }
+  );
+  return unsubscribe;
+}, []);
+```
+
+### ✅ `subscribeToAllValues(callback)`
+
+Subscribes to changes in **any form field**. The provided `callback` is called with the latest form values whenever **any field changes**.
+
+```jsx
+const unsubscribe = ref.current.subscribeToAllValues((values) => {
+  console.log("Form values changed:", values);
+});
 ```
 
 ## Custom Form Fields
