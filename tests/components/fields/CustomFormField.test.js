@@ -1,6 +1,6 @@
 import renderGravityForm from "../render";
 import React, { createRef } from "react";
-import { screen, fireEvent, act } from "@testing-library/react";
+import { screen, fireEvent, act, waitFor } from "@testing-library/react";
 import { submitGravityForm } from "../../../src/fetch";
 
 // mock submit so we don't run real request
@@ -66,5 +66,19 @@ describe("Custom field (markup)", () => {
     expect(methods).toContain("reset");
     expect(methods).toContain("setError");
     expect(methods).toContain("getValues");
+    expect(methods).toContain("resetField");
+    expect(methods).toContain("subscribeToField");
+    expect(methods).toContain("subscribeToAllValues");
+
+    const callback = jest.fn();
+    const unsubscribe = formRef.current.subscribeToField("testField", callback);
+
+    formRef.current.setValue("testField", "Hello World");
+
+    await waitFor(() => {
+      expect(callback).toHaveBeenCalledWith("Hello World");
+    });
+
+    unsubscribe();
   });
 });
