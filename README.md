@@ -264,33 +264,74 @@ const unsubscribe = ref.current.subscribeToAllValues((values) => {
 
 ## Custom Form Fields
 
-Sometimes you may need to render custom markup for specific fields. You can achieve this by using the `customFormFields` property. See the example below:
+You can override the markup of specific fields by passing custom components via the `customFormFields` prop. This is necessary because the `gform_field_content` hook does not apply when using this package.
 
 ```jsx
-<GravityFormForm data={form} customFormFields={{ 1: CustomInputComponent }} />
+<GravityFormForm
+  data={form}
+  customFormFields={{
+    1: CustomInputComponent,
+    2: IbanComponent,
+  }}
+/>
 ```
 
-By specifying the field ID that you want to override, you can pass your custom component. Note that your custom component must utilize the methods provided by react-hook-form, as it is registered using the [Controller](https://react-hook-form.com/docs/usecontroller/controller) component.
+Each key corresponds to the field ID you want to override.
 
-Example of your custom component:
+---
+
+### Custom Component Example
 
 ```jsx
 const CustomInputComponent = ({ value, onChange, onBlur, ...rest }) => {
   return (
-    <div className="example">
-      <input
-        type="text"
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        {...rest}
-      />
-    </div>
+    <input
+      type="text"
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      {...rest}
+    />
   );
 };
 ```
 
-Take into account that your field must return the value in the same format as a default field.
+Your component must behave like a controlled field and return values in the same format as the default input.
+
+---
+
+### Validation Rules
+
+You can optionally define validation rules using a static `validation` property on your component.
+
+#### Static Validation
+
+```jsx
+CustomInputComponent.validation = {
+  rules: {
+    required: "This field is required.",
+    maxLength: { value: 20, message: "Max 20 characters." },
+  },
+};
+```
+
+#### Dynamic Validation
+
+```jsx
+IbanComponent.validation = ({ fieldData }) => ({
+  rules: {
+    required: fieldData?.required ? "IBAN is required." : false,
+    validate: (value) => {
+      const stripped = value.replace(/[\s_]/g, "");
+      if (!stripped) return true;
+      return IBANValidator.isValid(stripped) || "Invalid IBAN";
+    },
+  },
+  defaultValue: "",
+});
+```
+
+If `validation` is a function, it will be called with field-related props such as `fieldData`.
 
 ## Testing & Developing
 
