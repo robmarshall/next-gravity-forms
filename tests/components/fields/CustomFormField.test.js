@@ -50,6 +50,64 @@ describe("Custom field (markup)", () => {
     expect(submitGravityForm).toBeCalled();
   });
 
+  it("applies validation rules from component.validation", async () => {
+    const requiredMessage = "Field is required";
+    const customErrorMessage = "Value must be 'valid'";
+
+    // Define custom field with dynamic validation
+    const ValidatedComponent = ({ value, onChange, onBlur, ...rest }) => (
+      <input
+        className="validated-component"
+        type="text"
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        {...rest}
+      />
+    );
+
+    ValidatedComponent.validation = () => ({
+      rules: {
+        required: requiredMessage,
+        validate: (val) => val === "valid" || customErrorMessage,
+      },
+      defaultValue: "",
+    });
+
+    const { container } = renderGravityForm({
+      data: {
+        gfForm: { formFields: { nodes: [{ ...field, id: 2 }] } },
+      },
+      customFormFields: { 2: ValidatedComponent },
+    });
+
+    const input = container.querySelector(".validated-component");
+    expect(input).toBeInTheDocument();
+
+    // Enter an invalid value and submit
+    fireEvent.change(input, { target: { value: "wrong" } });
+
+    await act(async () => {
+      fireEvent.submit(screen.getByRole("button"));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(customErrorMessage)).toBeInTheDocument();
+    });
+
+    // Enter a valid value and submit
+    fireEvent.change(input, { target: { value: "valid" } });
+
+    await act(async () => {
+      fireEvent.submit(screen.getByRole("button"));
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText(customErrorMessage)).not.toBeInTheDocument();
+      expect(submitGravityForm).toBeCalled();
+    });
+  });
+
   it("react-hook-form methods exposed", async () => {
     const formRef = createRef();
     renderGravityForm({

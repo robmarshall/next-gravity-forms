@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import InputWrapper from "../InputWrapper";
 import { Controller } from "react-hook-form";
+import { useSettings } from "../../providers/SettingsContext";
 
 const CustomField = ({
   fieldData,
@@ -19,7 +20,25 @@ const CustomField = ({
     formState: { errors },
   } = useFormContext();
 
+  const { strings } = useSettings();
+
   if (!CustomComponent) return null;
+
+  const { isRequired, errorMessage } = fieldData;
+
+  // check if custom component has validation passed
+  let validationConfig = {};
+  if (typeof CustomComponent?.validation === "function") {
+    validationConfig = CustomComponent.validation({
+      name,
+      fieldData,
+      labelFor,
+      strings,
+      ...wrapProps,
+    });
+  } else if (typeof CustomComponent?.validation === "object") {
+    validationConfig = CustomComponent.validation;
+  }
 
   return (
     <InputWrapper
@@ -31,7 +50,17 @@ const CustomField = ({
       <Controller
         name={name}
         control={control}
-        render={({ field }) => <CustomComponent {...field} ref={null} />}
+        render={({ field }) => (
+          <CustomComponent
+            {...field}
+            field={{ ...fieldData, labelFor, ...wrapProps }}
+            ref={null}
+          />
+        )}
+        rules={{
+          required: isRequired && (errorMessage || strings.errors.required),
+        }}
+        {...validationConfig}
       />
     </InputWrapper>
   );

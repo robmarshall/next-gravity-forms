@@ -41,7 +41,11 @@ const InputWrapper = ({
 
   const { descriptionPlacement: globalPlacement } = form || {};
   const descPlacement =
-    descriptionPlacement !== "INHERIT" ? descriptionPlacement : globalPlacement;
+    descriptionPlacement && descriptionPlacement !== "INHERIT"
+      ? descriptionPlacement
+      : globalPlacement && globalPlacement !== "INHERIT"
+      ? globalPlacement
+      : "BELOW";
 
   return (
     <Wrapper
