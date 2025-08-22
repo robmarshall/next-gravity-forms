@@ -82,5 +82,31 @@ describe("GravityFormForm", () => {
     expect(
       screen.getByText(mockFormData.gfForm.submitButton.text)
     ).toBeInTheDocument();
+
+    // form should have cssClass applied
+    expect(formElement).toHaveClass("custom-form-class");
+    
+    // wrapper should have cssClass with __wrapper suffix
+    const wrapperElement = container.querySelector(".gform_wrapper");
+    expect(wrapperElement).toHaveClass("custom-form-class__wrapper");
+  });
+
+  it("renders form without cssClass when not provided", async () => {
+    const { container } = renderGravityForm({
+      data: {
+        gfForm: { 
+          ...mockFormData.gfForm,
+          cssClass: null 
+        },
+      },
+    });
+    const formElement = container.querySelector("form");
+    const wrapperElement = container.querySelector(".gform_wrapper");
+
+    // form should not have cssClass when not provided
+    expect(formElement).not.toHaveClass("custom-form-class");
+    
+    // wrapper should not have cssClass when not provided
+    expect(wrapperElement).not.toHaveClass("custom-form-class__wrapper");
   });
 });

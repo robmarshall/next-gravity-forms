@@ -56,6 +56,7 @@ const GravityFormForm = forwardRef(
       labelPlacement,
       subLabelPlacement,
       hasHoneypot,
+      cssClass,
     } = form;
 
     // Pull in form functions
@@ -196,7 +197,8 @@ const GravityFormForm = forwardRef(
       <div
         className={classNames(
           "gform_wrapper",
-          generalError && "gform_validation_error"
+          generalError && "gform_validation_error",
+          cssClass && `${cssClass}__wrapper`
         )}
         id={`gform_wrapper_${databaseId}`}
         ref={wrapperRef}
@@ -218,11 +220,12 @@ const GravityFormForm = forwardRef(
           {!confirmation && formFields && (
             <FormProvider {...methods} formFields={formFields}>
               <form
-                className={
-                  loading
-                    ? `gravityform gravityform--loading gravityform--id-${databaseId}`
-                    : `gravityform gravityform--id-${databaseId}`
-                }
+                className={classNames(
+                  "gravityform",
+                  `gravityform--id-${databaseId}`,
+                  loading && "gravityform--loading",
+                  cssClass
+                )}
                 id={`gform_${databaseId}`}
                 key={`gform_-${databaseId}`}
                 onSubmit={handleSubmit(onSubmitCallback)}
