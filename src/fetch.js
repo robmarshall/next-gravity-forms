@@ -30,7 +30,7 @@ export async function submitGravityForm({ id, fieldValues, baseUrl }) {
   );
 
   if (isFileUpload) {
-    return submitFormWithFile({ id, fieldValues });
+    return submitFormWithFile({ id, fieldValues, baseUrl });
   } else {
     return fetchAPI(
       {
