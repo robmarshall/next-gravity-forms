@@ -25,6 +25,7 @@ import { emailFieldFragment } from "./components/Email/query";
 import { fileuploadFieldFragment } from "./components/Fileupload/query";
 import { nameFieldFragment } from "./components/Name/query";
 import { pageFieldFragment } from "./container/FormBuilder/PageNav/query";
+import { passwordFieldFragment } from "./components/Password/query";
 
 export const submitMutationQuery = /* GraphQL */ `
   mutation submitForm($id: ID!, $fieldValues: [FormFieldValuesInput]!) {
@@ -82,6 +83,7 @@ export const gravityFormQuery = /* GraphQL */ `
           ${pageFieldFragment}
           ${consentFieldFragment}
           ${websiteFieldFragment}
+          ${passwordFieldFragment}
         }
       }
       pagination {

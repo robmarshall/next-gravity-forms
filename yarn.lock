@@ -5901,3 +5901,8 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zxcvbn@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/zxcvbn/-/zxcvbn-2.0.1.tgz#8fc2e13c37c7d8b55a31becedccd7fbac94726eb"
+  integrity sha512-lz73mTnxNt4FL8q+b99pzB4VBNOszykTuHtqjwphah1GkFA2fqWWlruA7f4jmrEBryG4Clv5V06H1F6DEnQDuQ==

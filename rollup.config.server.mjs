@@ -4,7 +4,6 @@ import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
 import json from "@rollup/plugin-json";
 import generatePackageJson from "@lomray/rollup-plugin-generate-package-json-v2";
-import pkg from "./package.json" assert { type: "json" };
 import polyfills from 'rollup-plugin-node-polyfills'
 import globals from 'rollup-plugin-node-globals'
 
@@ -36,5 +35,5 @@ export default {
       outputFolder: "dist/server",
     }),
   ],
-  external: Object.keys(pkg.peerDependencies),
+  external: ["react", /^react\/.*/, "react-dom", /react-dom\/.*/],
 };

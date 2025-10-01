@@ -70,8 +70,15 @@ const GravityFormForm = forwardRef(
         settings,
       }),
     });
-    const { handleSubmit, setError, reset, getValues, setValue, watch } =
-      methods;
+    const {
+      handleSubmit,
+      setError,
+      reset,
+      getValues,
+      setValue,
+      watch,
+      resetField,
+    } = methods;
 
     // expose methods to parent
     useImperativeHandle(ref, () => ({
@@ -80,6 +87,19 @@ const GravityFormForm = forwardRef(
       getValues,
       setValue,
       watch,
+      resetField,
+      subscribeToField: (name, callback) => {
+        const subscription = watch((value, { name: changedName }) => {
+          if (name === changedName) callback(value[name]);
+        });
+        return subscription.unsubscribe;
+      },
+      subscribeToAllValues: (callback) => {
+        const subscription = watch((values) => {
+          callback(values);
+        });
+        return subscription.unsubscribe;
+      },
     }));
 
     const [generalError, setGeneralError] = useState("");

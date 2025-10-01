@@ -195,15 +195,17 @@ As you probably know, the Number field has an option to set the currency format.
 />
 ```
 
-## Exposed methods
+## 🔧 Exposed Methods
 
-We expose several `react-hook-form` methods for flexible form management.
+This component exposes several `react-hook-form` methods via a `ref` to allow advanced and flexible form management:
 
-- `setError(name, error)` - Set an error for a field.
-- `reset()` - Reset the form.
-- `getValues(name)` - Get the value of a field or all values.
-- `setValue(name, value)` - Set the value of a field.
-- `watch(name)` - Watch for changes to a field.
+- `setError(name, error)` — Set an error for a specific field.
+- `reset()` — Reset the form to its initial state.
+- `getValues(name?)` — Get the current value of a specific field or all form values.
+- `setValue(name, value)` — Programmatically set the value of a field.
+- `watch(name?)` — Get the current value of a specific field or all values.
+- `resetField(name)` — Reset field value.
+  ⚠️ **Note:** `watch()` is not reactive when used via ref. See subscriptions below to react to changes.
 
 ```jsx
 const GravityForm = ({ data }) => {
@@ -221,39 +223,115 @@ const GravityForm = ({ data }) => {
     </div>
   );
 };
-
 export default GravityForm;
+```
+
+---
+
+## 📡 Subscriptions
+
+To **reactively track field changes**, we provide subscription methods that allow parent components to listen for updates.
+
+> 🧠 **Why use subscriptions?**
+> Calling `watch()` via a `ref` only gives you the current value **once** and does **not** update when the form changes.
+> To react to value changes, you need to **subscribe** using the form's internal observer.
+
+### ✅ `subscribeToField(name, callback)`
+
+Subscribes to changes of a **specific field** and calls the `callback` when that field's value changes.
+
+```jsx
+useEffect(() => {
+  const unsubscribe = formRef.current.subscribeToField(
+    "input_1",
+    (newValue) => {
+      console.log(newValue);
+    }
+  );
+  return unsubscribe;
+}, []);
+```
+
+### ✅ `subscribeToAllValues(callback)`
+
+Subscribes to changes in **any form field**. The provided `callback` is called with the latest form values whenever **any field changes**.
+
+```jsx
+const unsubscribe = ref.current.subscribeToAllValues((values) => {
+  console.log("Form values changed:", values);
+});
 ```
 
 ## Custom Form Fields
 
-Sometimes you may need to render custom markup for specific fields. You can achieve this by using the `customFormFields` property. See the example below:
+You can override the markup of specific fields by passing custom components via the `customFormFields` prop. This is necessary because the `gform_field_content` hook does not apply when using this package.
 
 ```jsx
-<GravityFormForm data={form} customFormFields={{ 1: CustomInputComponent }} />
+<GravityFormForm
+  data={form}
+  customFormFields={{
+    1: CustomInputComponent,
+    2: IbanComponent,
+  }}
+/>
 ```
 
-By specifying the field ID that you want to override, you can pass your custom component. Note that your custom component must utilize the methods provided by react-hook-form, as it is registered using the [Controller](https://react-hook-form.com/docs/usecontroller/controller) component.
+Each key corresponds to the field ID you want to override.
 
-Example of your custom component:
+---
+
+### Custom Component Example
 
 ```jsx
 const CustomInputComponent = ({ value, onChange, onBlur, ...rest }) => {
   return (
-    <div className="example">
-      <input
-        type="text"
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        {...rest}
-      />
-    </div>
+    <input
+      type="text"
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      {...rest}
+    />
   );
 };
 ```
 
-Take into account that your field must return the value in the same format as a default field.
+Your component must behave like a controlled field and return values in the same format as the default input.
+
+---
+
+### Validation Rules
+
+You can optionally define validation rules using a static `validation` property on your component.
+
+#### Static Validation
+
+```jsx
+CustomInputComponent.validation = {
+  rules: {
+    required: "This field is required.",
+    maxLength: { value: 20, message: "Max 20 characters." },
+  },
+};
+```
+
+#### Dynamic Validation
+
+```jsx
+IbanComponent.validation = ({ fieldData }) => ({
+  rules: {
+    required: fieldData?.required ? "IBAN is required." : false,
+    validate: (value) => {
+      const stripped = value.replace(/[\s_]/g, "");
+      if (!stripped) return true;
+      return IBANValidator.isValid(stripped) || "Invalid IBAN";
+    },
+  },
+  defaultValue: "",
+});
+```
+
+If `validation` is a function, it will be called with field-related props such as `fieldData`.
 
 ## Testing & Developing
 
@@ -302,6 +380,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Email
 - [x] Consent
 - [x] Website
+- [x] Password
 - [ ] Configure error message (currently just 'An Unknown Error Occurred')
 - [ ] Integrate Success/Failure Handler from previous plugin
 
@@ -328,6 +407,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Phone
 - [x] Page
 - [x] Date
+- [] Password (almost done, test can be tweaked)
 
 ## Confirmations
 
@@ -341,6 +421,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 
 - [ ] Invalid phone number results in failed submission w/ non-descript general error message.
 - [ ] Setting the Submit Button Location to 'End of the Last Row' causes a fetch API error, as GraphQL doesn't support it yet.
+- [ ] Password confirmation doesn't work with `wp-graphql-gravity-forms` version `0.13.0.1` and earlier. To fix this, add a copy of the general password value as the `input_2` value in the $\_POST submission.
 
 ```
 

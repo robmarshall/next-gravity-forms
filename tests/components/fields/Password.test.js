@@ -14,23 +14,33 @@ jest.mock("../../../src/fetch", () => ({
   submitGravityForm: jest.fn(),
 }));
 
-describe("Email field", () => {
+describe("Password field", () => {
   const field = {
-    id: 10,
-    type: "EMAIL",
+    id: 22,
+    type: "PASSWORD",
     visibility: "VISIBLE",
-    canPrepopulate: false,
-    conditionalLogic: null,
-    cssClass: null,
-    description: null,
-    descriptionPlacement: "INHERIT",
-    errorMessage: null,
-    hasAutocomplete: false,
     isRequired: true,
-    label: "Email",
+    label: "Password",
     placeholder: null,
-    shouldAllowDuplicates: true,
-    size: "LARGE",
+    inputs: [
+      {
+        placeholder: null,
+        label: "Enter Password",
+        isHidden: null,
+        id: 1,
+        customLabel: null,
+      },
+      {
+        placeholder: "Confirm Password",
+        label: "Confirm Password",
+        isHidden: true,
+        id: 1.2,
+        customLabel: null,
+      },
+    ],
+    hasPasswordStrengthIndicator: true,
+    hasPasswordVisibilityToggle: true,
+    minPasswordStrength: "GOOD",
     subLabelPlacement: "INHERIT",
   };
 
@@ -48,52 +58,55 @@ describe("Email field", () => {
     });
     const element = container.querySelector(`#${fieldId}`);
 
-    // email field rendered
+    // password field rendered
     expect(element).toBeInTheDocument();
   });
 
-  const emailCases = [
-    "test@test.com",
-    "test+plus@test.com",
-    "hello@my.kitchen",
-    "test@abc.de",
-    "test@business.online",
-    "test+test@example.info",
-  ];
-
-  describe("submits form when value is correct", () => {
-    test.each(emailCases)("given %p", async (email) => {
-      const { container } = renderGravityForm({
-        data: {
-          gfForm: { formFields: { nodes: [field] } },
-        },
-      });
-
-      fireEvent.input(screen.getByLabelText(/Email/i), {
-        target: {
-          value: email,
-        },
-      });
-      await act(async () => {
-        fireEvent.submit(screen.getByRole("button"));
-      });
-
-      expect(submitGravityForm).toBeCalledWith({
-        id: mockFormData.gfForm.databaseId,
-        fieldValues: [
-          {
-            emailValues: {
-              value: email,
-            },
-            id: field.id,
-          },
-        ],
-      });
-
-      expect(
-        container.querySelector(`.gravityform__error_message`)
-      ).not.toBeInTheDocument();
+  it("renders strength indicator", async () => {
+    const { container } = renderGravityForm({
+      data: {
+        gfForm: { formFields: { nodes: [field] } },
+      },
     });
+    const element = container.querySelector(`.gform_show_password`);
+
+    expect(element).toBeInTheDocument();
+  });
+
+  it("submits form when value is correct", async () => {
+    const { container } = renderGravityForm({
+      data: {
+        gfForm: { formFields: { nodes: [field] } },
+      },
+    });
+
+    await act(async () => {
+      const input = document.querySelector("#input_2_22");
+
+      fireEvent.input(input, {
+        target: { value: "!!@asdUUiooUU8_@" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.submit(
+        screen.getByRole("button", { name: /submit/i, type: "submit" })
+      );
+    });
+
+    expect(submitGravityForm).toBeCalledWith({
+      id: mockFormData.gfForm.databaseId,
+      fieldValues: [
+        {
+          value: "!!@asdUUiooUU8_@",
+          id: field.id,
+        },
+      ],
+    });
+
+    expect(
+      container.querySelector(`.gravityform__error_message`)
+    ).not.toBeInTheDocument();
   });
 
   describe("render errors", () => {
@@ -111,7 +124,11 @@ describe("Email field", () => {
     });
 
     it("should display required error when value is empty", async () => {
-      fireEvent.submit(screen.getByRole("button"));
+      await act(async () => {
+        fireEvent.submit(
+          screen.getByRole("button", { name: /submit/i, type: "submit" })
+        );
+      });
 
       await waitFor(() => {
         expect(getByText(element, /Field is required./i)).toBeInTheDocument();
@@ -119,35 +136,22 @@ describe("Email field", () => {
 
       expect(submitGravityForm).not.toBeCalled();
     });
-  });
 
-  const invalidEmails = ["test", "test@a.b"];
-
-  describe("should display invalid email error when value is not valid", () => {
-    let container;
-    let element;
-    beforeEach(() => {
-      const rendered = renderGravityForm({
-        data: {
-          gfForm: { formFields: { nodes: [field] } },
-        },
-      });
-      container = rendered.container;
-
-      element = container.querySelector(`#${fieldId}`);
-    });
-    test.each(invalidEmails)("given %p", async (email) => {
-      fireEvent.input(screen.getByLabelText(/Email/i), {
-        target: {
-          value: email,
-        },
+    it("should display strength error", async () => {
+      const input = document.querySelector("#input_2_22");
+      fireEvent.input(input, {
+        target: { value: "11" },
       });
 
-      fireEvent.submit(screen.getByRole("button"));
+      await act(async () => {
+        fireEvent.submit(
+          screen.getByRole("button", { name: /submit/i, type: "submit" })
+        );
+      });
 
       await waitFor(() => {
         expect(
-          getByText(element, /The email address entered is invalid/i)
+          getByText(element, /Your password does not meet/i)
         ).toBeInTheDocument();
       });
 
@@ -155,32 +159,36 @@ describe("Email field", () => {
     });
   });
 
-  // renders confirmation email
-  describe("confirmationEmail", () => {
+  describe("confirmationPassword", () => {
     let container;
     let element;
     const confirmationField = {
-      ...field,
+      id: 22,
+      type: "PASSWORD",
+      visibility: "VISIBLE",
+      isRequired: true,
+      label: "Password",
+      placeholder: null,
       inputs: [
         {
-          id: 10,
-          name: "",
-          autocompleteAttribute: "email",
-          customLabel: "Enter Email",
-          defaultValue: null,
-          label: "Enter Email",
           placeholder: null,
+          label: "Enter Password",
+          isHidden: null,
+          id: 1,
+          customLabel: null,
         },
         {
-          id: 10.2,
-          name: "",
-          autocompleteAttribute: "email",
-          customLabel: "Confirm Email",
-          defaultValue: null,
-          label: "Confirm Email",
-          placeholder: "Enter confirmation",
+          placeholder: "Confirm Password",
+          label: "Confirm Password",
+          isHidden: null,
+          id: 1.2,
+          customLabel: null,
         },
       ],
+      hasPasswordStrengthIndicator: true,
+      hasPasswordVisibilityToggle: true,
+      minPasswordStrength: "short",
+      subLabelPlacement: "INHERIT",
     };
 
     beforeEach(() => {
@@ -198,13 +206,13 @@ describe("Email field", () => {
       element = container.querySelector(`#${fieldId}`);
     });
 
-    it("renders confirmation input", () => {
-      // email field rendered
+    it("renders confirmation password", () => {
+      // password field rendered
       const element = screen.getByLabelText(confirmationField.inputs[1].label);
       expect(element).toBeInTheDocument();
 
-      expect(element.placeholder).toBe("Enter confirmation");
-      expect(element.type).toBe("email");
+      expect(element.placeholder).toBe("Confirm Password");
+      expect(element.type).toBe("password");
     });
 
     it("renders confirmation error when values don't match", async () => {
@@ -212,7 +220,7 @@ describe("Email field", () => {
         screen.getByLabelText(confirmationField.inputs[0].label),
         {
           target: {
-            value: "test@test.com",
+            value: "@412!Yjjt*9nM",
           },
         }
       );
@@ -221,19 +229,19 @@ describe("Email field", () => {
         screen.getByLabelText(confirmationField.inputs[1].label),
         {
           target: {
-            value: "test2@test.com",
+            value: "@412!Yj",
           },
         }
       );
 
       await act(async () => {
-        fireEvent.submit(screen.getByRole("button"));
+        fireEvent.submit(
+          screen.getByRole("button", { name: /submit/i, type: "submit" })
+        );
       });
 
       await waitFor(() => {
-        expect(
-          getByText(element, /Your emails do not match/i)
-        ).toBeInTheDocument();
+        expect(getByText(element, /Your passwords/i)).toBeInTheDocument();
       });
 
       expect(submitGravityForm).not.toBeCalled();
@@ -244,7 +252,7 @@ describe("Email field", () => {
         screen.getByLabelText(confirmationField.inputs[0].label),
         {
           target: {
-            value: "test@test.com",
+            value: "123%%2mI",
           },
         }
       );
@@ -253,23 +261,22 @@ describe("Email field", () => {
         screen.getByLabelText(confirmationField.inputs[1].label),
         {
           target: {
-            value: "test@test.com",
+            value: "123%%2mI",
           },
         }
       );
 
       await act(async () => {
-        fireEvent.submit(screen.getByRole("button"));
+        fireEvent.submit(
+          screen.getByRole("button", { name: /submit/i, type: "submit" })
+        );
       });
 
       expect(submitGravityForm).toBeCalledWith({
         id: mockFormData.gfForm.databaseId,
         fieldValues: [
           {
-            emailValues: {
-              confirmationValue: "test@test.com",
-              value: "test@test.com",
-            },
+            value: "123%%2mI",
             id: field.id,
           },
         ],

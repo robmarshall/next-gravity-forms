@@ -37,18 +37,19 @@ const Select = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const isMultiselectField = valueToLowerCase(type) === "multiselect";
 
   // if there is placeholder we add it as first option with no value set
+  const safeChoices = choices ?? [];
   const options = [
     ...(placeholder
       ? [
           {
             text: placeholder,
             value: "",
-            isSelected: !choices.some((i) => i.isSelected),
+            isSelected: !safeChoices.some((i) => i.isSelected),
             className: "gf_placeholder",
           },
-          ...choices,
+          ...safeChoices,
         ]
-      : choices),
+      : safeChoices),
   ];
 
   const {
