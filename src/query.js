@@ -16,7 +16,7 @@ import {
   checkboxFieldFragment,
 } from "./components/SelectorList/query";
 import { consentFieldFragment } from "./components/Consent/query";
-
+import { timeFieldFragment } from "./components/Time/query";
 import { dateFieldFragment } from "./components/Date/query";
 import { sectionFieldFragment } from "./components/Section/query";
 import { textareaFieldFragment } from "./components/Textarea/query";
@@ -85,6 +85,7 @@ export const gravityFormQuery = /* GraphQL */ `
           ${consentFieldFragment}
           ${websiteFieldFragment}
           ${passwordFieldFragment}
+          ${timeFieldFragment}
         }
       }
       pagination {
