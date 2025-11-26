@@ -42,6 +42,14 @@ const data = await getGravityForm(1);
 return <GravityFormForm data={data} />;
 ```
 
+The GraphQL endpoint can also be passed using the `baseUrl` prop, which if set is used instead of the `NEXT_PUBLIC_WORDPRESS_API_URL` env variable.
+
+```js
+const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
+
+return <GravityFormForm data={data} baseUrl={baseUrl} />;
+```
+
 ### Redirecting
 
 This package can be used with any React project. We just named it Next, because we use it with Next projects.
