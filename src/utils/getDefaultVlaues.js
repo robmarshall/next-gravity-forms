@@ -6,6 +6,7 @@ import { formatValue as formatCurrencyValue } from "../components/Number/helpers
 import { formatValue } from "../components/Phone";
 import { getSelectDefaultValue } from "../components/Select/helpers";
 import { getSelectionListDefaultValue } from "../components/SelectorList/helpers";
+import { parseTimeDefaultValue } from "../components/Time/helpers";
 import { getSettings } from "../providers/SettingsContext";
 import { valueToLowerCase } from "./helpers";
 
@@ -28,6 +29,7 @@ function getDefaultValues(fields, presetValues, helpers) {
       hasOtherChoice,
       numberFormat,
       phoneFormat,
+      timeFormat,
     }) => {
       const inputName = `input_${id}`;
 
@@ -103,6 +105,18 @@ function getDefaultValues(fields, presetValues, helpers) {
       // Handling for NAME type
       if (type === "NAME" && inputs?.length > 0) {
         values[inputName] = getNameDefaultValue(inputs, presetValues);
+      }
+
+      if (type === "TIME") {
+        const parsedTime = parseTimeDefaultValue(
+          defaultValue,
+          inputs,
+          timeFormat
+        );
+
+        if (parsedTime) {
+          values[inputName] = parsedTime;
+        }
       }
 
       if (type === "NUMBER") {

@@ -64,7 +64,6 @@ const SelectorList = ({ fieldData, name, labelFor, ...wrapProps }) => {
                 value={value}
                 disabled={isDisabled}
               />
-              &nbsp;
               <label
                 className="gform-field-label gform-field-label--type-inline"
                 htmlFor={`choice_${databaseId}_${id}_${choiceID}`}
