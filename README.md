@@ -395,6 +395,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Consent
 - [x] Website
 - [x] Password
+- [x] Time
 - [ ] Configure error message (currently just 'An Unknown Error Occurred')
 - [ ] Integrate Success/Failure Handler from previous plugin
 

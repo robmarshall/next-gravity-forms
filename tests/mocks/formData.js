@@ -6,6 +6,7 @@ const mockFormData = {
     labelPlacement: null,
     subLabelPlacement: null,
     title: "Test",
+    cssClass: "custom-form-class",
     submitButton: {
       conditionalLogic: null,
       imageUrl: null,

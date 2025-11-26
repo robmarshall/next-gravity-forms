@@ -34,7 +34,6 @@ const OtherChoice = ({
           },
         })}
       />
-      &nbsp;
       <label
         htmlFor={`choice_${fieldId}_${index}`}
         id={`label_${fieldId}_${index}`}

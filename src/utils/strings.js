@@ -46,6 +46,7 @@ const strings = {
       wrongRangeBoth: "Please enter a number from {{min}} to {{max}}.",
     },
     url: "Please enter a valid Website URL (e.g. https://gravityforms.com).",
+    time: "Please enter a valid time.",
   },
   counter: "{{value}} of {{max}} max characters",
   datepicker: {

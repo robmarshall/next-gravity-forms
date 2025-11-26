@@ -47,6 +47,7 @@ export const gravityFormQuery = /* GraphQL */ `
       labelPlacement
       subLabelPlacement
       title
+      cssClass
       submitButton {
         ${submitButtonFragment}
       }
