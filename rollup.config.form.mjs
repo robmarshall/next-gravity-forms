@@ -5,6 +5,8 @@ import terser from "@rollup/plugin-terser";
 import json from "@rollup/plugin-json";
 import generatePackageJson from "@lomray/rollup-plugin-generate-package-json-v2";
 import copy from "rollup-plugin-copy";
+import polyfills from 'rollup-plugin-node-polyfills'
+import globals from 'rollup-plugin-node-globals'
 
 export default {
   input: "src/index.js",
@@ -35,6 +37,8 @@ export default {
     json(),
     resolve({ preferBuiltins: false }),
     commonjs({ preferBuiltins: false }),
+    polyfills(),
+    globals(),
     terser(),
     copy({
       targets: [{ src: "README.md", dest: "dist" }],
