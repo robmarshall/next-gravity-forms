@@ -55,6 +55,11 @@ export const gravityFormQuery = /* GraphQL */ `
         ${formConfirmationFragment}
       }
       hasHoneypot
+      entryLimits {
+        hasLimit
+        limitReachedMessage
+        maxEntries
+      }
       formFields(first: 999){
         nodes {
           displayOnly
