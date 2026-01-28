@@ -385,6 +385,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Captcha
 - [x] Add masking to inputs
 - [x] Section
+- [x] Name
 - [ ] Page (half done, need to save values so that when the user refreshes the page, they are preserved)
 - [x] Date
 - [x] File upload
@@ -396,6 +397,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Website
 - [x] Password
 - [x] Time
+- [ ] Address
 - [ ] Configure error message (currently just 'An Unknown Error Occurred')
 - [ ] Integrate Success/Failure Handler from previous plugin
 
