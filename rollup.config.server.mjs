@@ -4,6 +4,8 @@ import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
 import json from "@rollup/plugin-json";
 import generatePackageJson from "@lomray/rollup-plugin-generate-package-json-v2";
+import polyfills from 'rollup-plugin-node-polyfills'
+import globals from 'rollup-plugin-node-globals'
 
 export default {
   input: ["src/server/index.js", "src/query.js"],
@@ -19,6 +21,8 @@ export default {
     json(),
     resolve({ preferBuiltins: false }),
     commonjs({ preferBuiltins: false }),
+    polyfills(),
+    globals(),
     terser(),
     generatePackageJson({
       baseContents: (pkg) => ({
