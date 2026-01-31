@@ -102,8 +102,8 @@ function getDefaultValues(fields, presetValues, helpers) {
         }
       }
 
-      // Handling for NAME type
-      if (type === "NAME" && inputs?.length > 0) {
+      // Handling for NAME and ADDRESS type
+      if ((type === "NAME" || type === "ADDRESS") && inputs?.length > 0) {
         values[inputName] = getNameDefaultValue(inputs, presetValues);
       }
 
