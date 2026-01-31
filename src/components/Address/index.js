@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import InputWrapper from "../InputWrapper";
-import { Input, SubLabelWrapper } from "../General";
+import { Input, SubLabelWrapper, ConditionalWrapper } from "../General";
 import { interpolateString } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
 
@@ -68,16 +68,22 @@ const Address = ({ fieldData, name, labelFor, ...wrapProps }) => {
                   ? autocompleteAttribute
                   : undefined;
               return (
-                <SubLabelWrapper
+                <ConditionalWrapper // render label for all fields except country field for non-international addresses
                   key={key}
-                  label={specialLabelsMap?.[key] || label}
-                  {...rest}
-                  name={fieldId}
-                  subLabelPlacement={subLabelPlacement}
-                  className="ginput_right"
-                  isHidden={
-                    key === "country" && addressType !== "INTERNATIONAL"
+                  condition={
+                    !(key === "country" && addressType !== "INTERNATIONAL")
                   }
+                  wrapper={(children) => (
+                    <SubLabelWrapper
+                      label={specialLabelsMap?.[key] || label}
+                      {...rest}
+                      name={fieldId}
+                      subLabelPlacement={subLabelPlacement}
+                      className="ginput_right"
+                    >
+                      {children}
+                    </SubLabelWrapper>
+                  )}
                 >
                   {isSelectField(addressType, key) ? (
                     <select
@@ -107,7 +113,13 @@ const Address = ({ fieldData, name, labelFor, ...wrapProps }) => {
                     <Input
                       defaultValue={value?.[key]}
                       placeholder={placeholder}
-                      fieldData={{ ...fieldData, type: "text" }}
+                      fieldData={{
+                        ...fieldData,
+                        type:
+                          key === "country" && addressType !== "INTERNATIONAL"
+                            ? "hidden"
+                            : "text",
+                      }}
                       errors={errors}
                       name={`input_${id}`}
                       id={fieldId}
@@ -118,7 +130,7 @@ const Address = ({ fieldData, name, labelFor, ...wrapProps }) => {
                       autoComplete={autoComplete}
                     />
                   )}
-                </SubLabelWrapper>
+                </ConditionalWrapper>
               );
             }
           );
