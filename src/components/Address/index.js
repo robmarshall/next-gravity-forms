@@ -22,14 +22,23 @@ const Address = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const { gfId } = wrapProps;
 
   const { strings } = useSettings();
-  const fieldInputs = [...inputs].filter((i) => !i.isHidden);
+
+  // Get special labels for state and ZIP fields
+  const specialLabelsMap = strings?.address?.fieldLabelMap?.[addressType];
+
+  const fieldInputs = inputs
+    // Ensure the country field is not excluded for non-international addresses
+    .map((input) =>
+      input.key === "country" && addressType !== "INTERNATIONAL"
+        ? { ...input, isHidden: false }
+        : input
+    )
+    .filter((input) => !input.isHidden);
 
   const {
     control,
     formState: { errors },
   } = useFormContext();
-
-  const specialLabelsMap = strings?.address?.fieldLabelMap?.[addressType];
 
   if (!fieldInputs?.length > 0) return null;
 
@@ -53,7 +62,6 @@ const Address = ({ fieldData, name, labelFor, ...wrapProps }) => {
               { key, id, placeholder, autocompleteAttribute, label, ...rest },
               i
             ) => {
-              console.log(gfId, id);
               const fieldId = `input_${gfId}_${id}`;
               const autoComplete =
                 hasAutocomplete && autocompleteAttribute
@@ -67,6 +75,9 @@ const Address = ({ fieldData, name, labelFor, ...wrapProps }) => {
                   name={fieldId}
                   subLabelPlacement={subLabelPlacement}
                   className="ginput_right"
+                  isHidden={
+                    key === "country" && addressType !== "INTERNATIONAL"
+                  }
                 >
                   {isSelectField(addressType, key) ? (
                     <select

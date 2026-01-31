@@ -12,6 +12,7 @@ const SubLabelWrapper = ({
   className,
   labelFor,
   as = "span",
+  isHidden,
 }) => {
   const sub_label_class =
     subLabelPlacement == "hidden_label"
@@ -29,6 +30,7 @@ const SubLabelWrapper = ({
     <Wrapper
       className={classnames(className, "gform-grid-col")}
       id={`${name}_container`}
+      style={isHidden ? { display: "none" } : undefined}
     >
       {labelPlacement === "ABOVE" && (
         <Label
@@ -60,4 +62,5 @@ SubLabelWrapper.propTypes = {
   className: PropTypes.string,
   as: PropTypes.string,
   labelFor: PropTypes.string,
+  isHidden: PropTypes.bool,
 };
