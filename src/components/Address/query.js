@@ -9,6 +9,7 @@ export const addressFieldFragment = /* GraphQL */ `
     cssClass
     description
     descriptionPlacement
+    defaultCountry
     errorMessage
     hasAutocomplete
     addressType
