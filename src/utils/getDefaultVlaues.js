@@ -32,6 +32,7 @@ function getDefaultValues(fields, presetValues, helpers) {
       phoneFormat,
       timeFormat,
       defaultCountry,
+      addressType,
     }) => {
       const inputName = `input_${id}`;
 
@@ -114,7 +115,8 @@ function getDefaultValues(fields, presetValues, helpers) {
         values[inputName] = getAddressDefaultValue(
           inputs,
           presetValues,
-          defaultCountry
+          defaultCountry,
+          addressType
         );
       }
 
