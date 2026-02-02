@@ -97,7 +97,7 @@ const Address = ({ fieldData, name, labelFor, ...wrapProps }) => {
                       ref={i === indexWithoutValue ? ref : undefined}
                       autoComplete={autoComplete}
                     >
-                      <option value></option>
+                      <option value>{placeholder}</option>
                       {locations[addressType].map(({ name }, index) => {
                         return (
                           <option
