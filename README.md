@@ -437,6 +437,7 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [ ] Invalid phone number results in failed submission w/ non-descript general error message.
 - [ ] Setting the Submit Button Location to 'End of the Last Row' causes a fetch API error, as GraphQL doesn't support it yet.
 - [ ] Password confirmation doesn't work with `wp-graphql-gravity-forms` version `0.13.0.1` and earlier. To fix this, add a copy of the general password value as the `input_2` value in the $\_POST submission.
+- [ ] Address field with a configured Default State or Default Province cause GraphQL error or incorrect values.
 
 ```
 
