@@ -8,7 +8,7 @@ import { interpolateString } from "../../utils/helpers";
 import { useSettings } from "../../providers/SettingsContext";
 
 import locations from "../../utils/locations";
-import { isSelectField } from "./helpers";
+import { isSelectField, getWrapperClassName } from "./helpers";
 
 const Address = ({ fieldData, name, labelFor, ...wrapProps }) => {
   const {
@@ -79,7 +79,7 @@ const Address = ({ fieldData, name, labelFor, ...wrapProps }) => {
                       {...rest}
                       name={fieldId}
                       subLabelPlacement={subLabelPlacement}
-                      className="ginput_right"
+                      className={getWrapperClassName(key, i)}
                     >
                       {children}
                     </SubLabelWrapper>

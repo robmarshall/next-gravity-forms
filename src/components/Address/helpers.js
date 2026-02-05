@@ -55,3 +55,26 @@ export const getLocationNameByCode = (addressType, code) =>
 
 export const getLocationCodeByName = (addressType, name) =>
   findLocation(addressType, "name", name)?.code;
+
+export const getWrapperClassName = (fieldKey, index) => {
+  if (!fieldKey) {
+    return null;
+  }
+
+  const isLeft = index % 2 === 0;
+
+  switch (fieldKey) {
+    case "street":
+    case "lineTwo":
+      return "ginput_full";
+    case "city":
+      return "ginput_left";
+    // Alternating based on position
+    case "state":
+    case "zip":
+    case "country":
+      return isLeft ? "ginput_left" : "ginput_right";
+    default:
+      return null;
+  }
+};
