@@ -168,6 +168,51 @@ describe("Address field", () => {
       );
     });
 
+    it("fields have correct ginput class", () => {
+      renderAddressField();
+
+      const cases = [
+        { label: "Street Address", expectedClass: "ginput_full" },
+        { label: "Address Line 2", expectedClass: "ginput_full" },
+        { label: "City", expectedClass: "ginput_left" },
+        { label: "State / Province / Region", expectedClass: "ginput_right" },
+        { label: "ZIP / Postal Code", expectedClass: "ginput_left" },
+        { label: "Country", expectedClass: "ginput_right" },
+      ];
+
+      cases.forEach(({ label, expectedClass }) => {
+        const input = screen.getByLabelText(label);
+        const wrapper = input.closest("span");
+
+        expect(wrapper).toHaveClass(expectedClass);
+      });
+    });
+
+    it("applies alternate ginput classes to state, zip and country based on field position", () => {
+      unmount();
+      renderAddressField(
+        {},
+        {
+          street: { isHidden: true },
+          lineTwo: { isHidden: true },
+          city: { isHidden: true },
+        }
+      );
+
+      const cases = [
+        { label: "State / Province / Region", expectedClass: "ginput_left" },
+        { label: "ZIP / Postal Code", expectedClass: "ginput_right" },
+        { label: "Country", expectedClass: "ginput_left" },
+      ];
+
+      cases.forEach(({ label, expectedClass }) => {
+        const input = screen.getByLabelText(label);
+        const wrapper = input.closest("span");
+
+        expect(wrapper).toHaveClass(expectedClass);
+      });
+    });
+
     it("doesn't throw error if not required", async () => {
       await act(async () => {
         fireEvent.submit(screen.getByRole("button"));
