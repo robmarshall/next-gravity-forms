@@ -1,6 +1,17 @@
-import { screen } from "@testing-library/react";
+import { screen, fireEvent, act } from "@testing-library/react";
 import mockFormData from "../mocks/formData";
 import renderGravityForm from "./render";
+import { submitGravityForm } from "../../src/fetch";
+import nodeFetch from "node-fetch";
+
+jest.mock("../../src/fetch", () => ({
+  submitGravityForm: jest.fn(),
+}));
+
+jest.mock("node-fetch", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
 
 describe("GravityFormForm", () => {
   const fields = [
@@ -85,7 +96,7 @@ describe("GravityFormForm", () => {
 
     // form should have cssClass applied
     expect(formElement).toHaveClass("custom-form-class");
-    
+
     // wrapper should have cssClass with __wrapper suffix
     const wrapperElement = container.querySelector(".gform_wrapper");
     expect(wrapperElement).toHaveClass("custom-form-class__wrapper");
@@ -94,9 +105,9 @@ describe("GravityFormForm", () => {
   it("renders form without cssClass when not provided", async () => {
     const { container } = renderGravityForm({
       data: {
-        gfForm: { 
+        gfForm: {
           ...mockFormData.gfForm,
-          cssClass: null 
+          cssClass: null,
         },
       },
     });
@@ -105,8 +116,60 @@ describe("GravityFormForm", () => {
 
     // form should not have cssClass when not provided
     expect(formElement).not.toHaveClass("custom-form-class");
-    
+
     // wrapper should not have cssClass when not provided
     expect(wrapperElement).not.toHaveClass("custom-form-class__wrapper");
+  });
+
+  it("passes baseUrl to submit the form when provided", async () => {
+    submitGravityForm.mockResolvedValueOnce({
+      submitGfForm: { errors: null },
+    });
+
+    const submitBaseUrl = "https://submit.example/graphql";
+
+    renderGravityForm({
+      data: { gfForm: { formFields: { nodes: fields } } },
+      baseUrl: submitBaseUrl,
+    });
+
+    fireEvent.input(screen.getByLabelText(/Single Line text/i), {
+      target: { value: "test" },
+    });
+
+    await act(async () => {
+      fireEvent.click(screen.getByText(mockFormData.gfForm.submitButton.text));
+    });
+
+    expect(submitGravityForm).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: mockFormData.gfForm.databaseId,
+        baseUrl: submitBaseUrl,
+      })
+    );
+  });
+});
+
+describe("getGravityForm (server)", () => {
+  it("passes baseUrl to fetch the form when provided", async () => {
+    nodeFetch.mockResolvedValueOnce({
+      json: () =>
+        Promise.resolve({
+          data: { gfForm: { formFields: { nodes: [] } } },
+        }),
+    });
+
+    const { getGravityForm } = await import("../../src/server");
+    const formBaseUrl = "https://api.example/graphql";
+
+    await getGravityForm(mockFormData.gfForm.databaseId, formBaseUrl);
+
+    expect(nodeFetch).toHaveBeenCalledWith(
+      formBaseUrl,
+      expect.objectContaining({
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+    );
   });
 });

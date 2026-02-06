@@ -116,6 +116,22 @@ const strings = {
     minStrength:
       'Your password does not meet the required strength. </br> Hint: To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ %% ^ & ).',
   },
+  address: {
+    fieldLabelMap: {
+      INTERNATIONAL: {
+        state: "State / Province / Region",
+        zip: "ZIP / Postal Code",
+      },
+      US: {
+        state: "State",
+        zip: "ZIP Code",
+      },
+      CANADA: {
+        state: "Province",
+        zip: "Postal Code",
+      },
+    },
+  },
   loading: "Loading...",
   submit: "Submit",
   step: "Step {{step}} of {{total}}",
