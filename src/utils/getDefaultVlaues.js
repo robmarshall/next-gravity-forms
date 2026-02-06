@@ -2,6 +2,7 @@
 import { getDateDefaultValue } from "../components/Date/FieldDropdown";
 import { getDatePickerDefaultValue } from "../components/Date/Picker";
 import { getNameDefaultValue } from "../components/Name/helpers";
+import { getAddressDefaultValue } from "../components/Address/helpers";
 import { formatValue as formatCurrencyValue } from "../components/Number/helpers";
 import { formatValue } from "../components/Phone";
 import { getSelectDefaultValue } from "../components/Select/helpers";
@@ -30,6 +31,8 @@ function getDefaultValues(fields, presetValues, helpers) {
       numberFormat,
       phoneFormat,
       timeFormat,
+      defaultCountry,
+      addressType,
     }) => {
       const inputName = `input_${id}`;
 
@@ -105,6 +108,16 @@ function getDefaultValues(fields, presetValues, helpers) {
       // Handling for NAME type
       if (type === "NAME" && inputs?.length > 0) {
         values[inputName] = getNameDefaultValue(inputs, presetValues);
+      }
+
+      // Handling for ADDRESS type
+      if (type === "ADDRESS" && inputs?.length > 0) {
+        values[inputName] = getAddressDefaultValue(
+          inputs,
+          presetValues,
+          defaultCountry,
+          addressType
+        );
       }
 
       if (type === "TIME") {

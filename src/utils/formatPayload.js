@@ -12,13 +12,14 @@
  */
 import formatDate from "./formatDate";
 import formatTime from "./formatTime";
+import formatAddress from "./formatAddress";
 
 const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
   const { type, inputs, choices, timeFormat } = serverDataItem;
   switch (type) {
     case "ADDRESS":
       return {
-        addressValues: fieldResponse, // @TODO does it work?
+        addressValues: formatAddress(fieldResponse),
       };
     case "CAPTCHA":
       return {
