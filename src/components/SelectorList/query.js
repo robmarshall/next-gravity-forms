@@ -36,6 +36,33 @@ export const checkboxFieldFragment = /* GraphQL */ `
   }
 `;
 
+export const multiChoiceFieldFragment = /* GraphQL */ `
+  ... on MultiChoiceField {
+    canPrepopulate
+    choices {
+      ... on MultiChoiceFieldChoice {
+        isSelected
+        text
+        value
+      }
+    }
+    conditionalLogic {
+      ${conditionalLogicFragment}
+    }
+    cssClass
+    description
+    descriptionPlacement
+    errorMessage
+    hasChoiceValue
+    inputName
+    inputType
+    isRequired
+    label
+    labelPlacement
+    value
+  }
+`;
+
 export const radioFieldFragment = /* GraphQL */ `
   ... on RadioField {
     canPrepopulate
