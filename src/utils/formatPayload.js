@@ -14,8 +14,29 @@ import formatDate from "./formatDate";
 import formatTime from "./formatTime";
 import formatAddress from "./formatAddress";
 
+const formatCheckboxValues = ({ id, fieldResponse, inputs, choices }) => {
+  const selectedChoices = [];
+
+  // Loop through all Gravity Form Checkbox choices.
+  choices.forEach(({ value }, index) => {
+    const isSelected = fieldResponse.includes(value);
+    // If the Gravity Forms choice matches with selected item from user.
+    // Add to response.
+    if (isSelected) {
+      selectedChoices.push({
+        inputId: inputs?.[index]?.id || parseFloat(`${id}.${index + 1}`),
+        value,
+      });
+    }
+  });
+
+  return {
+    checkboxValues: selectedChoices,
+  };
+};
+
 const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
-  const { type, inputs, choices, timeFormat } = serverDataItem;
+  const { type, inputs, choices, timeFormat, inputType } = serverDataItem;
   switch (type) {
     case "ADDRESS":
       return {
@@ -25,24 +46,16 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
       return {
         value: fieldResponse,
       };
-    case "CHECKBOX":
-      // eslint-disable-next-line no-case-declarations
-      const selectedChoices = [];
-      // Loop through all Gravity Form Checkbox choices.
-      choices.forEach(({ value }, index) => {
-        const isSelected = fieldResponse.includes(value);
-        // If the Gravity Forms choice matches with selected item from user.
-        // Add to response.
-        if (isSelected) {
-          selectedChoices.push({ inputId: inputs[index].id, value });
-        }
-      });
+    case "MULTI_CHOICE":
+      if (inputType === "CHECKBOX") {
+        return formatCheckboxValues({ id, fieldResponse, inputs, choices });
+      }
 
       return {
-        checkboxValues: selectedChoices,
+        value: fieldResponse,
       };
-    case "MULTI_CHOICE":
-      return "hello";
+    case "CHECKBOX":
+      return formatCheckboxValues({ id, fieldResponse, inputs, choices });
     case "EMAIL":
       if (inputs?.length > 0) {
         return {
