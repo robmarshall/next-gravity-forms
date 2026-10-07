@@ -3,7 +3,7 @@ import { valueToLowerCase } from "../../utils/helpers";
 // IS
 function compareIS(ruleValue, fieldValue, type) {
   if (
-    ["checkbox", "multiselect"].includes(type) &&
+    ["checkbox", "multiselect", "multi_choice"].includes(type) &&
     fieldValue instanceof Array
   ) {
     return fieldValue?.includes(ruleValue);
@@ -14,7 +14,7 @@ function compareIS(ruleValue, fieldValue, type) {
 // IS NOT
 function compareIS_NOT(ruleValue, fieldValue, type) {
   if (
-    ["checkbox", "multiselect"].includes(type) &&
+    ["checkbox", "multiselect", "multi_choice"].includes(type) &&
     fieldValue instanceof Array
   ) {
     return !fieldValue?.includes(ruleValue);
@@ -25,7 +25,7 @@ function compareIS_NOT(ruleValue, fieldValue, type) {
 // CONTAINS
 function compareContains(ruleValue, fieldValue, type) {
   if (
-    ["checkbox", "multiselect"].includes(type) &&
+    ["checkbox", "multiselect", "multi_choice"].includes(type) &&
     fieldValue instanceof Array
   ) {
     return fieldValue.some((val) => val.includes(ruleValue));
@@ -36,7 +36,7 @@ function compareContains(ruleValue, fieldValue, type) {
 // STARTS_WITH
 function compareStartsWith(ruleValue, fieldValue, type) {
   if (
-    ["checkbox", "multiselect"].includes(type) &&
+    ["checkbox", "multiselect", "multi_choice"].includes(type) &&
     fieldValue instanceof Array
   ) {
     return fieldValue.some((val) => val?.startsWith(ruleValue));
@@ -47,7 +47,7 @@ function compareStartsWith(ruleValue, fieldValue, type) {
 // ENDS_WITH
 function compareEndsWith(ruleValue, fieldValue, type) {
   if (
-    ["checkbox", "multiselect"].includes(type) &&
+    ["checkbox", "multiselect", "multi_choice"].includes(type) &&
     fieldValue instanceof Array
   ) {
     return fieldValue.some((val) => val.endsWith(ruleValue));

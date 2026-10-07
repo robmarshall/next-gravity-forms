@@ -25,6 +25,7 @@ function getDefaultValues(fields, presetValues, helpers) {
       defaultValue: defaultVal,
       choices,
       inputName: presetName,
+      inputType,
       dateFormat: dateFormatUpper,
       dateType,
       hasOtherChoice,
@@ -87,13 +88,13 @@ function getDefaultValues(fields, presetValues, helpers) {
         });
       }
 
-      // Common logic for CHECKBOX, and RADIO
+      // Common logic for CHECKBOX, RADIO, and MULTI_CHOICE
       if (
-        ["CHECKBOX", "RADIO"].includes(type) &&
+        ["CHECKBOX", "RADIO", "MULTI_CHOICE"].includes(type) &&
         choices?.some((i) => i.isSelected)
       ) {
         values[inputName] = getSelectionListDefaultValue({
-          type,
+          type: type === "MULTI_CHOICE" ? inputType : type,
           choices,
           presetValue,
         });

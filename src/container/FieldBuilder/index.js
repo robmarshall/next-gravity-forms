@@ -169,6 +169,7 @@ const FieldBuilder = ({
         return <Select key={id} {...props} />;
       case "RADIO":
       case "CHECKBOX":
+      case "MULTI_CHOICE":
         return <SelectorList key={id} {...props} />;
       case "SECTION":
         return <Section key={id} {...props} />;
