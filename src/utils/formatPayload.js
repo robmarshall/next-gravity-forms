@@ -41,6 +41,8 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
       return {
         checkboxValues: selectedChoices,
       };
+    case "MULTI_CHOICE":
+      return "hello";
     case "EMAIL":
       if (inputs?.length > 0) {
         return {
