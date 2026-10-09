@@ -17,7 +17,6 @@ export const textareaFieldFragment = /* GraphQL */ `
     maxLength
     shouldAllowDuplicates
     placeholder
-    size
     hasRichTextEditor
     value
   }
