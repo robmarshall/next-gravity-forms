@@ -138,6 +138,17 @@ const formatter = ({ id, fieldResponse, serverDataItem, clientData }) => {
         // we need to pass any string if consent is set
         value: fieldResponse ? "value" : undefined,
       };
+    case "LIST":
+      if (choices) {
+        return {
+          listValues: fieldResponse.map((item) => ({
+            rowValues: Object.values(item),
+          })),
+        };
+      }
+      return {
+        listValues: [{ rowValues: fieldResponse.map((item) => item.value) }],
+      };
     default:
       return {};
   }

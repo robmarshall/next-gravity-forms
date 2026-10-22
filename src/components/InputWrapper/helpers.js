@@ -157,6 +157,7 @@ export const getLabelAndWrapperComponents = (type, inputs, choices) => {
 
   const components = {
     CONSENT: { Label: "legend", Wrapper: "fieldset" },
+    LIST: { Label: "legend", Wrapper: "fieldset" },
     SELECT: { Label: "label", Wrapper: "div" },
     MULTISELECT: { Label: "label", Wrapper: "div" },
     EMAIL: {
