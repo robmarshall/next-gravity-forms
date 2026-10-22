@@ -24,6 +24,7 @@ import Consent from "../../components/Consent";
 import Password from "../../components/Password";
 import TimeField from "../../components/Time";
 import Address from "../../components/Address";
+import List from "../../components/List";
 
 const FieldBuilder = ({
   databaseId,
@@ -180,6 +181,8 @@ const FieldBuilder = ({
         return <Password key={id} {...props} />;
       case "ADDRESS":
         return <Address key={id} {...props} />;
+      case "LIST":
+        return <List key={id} {...props} />;
       default:
         return null;
     }

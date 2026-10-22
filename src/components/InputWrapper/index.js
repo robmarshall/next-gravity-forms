@@ -44,8 +44,8 @@ const InputWrapper = ({
     descriptionPlacement && descriptionPlacement !== "INHERIT"
       ? descriptionPlacement
       : globalPlacement && globalPlacement !== "INHERIT"
-      ? globalPlacement
-      : "BELOW";
+        ? globalPlacement
+        : "BELOW";
 
   return (
     <Wrapper
@@ -60,8 +60,12 @@ const InputWrapper = ({
         <Label
           className="gfield_label gform-field-label"
           htmlFor={Label === "legend" ? undefined : labelFor}
-          dangerouslySetInnerHTML={{ __html: label && joinedLabel }}
-        />
+        >
+          <span
+            className="gform-field-label__text"
+            dangerouslySetInnerHTML={{ __html: label && joinedLabel }}
+          />
+        </Label>
       )}
       {description &&
         valueToLowerCase(descPlacement) == "above" &&
@@ -70,7 +74,7 @@ const InputWrapper = ({
       <div
         id={classNames(Label === "legend" && `${labelFor}_container`)} // only set an id when there are child elements like options
         className={classnames(
-          `ginput_container ginput_container_${valueToLowerCase(type)}`,
+          `ginput_container ginput_container_${valueToLowerCase(type)} ginput_${valueToLowerCase(type)}`,
           ginputClassName
         )}
       >

@@ -405,7 +405,9 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Website
 - [x] Password
 - [x] Time
-- [ ] Address
+- [x] Address
+- [x] List
+- [x] Multi Choice
 - [ ] Configure error message (currently just 'An Unknown Error Occurred')
 - [ ] Integrate Success/Failure Handler from previous plugin
 
@@ -432,7 +434,16 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [x] Phone
 - [x] Page
 - [x] Date
-- [] Password (almost done, test can be tweaked)
+- [x] Email
+- [x] Name
+- [x] Address
+- [x] Time
+- [x] File upload
+- [x] Section
+- [x] Honeypot
+- [x] List (Links/URLs option is not supported)
+- [x] Multi Choice - select view (one/multiple/range/exact number) doesn't work yet
+- [x] Password (almost done, test can be tweaked)
 
 ## Confirmations
 
@@ -448,7 +459,3 @@ Currently whenever you make a change you will need to re-run `yarn build`. A hot
 - [ ] Setting the Submit Button Location to 'End of the Last Row' causes a fetch API error, as GraphQL doesn't support it yet.
 - [ ] Password confirmation doesn't work with `wp-graphql-gravity-forms` version `0.13.0.1` and earlier. To fix this, add a copy of the general password value as the `input_2` value in the $\_POST submission.
 - [ ] Address field with a configured Default State or Default Province cause GraphQL error or incorrect values.
-
-```
-
-```
