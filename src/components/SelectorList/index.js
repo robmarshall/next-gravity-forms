@@ -20,9 +20,13 @@ const SelectorList = ({ fieldData, name, labelFor, ...wrapProps }) => {
     hasOtherChoice,
     size,
     type: typeUpper,
+    inputType,
   } = fieldData;
 
-  const type = valueToLowerCase(typeUpper);
+  const type =
+    typeUpper === "MULTI_CHOICE"
+      ? valueToLowerCase(inputType)
+      : valueToLowerCase(typeUpper);
 
   const {
     register,
@@ -33,7 +37,7 @@ const SelectorList = ({ fieldData, name, labelFor, ...wrapProps }) => {
   return (
     <InputWrapper
       errors={errors?.[name] || (hasOtherChoice && errors?.[`${name}_other`])}
-      inputData={fieldData}
+      inputData={{ ...fieldData, type }}
       labelFor={labelFor}
       {...wrapProps}
     >
@@ -107,6 +111,7 @@ SelectorList.propTypes = {
     isRequired: PropTypes.bool,
     size: PropTypes.string,
     type: PropTypes.string,
+    inputType: PropTypes.string,
     errorMessage: PropTypes.string,
     hasSelectAll: PropTypes.bool,
     hasOtherChoice: PropTypes.bool,
